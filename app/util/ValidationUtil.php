@@ -1,6 +1,6 @@
 <?php
 $root = $_SERVER["DOCUMENT_ROOT"];
-$root .= "/data/DiversNote/app";
+$root .= "/data/DiversNote_local/app";
 require_once($root . "/Model/UserModel.php");
 $userModel = new UserModel();
 

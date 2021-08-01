@@ -1,6 +1,6 @@
 <?php
 $root = $_SERVER['DOCUMENT_ROOT'];
-$root .= "/data/DiversNote";
+$root .= "/data/DiversNote_local";
 require_once($root . "/app/model/ItemModel.php");
 
 $user_id = $_GET['user_id'];

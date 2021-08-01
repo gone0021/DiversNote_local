@@ -1,6 +1,6 @@
 <?php
 $root = $_SERVER['DOCUMENT_ROOT'];
-$root .= "/data/DiversNOte";
+$root .= "/data/DiversNote_local";
 require_once($root . "/app/controllers/ItemController.php");
 
 // 値を渡す側（vue）で処理させるため不使用：サンプルで残している
