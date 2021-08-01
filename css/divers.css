@@ -1,0 +1,114 @@
+#cardBox {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: 1rem;
+}
+
+.cardItem {
+  /* display: block; */
+  /* transition: flex 300ms ease-out; */
+  cursor: pointer;
+
+  /* width: 240px; */
+  height: auto;
+  min-height: 60px;
+
+  padding: 10px 20px;
+  /* margin: 5px 10px; */
+  /* margin: 5px 5px 5px 0; */
+  /* margin: 5px auto; */
+  border-radius: 10px;
+  border: 2px solid gainsboro;
+  /* background:#ffe6c8; */
+  background-color: rgb(255, 230, 200, 0.2);
+}
+
+/* --- メインメニューのブロック --- */
+/* メニューブロック */
+#menubar {
+  /* position: relative; */
+  position: fixed;
+  z-index: 10;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  /* 「#menubar ul li a」や「fixmenu」とも連動するため注意 */
+  height: 60px;
+  width: 100vw;
+}
+/* メニュー１個あたりの設定 */
+/* 5個なので100÷4=25 */
+#menubar ul li {
+  float: left;
+  width: 25%;
+  font-size: 20px;
+}
+/* 5個なので100÷6=16.6 */
+#menubar.menu_home ul li {
+  float: left;
+  width: 16.6%;
+  font-size: 20px;
+}
+
+#menubar ul li a {
+  /* ※ここの「height」と「padding-top」の値の合計と、「#menubar」の「height」、「fixmenu設定」に2箇所ある「margin-top」の数字を合わせること */
+  text-decoration: none;
+  display: block;
+  height: 50px;
+  padding-top: 10px;
+}
+
+/* メニュー１個あたりの設定 */
+#menubar.menu_home ul.ddmenu li {
+  float: none;
+  width: auto;
+  display: inline-block;
+  font-size: 85%;
+}
+
+#img-box {
+  border: 3px solid #000;
+  width: 500px;
+}
+
+#btn-box {
+  position: fixed;
+  bottom: 0px;
+}
+
+.acdTitle {
+  display: grid;
+  grid-template-columns: auto;
+
+  text-align: center;
+  width: 70vw;
+  cursor: pointer;
+  margin: 5px auto;
+  /* margin-left: 20px; */
+  background: #fff;
+}
+.acdTitle.open::before {
+  transform: rotate(180deg);
+}
+.acdTitle.open::after {
+  opacity: 0;
+}
+
+.acdItem {
+  display: none;
+}
+
+.acdOpen {
+  /* display: none; */
+}
+
+.schSelect {
+   width: 150px;
+}
+.schInput {
+   width: 300px;
+}
+
+/* --- スマホメニュー --- */
+@media screen and (max-width: 800px) {
+  /* --- メインメニュー --- */
+}

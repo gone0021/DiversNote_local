@@ -1,0 +1,327 @@
+:root {
+  --mw: 720px;
+}
+
+/* --- mdl --- */
+
+/* --- 背景 --- */
+#glayLayer {
+  z-index: 99;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(100, 100, 100, 0.4);
+  /* background: #636b6f; */
+  /* opacity: 0.35; */
+}
+
+.mdlBox {
+  z-index: 100;
+  position: fixed;
+  background: #e6f0f5;
+  /* background-color: rgb(230, 240, 245); */
+
+  left: 50%;
+  top: 120px;
+  width: var(--mw);
+  /* widhtの半分 */
+  margin-left: calc((var(--mw) / 2));
+
+  height: auto;
+  min-height: 200px;
+
+  border-radius: 10px;
+  text-align: left;
+  font-weight: bold;
+  overflow-y: scroll;
+  overflow-x: auto;
+}
+
+/* デバッグ用 */
+.mdlBox div {
+  /* background-color: #fff; */
+}
+
+#mdlTop {
+  position: fixed;
+  margin-left: 20px;
+
+  width: 670px;
+  height: 50px;
+
+  padding-bottom: 10px;
+  border-bottom: solid 1px #000;
+  background: #e6f0f5;
+}
+
+.mdlTopGrid {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  /* gap: 10px; */
+  padding-bottom: 5px;
+}
+
+.mdlTitle {
+  padding: 10px 15px 0;
+  font-size: 120%;
+}
+
+div.mdlGroup {
+  display: grid;
+  /* grid-auto-rows: 50px; */
+  margin: 5px;
+  gap: 10px;
+  /* align-self: center; */
+}
+.mdlGroup.m1 {
+  grid-template-columns: auto;
+  padding: 0 25px;
+}
+.mdlGroup.m2 {
+  grid-template-columns: repeat(2, auto);
+  padding: 0 25px;
+}
+.mdlGroup.m3 {
+  grid-template-columns: repeat(3, auto);
+  padding: 0 25px;
+}
+.mdlGroup.m4 {
+  grid-template-columns: repeat(4, auto);
+  padding: 0 25px;
+}
+
+/* モーダル input */
+.mdlTitle input {
+  width: auto;
+  /* min-width: 480px; */
+  max-width: 600px;
+  background: none;
+  border: none;
+}
+
+.mdlTitle input:hover {
+  background: none;
+  border: none;
+}
+
+.mdlTitle input[type="text"] {
+  width: 380px;
+}
+
+#mShop input {
+  width: auto;
+  min-width: 100px;
+  max-width: 480px;
+}
+
+#mPoit input {
+  width: auto;
+  min-width: 100px;
+  max-width: 480px;
+}
+
+.mdlGroup input {
+  border: none;
+  background: none;
+}
+.mdlGroup input:hover {
+  border: none;
+  background: none;
+}
+
+.mdlGroup input[type="text"] {
+  width: 180px;
+  border: none;
+  background: none;
+}
+.mdlGroup input[type="text"].mMap {
+  width: 500px;
+}
+
+.mdlBox input[type="submit"] {
+}
+
+.mdlGroup select {
+  width: 120px;
+  border: none;
+  background: none;
+}
+.mdlGroup select:disabled {
+  opacity: 1;
+  color: #000;
+}
+
+textarea.memoErea {
+  resize: none;
+  padding: 15px;
+  width: 570px;
+  height: 70px;
+  border: 0;
+}
+
+#canvas {
+  border: solid 1px #000;
+  background: #fff;
+}
+
+#img-box {
+  border: 1px solid #000;
+  width: 640px;
+}
+
+#newImg {
+  width: 640px;
+  height: 150px;
+  background: #fff;
+}
+
+/* アコーディオン */
+#adjTop {
+  margin-top: 50px;
+}
+
+.acdTitle {
+  display: grid;
+  grid-template-columns: auto;
+  width: auto;
+  cursor: pointer;
+  margin: 5px 20px;
+  /* margin-left: 20px; */
+  background: #fff;
+}
+
+/* 矢印 */
+/* .acdTitle:after {
+  content: "";
+  position: absolute;
+  margin-top: 12px;
+  right: 35px;
+  transition: all 0.2s ease-in-out;
+  display: inline-block;
+
+  width: 8px;
+  height: 8px;
+  border-top: solid 2px #000;
+  border-right: solid 2px #000;
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+.acdTitle.open:after {
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+} */
+
+/* 十字線 */
+.acdTitle::before {
+  z-index: 0;
+  content: "";
+  position: absolute;
+  margin-top: 12px;
+  right: 35px;
+
+  /*縦線*/
+  width: 15px;
+  height: 2px;
+  transform: rotate(90deg);
+  background: #000;
+  transition: all 0.3s ease-in-out;
+}
+.acdTitle:after {
+  z-index: 1;
+  content: "";
+  position: absolute;
+  margin-top: 12px;
+  right: 35px;
+
+  /*横線*/
+  width: 15px;
+  height: 2px;
+  background: #000;
+  transition: all 0.2s ease-in-out;
+}
+
+.acdTitle.open::before {
+  transform: rotate(180deg);
+}
+.acdTitle.open::after {
+  opacity: 0;
+}
+
+.acdItem {
+  display: none;
+}
+
+.acdOpen {
+  /* display: none; */
+}
+
+.mdlBtn {
+  text-align: end;
+  padding-top: 5px;
+  /* padding: 5px 15px 0; */
+}
+
+.mdlBtn.c {
+  text-align: center;
+  padding-top: 5px;
+  /* padding: 5px 15px 0; */
+}
+
+.btn {
+  z-index: 10;
+  display: inline-block;
+  cursor: pointer;
+
+  color: #fff;
+  background: #5876a3;
+  padding: 2px 10px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+#contents input[type="submit"].btn,
+#contents input[type="button"].btn,
+#contents input[type="reset"].btn {
+  z-index: 10;
+  display: inline-block;
+  cursor: pointer;
+
+  color: #fff;
+  background: #5876a3;
+  padding: 2px 10px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+/* タブレット */
+@media screen and (max-width: 800px) {
+  .mdlBox {
+    top: 80px;
+  }
+}
+
+/* モーダルの調整 */
+@media screen and (max-width: 720px) {
+  .mdlBox {
+    width: 100vw;
+  }
+
+  #mdlTop {
+    width: calc(100vw - 50px);
+  }
+}
+
+/* スマホ */
+@media screen and (max-width: 480px) {
+  .mdlBox {
+    width: 100vw;
+  }
+
+  #mdlTop {
+    width: calc(100vw - 80px);
+  }
+}
