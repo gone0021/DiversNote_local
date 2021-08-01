@@ -12,7 +12,7 @@ require_once($root . "/app/model/ItemModel.php");
 // echo '</pre>';
 
 $dbItem = new ItemModel();
-$dbItem->soft_delete($req);
+$dbItem->soft_delete($_POST);
 
 exit;
 
