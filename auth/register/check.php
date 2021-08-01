@@ -1,6 +1,6 @@
 <?php
 $root = $_SERVER["DOCUMENT_ROOT"];
-$root .= "/data/DiversNote";
+$root .= "/data/DiversNote_local";
 require_once($root . "/app/util/SessionUtil.php");
 require_once($root . "/app/util/CommonUtil.php");
 require_once($root . "/app/util/ValidationUtil.php");
@@ -8,7 +8,7 @@ $auth = $root . '/auth';
 
 // urlの指定
 $rootUrl = $_SERVER['SERVER_NAME'];
-$rootUrl .= "/data/DiversNote";
+$rootUrl .= "/data/DiversNote_local";
 $url = 'http://' . $rootUrl;
 
 // セッションスタート
