@@ -5,21 +5,21 @@
       <!-- <a href="./" class="" >HOME</a> -->
          <a href="<?= $url."/divers" ?>/">HOME</a>
       </li>
-      <li>
+      <li class="ddnav">
          <a href="javascript:void(0)" class="">MY PHOTO</a>
          <ul class="ddmenu">
             <li><a href="./">全ての投稿写真</a></li>
             <li><a href="./">地域ごとの投稿写真</a></li>
          </ul>
       </li>
-      <li>
+      <li class="ddnav">
          <a href="javascript:void(0)" class="">OTHER PHOTO</a>
          <ul class="ddmenu">
             <li><a href="./">全ての投稿写真</a></li>
             <li><a href="./">地域ごとの投稿写真</a></li>
          </ul>
       </li>
-      <li>
+      <li class="ddnav">
       <a href="javascript:void(0)" class="">USER</a>
          <ul class="ddmenu">
             <li><a href="<?= $url."/divers" ?>/user">会員情報</a></li>
