@@ -58,7 +58,13 @@ $(function () {
     */
    function mdlHeigt() {
       var wh = window.innerHeight;
-      var maxh = wh - 200;
+      var ww = window.innerWidth;
+      if (ww < 840) {
+         var maxh = wh - 100;
+      } else {
+         var maxh = wh - 200;
+      }
+
       // console.log(mHeight);
       $(".mdlBox").css("max-height", maxh);
       // console.log(maxh);
@@ -73,7 +79,7 @@ $(function () {
       var mw = mdlBox.outerWidth();
       var ml = (ww - mw) / 2;
 
-      // 今のところtop（mt）はcssの決め打ちでcssに記述：とりあえず残してる
+      // 今のところtop（mt）はcssの決め打ち(@media)でcssに記述：とりあえず残してる
       var wh = $(window).height();
       var mh = mdlBox.outerHeight();
       var mt = (wh - mh) / 3;
