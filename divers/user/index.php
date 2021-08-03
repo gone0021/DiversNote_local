@@ -2,7 +2,7 @@
 // クラスの読み込み
 $root = $_SERVER['DOCUMENT_ROOT'];
 $root .= "/data/DiversNote_local";
-require_once($root . "/app/Util/SessionUtil.php");
+require_once($root . "/app/util/SessionUtil.php");
 require_once($root . "/app/util/CommonUtil.php");
 require_once($root . "/app/controllers/UserController.php");
 require_once($root . "/app/model/UserModel.php");
