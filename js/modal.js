@@ -15,18 +15,32 @@ $(function () {
       // console.log("--- height ---");
       mdlHeigt();
       // console.log("--- mTop ---");
-      mdlTopWidth();
+      // mdlTopWidth();
       // console.log(adj);
    });
 
    // モーダルが呼び出された時
-   $(".mdlBox").on("load", function () {
-      // console.log("--- mTop ---");
-      mdlTopWidth();
+   $(".cardItem").on("click", function () {
+      // $(".mdlBox").on("load", function () {
+      console.log("card-item");
+      // console.log("--- positionb ---");
+      mdlPositon();
+      // console.log("--- height ---");
+      mdlHeigt();
+   });
+   $("#navNew").on("click", function () {
+      console.log("nav-new");
+
+      // $(".mdlBox").on("load", function () {
+      // console.log("--- positionb ---");
+      mdlPositon();
+      // console.log("--- height ---");
+      mdlHeigt();
    });
 
    /**
     * モーダルの幅を取得してmdlTopの幅を決める
+    * cssで対応：不使用
     */
    function mdlTopWidth() {
       var mtw = 720;
@@ -36,7 +50,7 @@ $(function () {
       mtw = mw1 - 40;
 
       $("#mdlTop").css("width", mtw);
-      // console.log(mtw);
+      console.log(mtw);
    }
 
    /**
