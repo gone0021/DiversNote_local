@@ -40,7 +40,7 @@
    <script src="<?= $url ?>/js/ddmenu.js" defer></script>
    <script src="<?= $url ?>/js/openclose.js" defer></script>
    <script src="<?= $url ?>/js/modal.js" defer></script>
-   <!-- <script src="<?= $url ?>/js/divers.js" defer></script> -->
+   <script src="<?= $url ?>/js/divers.js" defer></script>
    <!-- <script src="<?= $url ?>/js/style.js" defer></script> -->
    <script type="text/javascript" src="<?= $url ?>/js/app.js" defer></script>
 
