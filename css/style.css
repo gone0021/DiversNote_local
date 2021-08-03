@@ -579,8 +579,8 @@ p.look {margin: 0 3%;}
 .mc {margin-left: auto; margin-right: auto;}
 
 
-/* --- 画面幅800px以下の設定 --- */
-@media screen and (max-width:800px){
+/* --- 画面幅840px以下の設定 --- */
+@media screen and (max-width:840px){
 
 /* --- 全体の設定 --- */
 body {
