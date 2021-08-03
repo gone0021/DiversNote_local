@@ -49,18 +49,19 @@
   margin-left: 20px;
 
   width: 670px;
-  height: 50px;
+  height: 90px;
 
   padding-bottom: 10px;
   border-bottom: solid 1px #000;
   background: #e6f0f5;
 }
 
+#adjTop {
+  margin-top: 90px;
+}
+
+/* gap: 10px; */
 .mdlTopGrid {
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  /* gap: 10px; */
-  padding-bottom: 5px;
 }
 
 .mdlTitle {
@@ -68,14 +69,24 @@
   font-size: 120%;
 }
 
-div.mdlGroup {
+/* grid-auto-rows: 50px; */
+/* align-self: center; */
+/* .mdlGroup {
   display: grid;
-  /* grid-auto-rows: 50px; */
   margin: 5px;
   gap: 10px;
-  /* align-self: center; */
+} */
+
+.mdlGroup {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  /* gap: 1rem; */
+  padding: 0 25px;
+  margin: 5px;
+  gap: 10px;
 }
-.mdlGroup.m1 {
+
+/* .mdlGroup.m1 {
   grid-template-columns: auto;
   padding: 0 25px;
 }
@@ -90,7 +101,7 @@ div.mdlGroup {
 .mdlGroup.m4 {
   grid-template-columns: repeat(4, auto);
   padding: 0 25px;
-}
+} */
 
 /* モーダル input */
 .mdlTitle input {
@@ -178,10 +189,6 @@ textarea.memoErea {
 }
 
 /* アコーディオン */
-#adjTop {
-  margin-top: 50px;
-}
-
 .acdTitle {
   display: grid;
   grid-template-columns: auto;
@@ -258,15 +265,16 @@ textarea.memoErea {
 }
 
 .mdlBtn {
-  text-align: end;
   padding-top: 5px;
   /* padding: 5px 15px 0; */
 }
 
-.mdlBtn.c {
+.r {
+  text-align: end;
+}
+
+.c {
   text-align: center;
-  padding-top: 5px;
-  /* padding: 5px 15px 0; */
 }
 
 .btn {
@@ -298,13 +306,13 @@ textarea.memoErea {
 }
 
 /* タブレット */
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 840px) {
   .mdlBox {
     top: 80px;
   }
 }
 
-/* モーダルの調整 */
+/* モーダルの幅 */
 @media screen and (max-width: 720px) {
   .mdlBox {
     width: 100vw;
@@ -312,16 +320,31 @@ textarea.memoErea {
 
   #mdlTop {
     width: calc(100vw - 50px);
+    height: 80px;
+  }
+
+  .mdlTitle input[type="text"] {
+    width: 200px;
+  }
+}
+@media screen and (max-width: 620px) {
+  #mdlTop {
+    height: 75px;
   }
 }
 
 /* スマホ */
 @media screen and (max-width: 480px) {
-  .mdlBox {
-    width: 100vw;
+  .mdlTitle input[type="text"] {
+    width: 100px;
   }
-
   #mdlTop {
-    width: calc(100vw - 80px);
+   height: 80px;
+ }
+}
+
+@media screen and (max-width: 380px) {
+  #mdlTop {
+    height: 70px;
   }
 }
