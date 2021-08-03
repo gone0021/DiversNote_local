@@ -188,82 +188,6 @@ textarea.memoErea {
   background: #fff;
 }
 
-/* アコーディオン */
-.acdTitle {
-  display: grid;
-  grid-template-columns: auto;
-  width: auto;
-  cursor: pointer;
-  margin: 5px 20px;
-  /* margin-left: 20px; */
-  background: #fff;
-}
-
-/* 矢印 */
-/* .acdTitle:after {
-  content: "";
-  position: absolute;
-  margin-top: 12px;
-  right: 35px;
-  transition: all 0.2s ease-in-out;
-  display: inline-block;
-
-  width: 8px;
-  height: 8px;
-  border-top: solid 2px #000;
-  border-right: solid 2px #000;
-  -webkit-transform: rotate(135deg);
-  transform: rotate(135deg);
-}
-.acdTitle.open:after {
-  -webkit-transform: rotate(-45deg);
-  transform: rotate(-45deg);
-} */
-
-/* 十字線 */
-.acdTitle::before {
-  z-index: 0;
-  content: "";
-  position: absolute;
-  margin-top: 12px;
-  right: 35px;
-
-  /*縦線*/
-  width: 15px;
-  height: 2px;
-  transform: rotate(90deg);
-  background: #000;
-  transition: all 0.3s ease-in-out;
-}
-.acdTitle:after {
-  z-index: 1;
-  content: "";
-  position: absolute;
-  margin-top: 12px;
-  right: 35px;
-
-  /*横線*/
-  width: 15px;
-  height: 2px;
-  background: #000;
-  transition: all 0.2s ease-in-out;
-}
-
-.acdTitle.open::before {
-  transform: rotate(180deg);
-}
-.acdTitle.open::after {
-  opacity: 0;
-}
-
-.acdItem {
-  display: none;
-}
-
-.acdOpen {
-  /* display: none; */
-}
-
 .mdlBtn {
   padding-top: 5px;
   /* padding: 5px 15px 0; */
@@ -339,8 +263,8 @@ textarea.memoErea {
     width: 100px;
   }
   #mdlTop {
-   height: 80px;
- }
+    height: 80px;
+  }
 }
 
 @media screen and (max-width: 380px) {

@@ -75,23 +75,69 @@
   bottom: 0px;
 }
 
-.acdTitle {
+/* アコーディオン */
+.acdTitle,
+.acdTitleOpen {
   display: grid;
   grid-template-columns: auto;
-
   text-align: center;
-  width: 70vw;
+
+  width: auto;
   cursor: pointer;
-  margin: 5px auto;
+  margin: 5px 20px;
   /* margin-left: 20px; */
   background: #fff;
 }
-.acdTitle.open::before {
+
+/* 十字線 */
+.acdTitle::before,
+.acdTitleOpen::before {
+  z-index: 0;
+  content: "";
+  position: absolute;
+  margin-top: 12px;
+  right: 35px;
+
+  /*縦線*/
+  width: 15px;
+  height: 2px;
+  transform: rotate(90deg);
+  background: #000;
+  transition: all 0.3s ease-in-out;
+}
+.acdTitle:after,
+.acdTitleOpen:after {
+  z-index: 1;
+  content: "";
+  position: absolute;
+  margin-top: 12px;
+  right: 35px;
+
+  /*横線*/
+  width: 15px;
+  height: 2px;
+  background: #000;
+  transition: all 0.2s ease-in-out;
+}
+
+.acdTitle.open::before,
+.acdTitleOpen.open::before {
   transform: rotate(180deg);
 }
-.acdTitle.open::after {
+.acdTitle.open::after,
+.acdTitleOpoen.open::after {
   opacity: 0;
 }
+
+.acdItem {
+  display: none;
+}
+
+.acdOpen {
+  display: block;
+}
+
+
 
 .acdItem {
   display: none;
