@@ -7,7 +7,7 @@ $(function () {
          $(this).children().slideDown(500);
          sch_flg = 1;
       } else if (sch_flg == 1) {
-         $("#ddSch").slideUp(200);
+         $("#ddSch").slideUp(100);
          sch_flg = 0;
       }
    });
@@ -27,7 +27,7 @@ $(function () {
       },
       'mouseleave': function () {
          if (sch_flg == 0) {
-            $(".ddmenu").slideUp(200);
+            $(".ddmenu").slideUp(100);
          }
       }
    })
@@ -36,12 +36,12 @@ $(function () {
    $('.ddnav').on({
       'mouseenter': function () {
          $(this).children().slideDown(500);
-         $("#ddSch").slideUp(200);
+         $("#ddSch").slideUp(100);
          
          sch_flg = 0;
       },
       'mouseleave': function () {
-         $(".ddmenu").slideUp(200);
+         $(".ddmenu").slideUp(100);
 
       }
    })
