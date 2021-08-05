@@ -75,28 +75,35 @@
 
       <li id="menubar_hdr2" class="close">SEARCH
          <ul id="ddSch" class="menubar-s2">
-            <li>
-               <form @submit.prevent="onSearch()">
-                  <select name="entry_type" id="" class="schSelect mr-3" v-model="isSelect" @change="chgSearch">
+            <li class="clsSearch">
+               <form @submit.prevent="onSearch()" id="idSearch">
+                  <div class="mb-2">
+                     <select name="entry_type" id="" class="schSelect mr-3" v-model="isSelect" @change="chgSearch">
 
-                     <!-- <option value="all">全て</option> -->
-                     <option v-for="(key, val) in schSelect" :value="val">
-                        {{ key }}
-                     </option>
-                  </select>
+                        <!-- <option value="all">全て</option> -->
+                        <option v-for="(key, val) in schSelect" :value="val">
+                           {{ key }}
+                        </option>
+                     </select>
+                  </div>
 
-                  <template v-if="schType=='all'">
-                     <input type="text" name="search" id="" class="schInput mr-3" v-model="isSearch" placeholder="日付は「-」区切りで入力" required>
-                  </template>
+                  <div class="mb-2">
+                     <template v-if="schType == 'all'">
+                        <input type="text" name="search" id="" class="schInput mr-3" v-model="isSearch" placeholder="日付は「-」区切りで入力" required>
+                     </template>
 
-                  <template v-else-if="schType=='text'">
-                     <input type="text" name="search" id="" class="schInput mr-3" v-model="isSearch" placeholder="検索文字を入力" required>
-                  </template>
+                     <template v-else-if="schType == 'text'">
+                        <input type="text" name="search" id="" class="schInput mr-3" v-model="isSearch" placeholder="検索文字を入力" required>
+                     </template>
 
-                  <template v-else-if="schType=='date'">
-                     <input type="date" name="search" id="" class="schInput mr-3" v-model="isSearch" placeholder="" required>
-                  </template>
-                  <input type="submit" id="" class="onClose" value="検索">
+                     <template v-else-if="schType == 'date'">
+                        <input type="date" name="search" id="" class="schInput mr-3" v-model="isSearch" placeholder="" required>
+                     </template>
+                  </div>
+                  <div>
+                     <input type="submit" id="schBtn" class="btn btn-sch onClose" value="検索">
+                  </div>
+
                </form>
             </li>
          </ul>
