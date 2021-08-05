@@ -6,6 +6,7 @@
       data: {
          // phpからの受け取り
          user_id: user_id,
+         price_plan: price_plan,
          // next_num: "次は" + next_num,
          next_num: "",
 
@@ -58,6 +59,8 @@
          mWind: "",
          mCurrent: "",
          mSuitType: "",
+
+         imageData: [],
 
          mSub: "",
 
@@ -134,22 +137,6 @@
                this.resetDisplay();
             }
          },
-         onNew: function () {
-            this.isNew = true;
-            this.isEdit = false;
-            this.isDetail = false;
-
-            this.mSub = "new";
-            this.resetVal();
-            this.editBtn(true, false, false, false);
-            this.dis = false;
-
-            this.dispGlay = true;
-            this.dispModalInput = true;
-
-            this.border = "border-bottom : 1px solid #000; border-radius: 0;";
-            // this.signeTitleOpen = true;
-         },
          onItem: function (e) {
             // console.log(e);
             this.border = "";
@@ -167,8 +154,22 @@
             });
             // this.getItemById(this.itemById.id);
          },
-         onStore: function () {
+         onNew: function () {
+            this.resetVal();
 
+            this.isNew = true;
+            this.isEdit = false;
+            this.isDetail = false;
+
+            this.editBtn(true, false, false, false);
+            this.mSub = "new";
+            this.dis = false;
+
+            this.dispGlay = true;
+            this.dispModalInput = true;
+
+            this.border = "border-bottom : 1px solid #000; border-radius: 0;";
+            // this.signeTitleOpen = true;
          },
          onEdit: function () {
             this.isNew = false;
@@ -276,7 +277,6 @@
             });
             this.resetVal();
          },
-
          // --- method ---
          /**
           * axiosでpostする
@@ -472,6 +472,7 @@
             this.dispModalInput = false;
             this.editBtn(false, false, false, false);
             this.closeAccordion(".acdTitle");
+            this.openAccordion(".acdTitleOpen");
          },
 
          /**
@@ -676,12 +677,21 @@
          },
 
          /**
-          * アコーディオンを全て閉じる
+          * アコーディオンを閉じる
           * 開く設定は下部にjqueryで記述している：クラス名判定で楽
           */
          closeAccordion: function (element) {
             $(element).next().slideUp();
-            $(".acdTitle").removeClass("open");
+            $(element).removeClass("acdOpen");
+         },
+
+         /**
+          * アコーディオンを開く
+          * 開く設定は下部にjqueryで記述している：クラス名判定で楽
+          */
+         openAccordion: function (element) {
+            $(element).next().slideDown();
+            $(element).addClass("acdOpen");
          },
 
 
@@ -873,25 +883,38 @@
 
 // アコーディオン
 $(function () {
-   // toggle非推奨
-   // var flg = 0;
-   // $(".acdTitle").on("click", function () {
-   //    if (flg == 0) {
-   //       $(this).next().slideDown(200);
-   //       $(this).addClass("open");
-   //       flg = 1;
-   //    } else {
-   //       $(this).next().slideUp(200);
-   //       $(this).removeClass("open");
-   //       flg = 0;
-   //    }
-   // });
-
+   // toggle非推奨のためクラス名で判定
+   var flg = 0;
    $(".acdTitle").on("click", function () {
-      console.log("toggle");
-      $(this).next().slideToggle(200);
-      $(this).toggleClass("open");
+      // if (flg == 0) {
+      if (!$(this).hasClass('acdOpen')) {
+         $(this).next().slideDown(200);
+         $(this).addClass("acdOpen");
+         flg = 1;
+      } else {
+         $(this).next().slideUp(200);
+         $(this).removeClass("acdOpen");
+         flg = 0;
+      }
    });
+   $(".acdTitleOpen").on("click", function () {
+      // if (flg == 0) {
+      if (!$(this).hasClass('acdOpen')) {
+         $(this).next().slideDown(200);
+         $(this).addClass("acdOpen");
+         flg = 1;
+      } else {
+         $(this).next().slideUp(200);
+         $(this).removeClass("acdOpen");
+         flg = 0;
+      }
+   });
+
+   // $(".acdTitle").on("click", function () {
+   //    console.log("toggle");
+   //    $(this).next().slideToggle(200);
+   //    $(this).toggleClass("open");
+   // });
 
    // $("#glayLayer").on("click", function () {
    //    $(".acdTitle").next().slideUp();
