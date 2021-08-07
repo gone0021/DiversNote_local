@@ -14,39 +14,6 @@ $(function () {
       //
    });
 
-   var flg = 0;
-   $(".acdTitle").on("click", function () {
-      if (flg == 0) {
-         $(this).next().slideDown(200);
-         $(".new_pass").prop("disabled", false);
-         $(".new_pass").prop("required", true);
-         flg = 1;
-      } else {
-         $(this).next().slideUp(200);
-         $(".new_pass").prop("disabled", true);
-         $(".new_pass").prop("required", false);
-         flg = 0;
-      }
-
-
-      // $(this).next().slideToggle(200);
-      // $(this).toggleClass("open");
-
-      // if ($(".acdItem").is(':hidden')) {
-      //    console.log("none");
-      //    $(".new_pass").prop("disabled", true);
-      // } else {
-      //    console.log("block");
-      //    $(".new_pass").prop("disabled", false);
-      // }
-
-   });
-   // $("#glayLayer").on("click", function () {
-   //    $(".acdTitle").next().slideUp();
-   //    $(".acdTitle").removeClass("open");
-   // });
-
-
    /**
     * ヘッダーの高さを取得してcontentsマージンを設定する
     */
