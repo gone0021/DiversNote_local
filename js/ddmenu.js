@@ -4,10 +4,10 @@ $(function () {
    // 検索navi
    $('#navSch').on('click', function (e) {
       if (sch_flg == 0) {
-         $(this).children().slideDown(500);
+         $(this).children().show();
          sch_flg = 1;
       } else if (sch_flg == 1) {
-         $("#ddSch").slideUp(100);
+         $("#ddSch").hide();
          sch_flg = 0;
       }
    });
@@ -23,11 +23,11 @@ $(function () {
    // hover時
    $('#navSch').on({
       'mouseenter': function () {
-         $("#ddSch").slideDown(500);
+         $("#ddSch").show();
       },
       'mouseleave': function () {
          if (sch_flg == 0) {
-            $(".ddmenu").slideUp(100);
+            $(".ddmenu").hide();
          }
       }
    })
@@ -35,13 +35,13 @@ $(function () {
    // 全てのnavi
    $('.ddnav').on({
       'mouseenter': function () {
-         $(this).children().slideDown(500);
-         $("#ddSch").slideUp(100);
+         $(this).children().show();
+         $("#ddSch").hide();
          
          sch_flg = 0;
       },
       'mouseleave': function () {
-         $(".ddmenu").slideUp(100);
+         $(".ddmenu").hide();
 
       }
    })
