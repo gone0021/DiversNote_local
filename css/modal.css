@@ -49,7 +49,7 @@
   margin-left: 20px;
 
   width: 670px;
-  height: 85px;
+  height: 90px;
 
   padding-bottom: 10px;
   border-bottom: solid 1px #000;
@@ -69,14 +69,6 @@
   font-size: 120%;
 }
 
-/* grid-auto-rows: 50px; */
-/* align-self: center; */
-/* .mdlGroup {
-  display: grid;
-  margin: 5px;
-  gap: 10px;
-} */
-
 .mdlGroup {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
@@ -86,22 +78,14 @@
   gap: 10px;
 }
 
-/* .mdlGroup.m1 {
-  grid-template-columns: auto;
-  padding: 0 25px;
+.signeGroup {
+   padding: 0 25px;
+   margin: 5px;
 }
-.mdlGroup.m2 {
-  grid-template-columns: repeat(2, auto);
-  padding: 0 25px;
+
+#canvas {
+   margin-bottom: 10px;
 }
-.mdlGroup.m3 {
-  grid-template-columns: repeat(3, auto);
-  padding: 0 25px;
-}
-.mdlGroup.m4 {
-  grid-template-columns: repeat(4, auto);
-  padding: 0 25px;
-} */
 
 /* モーダル input */
 .mdlTitle input {
