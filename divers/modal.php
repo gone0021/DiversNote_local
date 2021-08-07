@@ -1,4 +1,4 @@
-<transition name="fade">
+<transition name="fadeGlay">
    <div id="glayLayer" v-show="dispGlay" @click="onGlay" transition="fade"></div>
 </transition>
 
@@ -13,12 +13,10 @@
                   <template v-if="btnNew">
                      <input type="submit" :name="mSub" class="btn" value="登録" />
 
-                     <!-- <button type="button" class="btn mr-2" @click="onStore">登録</button> -->
                   </template>
                   <templatev v-if="btnUpdate">
                      <input type="submit" :name="mSub" class="btn" value="更新" />
 
-                     <!-- <button type="button" class="btn mr-2" @click="onUpdate">更新</button> -->
                   </templatev>
                   <template v-if="btnEdit">
                      <button type="button" class="btn mr-2" @click="onEdit">編集</button>
@@ -33,43 +31,45 @@
                      <input type="text" name="title" id="" class="mTitle" v-model="mTitle" :disabled="dis" placeholder="未入力" required>
                   </label>
                </div>
-
-
             </div>
          </div>
+
          <!-- 幅の調整 -->
          <div id="adjTop"></div>
 
          <!-- アイテム詳細 -->
-         <div class="mdlGroup">
-            <div id="number" class="my-1">
-               <label>No.
-                  <input type="text" name="dive_num" id="" class="" v-model="mDiveNum" :disabled="dis" :style="border" :placeholder="next_num" required>
-               </label>
+         <div class="acdTitleOpen acdOpen">基本情報1</div>
+         <div class="acdOpen">
+            <div class="mdlGroup">
+               <div id="number" class="my-1">
+                  <label>No.
+                     <input type="text" name="dive_num" id="" class="" v-model="mDiveNum" :disabled="dis" :style="border" :placeholder="next_num" required>
+                  </label>
+               </div>
+
+               <div id="date" class="my-1">
+                  <label>日付：
+                     <input type="date" name="dive_date" id="" class="" v-model="mDiveDate" :disabled="dis" :style="border" required>
+                  </label>
+               </div>
             </div>
 
-            <div id="date" class="my-1">
-               <label>日付：
-                  <input type="date" name="dive_date" id="" class="" v-model="mDiveDate" :disabled="dis" :style="border" required>
-               </label>
-            </div>
-         </div>
-
-         <div class="mdlGroup">
-            <div id="number" class="my-1">
-               <label>地域：
-                  <input type="text" name="erea_name" id="" class="" v-model="mErea" :disabled="dis" :style="border" placeholder="未入力" required>
-               </label>
-            </div>
-            <div id="poit" class=" my-1">
-               <label>ポイント名：
-                  <input type="text" name="point_name" id="" class="" v-model="mPointName" :disabled="dis" :style="border" placeholder="未入力">
-               </label>
+            <div class="mdlGroup">
+               <div id="number" class="my-1">
+                  <label>地域：
+                     <input type="text" name="erea_name" id="" class="" v-model="mErea" :disabled="dis" :style="border" placeholder="未入力" required>
+                  </label>
+               </div>
+               <div id="poit" class=" my-1">
+                  <label>ポイント名：
+                     <input type="text" name="point_name" id="" class="" v-model="mPointName" :disabled="dis" :style="border" placeholder="未入力">
+                  </label>
+               </div>
             </div>
          </div>
 
          <!-- 最初から表示 -->
-         <div class="acdTitle">基本情報</div>
+         <div class="acdTitle">基本情報2</div>
          <div class="acdItem">
             <div class="mdlGroup">
 
@@ -258,7 +258,7 @@
 
          <div class="acdTitle">地図</div>
          <div class="acdItem">
-            <template v-if="isEdit || isNew">
+            <template v-if="isNew || isEdit">
                <div id="map" class="mdlGroup">
                   <input type="text" name="map_link" id="" class="mMap" v-model="mMap" :disabled="dis" :style="border" placeholder="未入力">
                </div>
@@ -269,7 +269,7 @@
             <template v-if="isDetail">
                <div id="map" class="mdlGroup">
                   <div v-if="mMap" v-html="mMap"></div>
-                  <div v-else>地図登録なし</div>
+                  <div v-else>地図登録がありません</div>
                </div>
             </template>
          </div>
@@ -296,33 +296,55 @@
                   </label>
                </div>
             </div>
-
-
          </div>
 
-         <!-- <div id="signeTitle" :class="{ 'acdTitle': true, 'text-danger': signeTitleOpen }" @click="onSigne">サイン</div>
+         <div id="signeTitle" :class="{ 'acdTitle': true, 'text-danger': signeTitleOpen }" @click="onSigne">サイン</div>
          <div id="signeBox" class="acdItem">
-            <div id="signe" class="mdlGroup">
+            <div id="signe" class="signeGroup">
                <template v-if="isEdit || isNew">
-                  <div class="draw-canvas" id="canvas" width="640" height="150">
-                     <canvas width="640" height="150" ref="canvas" v-on:mousedown="drawStart" v-on:mouseup="drawEnd" v-on:mouseout="drawEnd" v-on:mousemove="draw" v-on:touchstart="drawTouchStart" v-on:touchend="drawEnd" v-on:touchcancel="drawEnd" v-on:touchmove="drawTouch" v-on:gesturestart="drawTouchStart" v-on:gesturechange="drawEnd" v-on:gestureend="drawTouch"></canvas>
+                  <div class="draw-canvas" id="canvas">
+                     <canvas width="640" height="150" ref="canvas" v-on:mousedown="drawStart" v-on:mouseup="drawEnd" v-on:mouseout="drawEnd" v-on:mousemove="draw" v-on:touchstart="drawTouchStart" v-on:touchend="drawEnd" v-on:touchcancel="drawEnd" v-on:touchmove="drawTouch" v-on:gesturestart="drawTouchStart" v-on:gesturechange="drawEnd" v-on:gestureend="drawTouch">
+                     </canvas>
                   </div>
 
-                  <div class="mdlBtn c">
+                  <div class=" mdlGroupmdlBtn c">
                      <button type="button" id="" class="btn mr-4" @click="onClear">リセット</button>
-                     <button type="button" id="" class="btn" @click="onSave">確認</button>
+                     <button type="button" id="" class="btn mr-4" @click="onSave">確定</button>
+                     <button type="button" id="" class="btn" @click="onClear">削除</button>
                   </div>
-                  <div>
+                  <div class="">
                      保存イメージ
                   </div>
                </template>
 
-               <div v-if="isImage">
-                  <div class="file-image">
-                     <img v-if="mSigne" :src="mSigne">
+               <div v-if="isImage" class="file-image">
+                  <img v-if="mNewSigne" :src="mNewSigne">
+               </div>
+               <div v-if="mOldSigne && !isImage" class="file-image">
+                  <img :src="'./signe/' + mOldSigne">
+               </div>
+               <div v-if="!mOldSigne && !isImage">サインはありません</div>
+            </div>
+         </div>
+
+
+
+         <!-- <div class="acdTitle">写真</div>
+         <div class="acdItem"> -->
+         <!-- <div class="acdTitleOpen open">写真</div>
+         <div class="acdOpen">
+            <template v-if="price_plan == 0 || price_plan == 1">
+               <div v-for="i in 3">
+                  <div class="mdlGroup">
+                     <input type="file" accept="image/*" @change="onFileChange($event,i)" multiple="multiple">
+                  </div>
+
+                  <div class="mdlGroup">
+                     <img :src="imageData[i].url" v-if="imageData[i]">
                   </div>
                </div>
-            </div>
+
+            </template>
          </div> -->
 
       </div>

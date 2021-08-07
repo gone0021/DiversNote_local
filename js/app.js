@@ -6,6 +6,7 @@
       data: {
          // phpからの受け取り
          user_id: user_id,
+         user_name: user_name,
          price_plan: price_plan,
          // next_num: "次は" + next_num,
          next_num: "",
@@ -50,7 +51,8 @@
          mBuddy: "",
          mInstructor: "",
          mInstructorNum: "",
-         mSigne: "",
+         mNewSigne: "",
+         mOldSigne: "",
 
          mEntryType: "",
          mTankMaterial: "0",
@@ -96,16 +98,20 @@
 
          root: "",
 
-
-
          canvas: null,
          context: null,
          is_draw: false,
          image: null,
          file: null,
-         mSigne: '',
 
       },
+      computed: {
+         // this.uploadFileListに変更が加わった際に検知するためです
+         uploadFileList() {
+            return this.uploadFileList
+         }
+      },
+
       created: function () {
          console.log('--- created app.js ---');
          // console.log(next_num);
@@ -182,29 +188,56 @@
 
             this.closeAccordion("#signeTitle");
          },
-         onUpdate: function () {
-            console.log("update");
+         onFileChange: function (e, i) {
+            this.imageData[i] = [];
+            let imgFiles = e.target.files;
+            console.log(imgFiles);
 
-            if (this.mTitle && this.mDiveDate && this.mDiveNum && this.mErea) {
-
-               let params = new URLSearchParams();
-
-               this.setParam(params);
-               console.log(params);
-
-               var url = "../app/api/update_item.php";
-               // set params
-               this.postAxios(url, params);
-
-            } else {
-               alert("入力に不備があります。");
+            if (imgFiles.length === 0) {
+               return
             }
+
+            let imgFile = imgFiles[0];
+            // console.log(imgFile);
+
+            const image = new Image()
+            const reader = new FileReader();
+
+            let fileData = {
+               name: "",
+               type: "",
+               size: { width: 0, height: 0 },
+               url: "",
+            }
+
+            reader.onload = async () => {
+               // 画像ファイルを base64 文字列に変換します
+               image.src = reader.result;
+
+               // 各オブジェクトに値を代入
+               fileData.name = user_id + user_name + "_" + imgFile.name;
+               fileData.type = imgFile.type;
+               fileData.url = reader.result;
+               // fileData.url = reader.readAsDataURL(imgFile);
+
+               image.onload = () => {
+                  // ファイルサイズ取得
+                  fileData.size = { width: image.naturalWidth, height: image.naturalHeight }
+               }
+            }
+            // FileAPIの起動
+            reader.readAsDataURL(imgFile)
+            this.imageData[i].push(fileData)
+
+            console.log(" i :" + i);
+            console.log(this.imageData);
          },
+
          onSubmit: function () {
             var valid = this.validVal();
 
             if (valid) {
-               let params = new URLSearchParams();
+               const params = new URLSearchParams();
                this.setParam(params);
 
                if (this.mSub === "new") {
@@ -222,7 +255,7 @@
                   // set params
                   this.postAxios(url, params);
                }
-               this.resetDisplay();
+               this.resetVal();
             }
          },
          onDel: function (e) {
@@ -230,7 +263,7 @@
             if (!window.confirm(message)) {
                e.preventDefault()
             } else {
-               let params = new URLSearchParams();
+               const params = new URLSearchParams();
                params.append("id", Number(this.mId))
 
                var url = "../app/api/delete_item.php";
@@ -524,7 +557,11 @@
             this.mBuddy = args.buddy_name;
             this.mInstructor = args.instructor_name;
             this.mInstructorNum = args.instructor_num;
-            this.mSigne = args.signe;
+            if (args.signe == null) {
+               this.mOldSigne = null;
+            } else {
+               this.mOldSigne = args.signe;
+            }
 
             // select
             this.mEntryType = args.entry_type;
@@ -579,7 +616,8 @@
             this.mBuddy = "";
             this.mInstructor = "";
             this.mInstructorNum = "";
-            this.mSigne = "";
+            this.mNewSigne = "";
+            this.mOldSigne = "";
 
             this.mEntryType = "";
 
@@ -595,6 +633,8 @@
             this.isSelect = "all";
             this.schType = "all";
             this.isSearch = "";
+
+            // this.imageData = [];
          },
 
          /**
@@ -673,7 +713,10 @@
             params.append("instructor_name", this.mInstructor)
             params.append("instructor_num", this.mInstructorNum)
 
-            params.append("signe", this.mSigne)
+            params.append("signe", this.mNewSigne)
+            params.append("old_signe", this.mOldSigne)
+
+            params.append("img", this.imageData)
          },
 
          /**
@@ -770,49 +813,20 @@
          },
          onClear: function () {
             this.isImage = false;
+            this.mNewSigne = "";
+            this.mOldSigne = "";
+
             let width = this.canvas.parentElement.clientWidth;
             let height = 220;
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
             this.file = null;
-            this.mSigne = '';
+            this.mNewSigne = "";
          },
          onSave: function () {
             this.isImage = true;
-            this.mSigne = this.canvas.toDataURL("image/png");
-            console.log(this.mSigne);
-
-
-            // いらん気がする
-            // let canvas = this.canvas.toDataURL("image/png");
-            // console.log(canvas);
-
-            // // Data URLからBase64のデータ部分のみを取得
-            // let base64Data = canvas.split(",")[1];
-            // let data = window.atob(base64Data); // base64形式の文字列をデコード
-            // let buff = new ArrayBuffer(data.length);
-            // let arr = new Uint8Array(buff);
-            // let dataLength = data.length;
-            // for (let i = 0; i < dataLength; i++) {
-            //    arr[i] = data.charCodeAt(i);
-            // }
-            // this.file = new File([arr], "draw-image.png", { type: "image/png" });
-            // var reader = new FileReader();
-            // var self = this;
-            // reader.readAsDataURL(this.file),
-            //    reader.onload = function (e) {
-            //       let base="";
-            //       base = reader.result;
-            //       // self.mSigne = base;
-            //       console.log(base);
-
-            //    }
-
-            // self.mSigne = base.replace(/^data:image\/png;base64,/, '');
-            // this.mSigne = canvas.replace(canvas, 'testimg.png');
-            // console.log(this.mSigne);
-
-
+            this.mNewSigne = this.canvas.toDataURL("image/png");
+            console.log(this.mNewSigne);
          },
 
 
@@ -871,7 +885,7 @@
             if (this.avatar) {
                /* postで画像を送る処理をここに書く */
                this.message = 'アップロードしました'
-               this.error = ''
+               this.error = ""
             } else {
                this.error = '画像がありません'
             }
