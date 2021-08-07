@@ -389,7 +389,7 @@ class ItemModel extends BaseModel
       $stmt->bindParam(':buddy_name', $data['buddy_name'], PDO::PARAM_STR);
       $stmt->bindParam(':instructor_name', $data['instructor_name'], PDO::PARAM_STR);
       $stmt->bindParam(':instructor_num', $data['instructor_num'], PDO::PARAM_STR);
-      $stmt->bindParam(':signe', $data['instructor_name'], PDO::PARAM_STR);
+      $stmt->bindParam(':signe', $data['signe'], PDO::PARAM_STR);
       $ret = $stmt->execute();
 
       return $ret;
