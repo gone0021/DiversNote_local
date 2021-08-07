@@ -7,9 +7,9 @@ require_once($root . "/app/controllers/ItemController.php");
 // $request_body = file_get_contents('php://input'); 
 // $data = json_decode($request_body,true);
 
-echo '<pre>';
-print_r($_POST);
-echo '</pre>';
+// echo '<pre>';
+// print_r($_POST);
+// echo '</pre>';
 
 $conItem = new ItemController();
 $conItem->store($_POST);
