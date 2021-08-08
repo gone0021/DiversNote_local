@@ -264,7 +264,8 @@
                e.preventDefault()
             } else {
                const params = new URLSearchParams();
-               params.append("id", Number(this.mId))
+               params.append("id", Number(this.mId));
+               params.append("old_signe", this.mOldSigne);
 
                var url = "../app/api/delete_item.php";
                this.postAxios(url, params);
@@ -814,14 +815,16 @@
          onClear: function () {
             this.isImage = false;
             this.mNewSigne = "";
-            this.mOldSigne = "";
 
-            let width = this.canvas.parentElement.clientWidth;
-            let height = 220;
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
             this.file = null;
-            this.mNewSigne = "";
+         },
+         delSigne: function () {
+            this.isImage = false;
+            this.mNewSigne = "delete";
+
+            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.file = null;
          },
          onSave: function () {
             this.isImage = true;
