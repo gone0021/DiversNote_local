@@ -1,7 +1,7 @@
 <?php
 $root = $_SERVER['DOCUMENT_ROOT'];
 $root .= "/data/DiversNote_local";
-require_once($root . "/app/model/ItemModel.php");
+require_once($root . "/app/controllers/ItemController.php");
 
 // 値を渡す側で処理させるため不使用：サンプルで残している
 // $request_body = file_get_contents('php://input'); 
@@ -11,8 +11,8 @@ require_once($root . "/app/model/ItemModel.php");
 // var_export($_POST);
 // echo '</pre>';
 
-$dbItem = new ItemModel();
-$dbItem->soft_delete($_POST);
+$conItem = new ItemController();
+$conItem->soft_delete($_POST);
 
 exit;
 
