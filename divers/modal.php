@@ -310,7 +310,7 @@
                   <div class=" mdlGroupmdlBtn c">
                      <button type="button" id="" class="btn mr-4" @click="onClear">リセット</button>
                      <button type="button" id="" class="btn mr-4" @click="onSave">確定</button>
-                     <button type="button" id="" class="btn" @click="onClear">削除</button>
+                     <button type="button" id="" class="btn" @click="delSigne">削除</button>
                   </div>
                   <div class="">
                      保存イメージ
@@ -320,10 +320,11 @@
                <div v-if="isImage" class="file-image">
                   <img v-if="mNewSigne" :src="mNewSigne">
                </div>
-               <div v-if="mOldSigne && !isImage" class="file-image">
+               <div v-if="(!mOldSigne && !isImage) || mNewSigne === 'delete'">サインはありません</div>
+               <div v-else-if="mOldSigne && !isImage" class="file-image">
                   <img :src="'./signe/' + mOldSigne">
                </div>
-               <div v-if="!mOldSigne && !isImage">サインはありません</div>
+
             </div>
          </div>
 
@@ -331,7 +332,7 @@
 
          <!-- <div class="acdTitle">写真</div>
          <div class="acdItem"> -->
-         <!-- <div class="acdTitleOpen open">写真</div>
+         <div class="acdTitleOpen open">写真</div>
          <div class="acdOpen">
             <template v-if="price_plan == 0 || price_plan == 1">
                <div v-for="i in 3">
@@ -345,7 +346,7 @@
                </div>
 
             </template>
-         </div> -->
+         </div>
 
       </div>
    </form>
