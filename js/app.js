@@ -4,12 +4,16 @@
    let app = new Vue({
       el: '#app',
       data: {
-         // phpからの受け取り
+         // phpからの受け取り：メモ代わり
          user_id: user_id,
          user_name: user_name,
          price_plan: price_plan,
-         // next_num: "次は" + next_num,
          next_num: "",
+         url: location.pathname,
+
+         // price_planから計算
+         imgNum: 0,
+         imgNumMax: 0,
 
          // html属性
          dis: true,
@@ -54,6 +58,18 @@
          mNewSigne: "",
          mOldSigne: "",
 
+         mIsOpen: [],
+         mOldImg: [],
+         mNewImg: [],
+         mEditImg: [],
+         mDelImg: [],
+         mNewImgJson: "",
+         mEditImgJson: "",
+         mDelImgJson: "",
+
+         cntDelImg: 0,
+         cntEditImg: 0,
+
          mEntryType: "",
          mTankMaterial: "0",
          mIsEnriche: "0",
@@ -62,7 +78,6 @@
          mCurrent: "",
          mSuitType: "",
 
-         imageData: [],
 
          mSub: "",
 
@@ -87,7 +102,7 @@
          isEdit: false,
          isDetail: false,
 
-         isImage: false,
+         isSigne: false,
          // デバッグ用
          // dispGlay: true,
          // dispModal: true,
@@ -114,10 +129,14 @@
 
       created: function () {
          console.log('--- created app.js ---');
+         // console.log(this.url);
          // console.log(next_num);
          // console.log(this.arrEntryType);
          this.getItem();
          this.getNextNum();
+
+         this.setImgNummax();
+         // console.log(this.imgNumMax);
       },
       mouted: function () {
          console.log('--- mounted app.js ---');
@@ -129,7 +148,6 @@
       },
       methods: {
          onGlay: function () {
-            // console.log("glay");
             if (!this.isDetail && (this.mTitle || this.mDiveDate || this.mDiveNum || this.mErea)) {
                var message = [
                   '保存しますか？'
@@ -188,49 +206,115 @@
 
             this.closeAccordion("#signeTitle");
          },
-         onFileChange: function (e, i) {
-            this.imageData[i] = [];
-            let imgFiles = e.target.files;
-            console.log(imgFiles);
 
-            if (imgFiles.length === 0) {
+         onFileChange: async function (e, i) {
+            // 配列の中身をオブジェクトに指定
+            this.mNewImg[i] = {};
+            // イベントの取得
+            let files = e.target.files;
+
+            // ファイルの有無をチェック
+            if (files.length === 0) {
+               // ファイルがなければ処理を終了
                return
             }
 
-            let imgFile = imgFiles[0];
-            // console.log(imgFile);
+            let file = files[0];
+            // console.log(file);
 
-            const image = new Image()
-            const reader = new FileReader();
+            // 即時関数内で処理するためthisを代入
+            let vm = this;
+            // filereaderをインスタンス
+            const reader = new FileReader()
+            // onload（fileのロードが完了したら）の中で処理を記述していく
+            reader.onload = async (e) => {
+               vm.mNewImg[i].name = file.name;
+               vm.mNewImg[i].type = file.type;
+               vm.mNewImg[i].is_open = this.mIsOpen[i];
+               vm.mNewImg[i].size = file.size;
+               vm.mNewImg[i].url = e.target.result;
 
-            let fileData = {
-               name: "",
-               type: "",
-               size: { width: 0, height: 0 },
-               url: "",
-            }
-
-            reader.onload = async () => {
-               // 画像ファイルを base64 文字列に変換します
-               image.src = reader.result;
-
-               // 各オブジェクトに値を代入
-               fileData.name = user_id + user_name + "_" + imgFile.name;
-               fileData.type = imgFile.type;
-               fileData.url = reader.result;
-               // fileData.url = reader.readAsDataURL(imgFile);
-
-               image.onload = () => {
-                  // ファイルサイズ取得
-                  fileData.size = { width: image.naturalWidth, height: image.naturalHeight }
-               }
+               // console.log(vm.mNewImg);
             }
             // FileAPIの起動
-            reader.readAsDataURL(imgFile)
-            this.imageData[i].push(fileData)
+            reader.readAsDataURL(file)
+         },
 
-            console.log(" i :" + i);
-            console.log(this.imageData);
+         onEditImage: function (id, isOpen) {
+            // 保存している画像分のmaxが減少しているため削除時にmaxを追加
+            this.imgNumMax++;
+
+            // 記述を楽にするため代入
+            let i = this.cntEditImg;
+            this.mEditImg[i] = {};
+
+            this.mEditImg[i].id = id;
+            this.mEditImg[i].is_open = isOpen;
+
+            // console.log(this.mEditImg);
+            this.cntEditImg++;
+         },
+         onDelImage: function (id, name) {
+            // 保存している画像分のmaxが減少しているため削除時にmaxを追加
+            this.imgNumMax++;
+
+            // 記述を楽にするため代入
+            let i = this.cntDelImg;
+            this.mDelImg[i] = {};
+
+            for (var [key, val] of this.mOldImg.entries()) {
+               if (val.id == id) {
+                  this.mOldImg.splice(key, 1);
+                  // console.log(this.mOldImg);
+               }
+            }
+
+            this.mDelImg[i].id = id;
+            this.mDelImg[i].name = name;
+
+            // console.log(this.mDelImg);
+            this.cntDelImg++;
+         },
+
+         cntUpImg: function () {
+            let max = this.imgNumMax;
+            this.mIsOpen.push(0);
+
+            console.log(max);
+            if (this.price_plan == 0 || this.price_plan == 1) {
+               if (this.imgNum >= max) {
+                  alert(
+                     "これ以上追加できません。 \n" +
+                     "プランを変更してください。"
+                  );
+                  return false;
+               } else {
+                  this.imgNum++;
+               }
+            } else if (this.price_plan == 2) {
+               if (this.imgNum >= max) {
+                  alert(
+                     "これ以上追加できません。 \n" +
+                     "プランを変更してください。"
+                  );
+                  return false;
+               } else {
+                  this.imgNum++;
+               }
+            }
+            // console.log(plan);
+            console.log(this.imgNum);
+            // console.log(this.imgNumMax);
+         },
+
+         checkOverLap(args) {
+            args.filter((val, index, arr) => {
+               // console.log(val);
+               // console.log(val.id);
+               // console.log(index);
+               // console.log(arr);
+               return arr.findIndex(v => val.id === v.id && val.is_open !== v.is_open) === index
+            });
          },
 
          onSubmit: function () {
@@ -238,6 +322,26 @@
 
             if (valid) {
                const params = new URLSearchParams();
+               // let form = new FormData;
+               // this.mNewImg = JSON.stringify(this.mNewImg);
+               // this.mEditImg = JSON.stringify(this.mEditImg);
+               // this.mDelImg = JSON.stringify(this.mDelImg);
+
+ 
+               // mEditImgの
+               var rev = this.mEditImg.reverse();
+               this.mEditImg = rev.filter((val, index, arr) => {
+                  return arr.findIndex(v => val.id === v.id) === index
+               });
+
+               this.mNewImgJson = JSON.stringify(this.mNewImg);
+               this.mEditImgJson = JSON.stringify(this.mEditImg);
+               this.mDelImgJson = JSON.stringify(this.mDelImg);
+
+               console.log(this.mNewImgJson);
+               console.log(this.mEditImgJson);
+               console.log(this.mDelImgJson);
+
                this.setParam(params);
 
                if (this.mSub === "new") {
@@ -311,6 +415,7 @@
             });
             this.resetVal();
          },
+
          // --- method ---
          /**
           * axiosでpostする
@@ -344,7 +449,7 @@
             }).then(
                function (res) {
                   this.items = res.data;
-                  console.log(this.items);
+                  // console.log(this.items);
                }.bind(this)
             ).catch(function (e) {
                console.error(e);
@@ -373,11 +478,11 @@
          /**
           * idに属するアイテムを取得
           */
-         getItemById: function (id) {
+         getItemById: function (item_id) {
             axios.get(`../app/api/get_item_by_id.php`, {
                params: {
                   user_id: this.user_id,
-                  id: id,
+                  id: item_id,
                },
             }).then(
                function (res) {
@@ -402,16 +507,16 @@
           * thenをreturnする
           * @returns 
           */
-         getItemByIdRet: function (id) {
+         getItemByIdRet: function (item_id) {
             return axios.get(`../app/api/get_item_by_id.php`, {
                params: {
                   user_id: this.user_id,
-                  id: id,
+                  id: item_id,
                },
             }).then(
                function (res) {
                   var val = res.data[0]
-                  console.log(val);
+                  // console.log(val);
                   this.changeBlankVal(val);
                   this.setVal(val);
                   // val.dive_date = val.dive_date.replace('-', '/');
@@ -420,6 +525,7 @@
 
                   this.itemById = val;
                   // console.log(this.itemById);
+                  this.getItemPhoto(item_id);
                }.bind(this)
             ).catch(function (e) {
                console.error(e);
@@ -428,7 +534,31 @@
 
          /**
           * dive_numの最大値を取得
-          * @param {*} id 
+          * @param {*} item_id 
+          */
+         getItemPhoto: function (item_id) {
+            axios.get(`../app/api/get_item_photo.php`, {
+               params: {
+                  item_id: item_id,
+               },
+            }).then(
+               function (res) {
+                  var val = res.data;
+                  console.log(val);
+                  this.mOldImg = val;
+
+                  for (var num of this.mOldImg) {
+                     this.imgNumMax--;
+                  }
+                  console.log(this.imgNum);
+               }.bind(this)
+            ).catch(function (e) {
+               console.error(e);
+            });
+         },
+
+         /**
+          * dive_numの最大値を取得
           */
          getNextNum: function () {
             axios.get(`../app/api/get_nextnum.php`, {
@@ -491,6 +621,19 @@
             } else {
                alert(disp);
                return false;
+            }
+         },
+
+         /**
+          * imgNummaxを計算する
+          * @returns {void}
+          */
+         setImgNummax: function () {
+            let plan = this.price_plan;
+            if (plan == 0) {
+               this.imgNumMax = 2;
+            } else if (plan == 2) {
+               this.imgNumMax = 5;
             }
          },
 
@@ -584,12 +727,17 @@
             this.isNew = false;
             this.isDetail = false;
             this.isEdit = false;
-            this.isImage = false;
+            this.isSigne = false;
 
             this.border = "";
             this.signeTitleOpen = false;
 
             this.mId = "";
+            // this.mTitle = "test";
+            // this.mDiveNum = "50";
+            // this.mDiveDate = "2021-08-08";
+            // this.mErea = "test";
+
             this.mTitle = "";
             this.mDiveNum = "";
             this.mDiveDate = "";
@@ -620,6 +768,18 @@
             this.mNewSigne = "";
             this.mOldSigne = "";
 
+            this.mNewImg = [];
+            this.mOldImg = [];
+            this.mEditImg = [];
+            this.mDelImg = [];
+
+            this.cntEditImg = 0;
+            this.cntDelImg = 0;
+
+            this.mNewImgJson = "";
+            this.mEditImgJson = "";
+            this.mDelImgJson = "";
+
             this.mEntryType = "";
 
             this.mTankMaterial = "0";
@@ -635,7 +795,12 @@
             this.schType = "all";
             this.isSearch = "";
 
-            // this.imageData = [];
+            this.imgNum = 0;
+            this.mIsOpen = [];
+            this.mNewImg = [];
+
+            this.setImgNummax();
+
          },
 
          /**
@@ -678,7 +843,7 @@
           * パラメータをセット
           */
          setParam(params) {
-            params.append("id", Number(this.mId))
+            params.append("id", this.mId)
             params.append("user_id", this.user_id)
             params.append("title", this.mTitle)
             params.append("dive_date", this.mDiveDate)
@@ -717,7 +882,14 @@
             params.append("signe", this.mNewSigne)
             params.append("old_signe", this.mOldSigne)
 
-            params.append("img", this.imageData)
+            params.append('new_img', this.mNewImgJson);
+            params.append('edit_img', this.mEditImgJson);
+            params.append('del_img', this.mDelImgJson);
+            // params.append('new_img', this.mNewImg);
+            // params.append('del_img', this.mEditImg);
+            // params.append('edit_img', this.mDelImg);
+
+
          },
 
          /**
@@ -813,23 +985,23 @@
             this.is_draw = false;
          },
          onClear: function () {
-            this.isImage = false;
+            this.isSigne = false;
             this.mNewSigne = "";
 
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.file = null;
          },
          delSigne: function () {
-            this.isImage = false;
+            this.isSigne = false;
             this.mNewSigne = "delete";
 
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.file = null;
          },
          onSave: function () {
-            this.isImage = true;
+            this.isSigne = true;
             this.mNewSigne = this.canvas.toDataURL("image/png");
-            console.log(this.mNewSigne);
+            // console.log(this.mNewSigne);
          },
 
 
@@ -878,7 +1050,7 @@
             })
          },
          onChgImg: function (e) {
-            console.log(e);
+            // console.log(e);
             const images = e.target.files || e.dataTransfer.files
             this.getBase64(images[0])
                .then(image => this.avatar = image)
