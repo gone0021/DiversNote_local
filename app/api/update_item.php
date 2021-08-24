@@ -7,9 +7,16 @@ require_once($root . "/app/controllers/ItemController.php");
 // $request_body = file_get_contents('php://input'); 
 // $data = json_decode($request_body,true);
 
+$_POST['new_img'] = json_decode($_POST['new_img'], true);
+$_POST['edit_img'] = json_decode($_POST['edit_img'], true);
+$_POST['del_img'] = json_decode($_POST['del_img'], true);
+
 // echo '<pre>';
-// var_export($_POST);
+// var_dump($_POST['new_img']);
+// var_dump($_POST['edit_img']);
+// var_dump($_POST['del_img']);
 // echo '</pre>';
+// die;
 
 $conItem = new ItemController();
 $conItem->update($_POST);
