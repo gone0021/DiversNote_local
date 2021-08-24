@@ -2,6 +2,7 @@
 $root = $_SERVER['DOCUMENT_ROOT'];
 $root .= "/data/DiversNote_local";
 require_once($root . "/app/model/ItemModel.php");
+require_once($root . "/app/model/PhotoModel.php");
 
 $tmp = $root . '/divers/tmp/';
 $img_dir = $root . '/divers/img/';
@@ -9,6 +10,7 @@ $singe_dir = $root . '/divers/signe/';
 $tmp = $root . '/divers/tmp/';
 
 $dbItem = new ItemModel();
+$dbPhoto = new PhotoModel();
 
 /**
  * ItemContorollerクラス
@@ -23,39 +25,60 @@ class ItemController
       // まだjoinしないように値を変えてる
       // 写真は写真で取得した方がいい気がしてる
       $args = ['photo none'];
-      $dbItem = new ItemModel();
-      $ret = $dbItem->getItemById($user_id, $item_id, $args);
+      global $dbItem;
+
+      $ret = $dbItem->getItemById($user_id, $item_id);
+
+
+      // echo '<pre>';
+      // var_dump($ret);
+      // echo '</pre>';
+      // die;
+
 
       return $ret;
    }
 
    /**
-    * memoの登録
+    * idに合致する写真の取得
+    */
+   public function getItemPhoto($item_id)
+   {
+      // まだjoinしないように値を変えてる
+      // 写真は写真で取得した方がいい気がしてる
+      global $dbPhoto;
+
+      $ret = $dbPhoto->getPhotoByItemId($item_id);
+
+
+      // echo '<pre>';
+      // var_dump($ret);
+      // echo '</pre>';
+      // die;
+
+
+      return $ret;
+   }
+
+   /**
+    * 登録
     */
    public function store($req)
    {
-      global $img_dir;
-      global $tmp;
-      global $singe_dir;
-      global $dbItem;
-
-      // jsのURLSearchParams()では空だと文字列でnullが入るためNULLに置き換える
-      foreach ($req as $key => $val) {
-         if ($val == '' || $val == "null") {
-            $val = NULL;
-         }
-         $req[$key] = $val;
-      }
-
       // echo '<pre>';
       // var_export($req);
       // echo '</pre>';
       // die;
 
+      global $dbItem;
+
+      // nullの文字列をNULLへ変換
+      $req = $this->changeNull($req);
 
       // 画像の保存
-
-
+      if (!empty($req['new_img'])) {
+         $this->insertImage($req);
+      }
       // サインを保存して変数を上書き
       $req = $this->saveSigen($req);
 
@@ -66,23 +89,31 @@ class ItemController
    }
 
    /**
-    * memoの更新
+    * 更新
     */
    public function update($req)
    {
-      global $dbItem;
-
       // echo '<pre>';
       // var_export($req);
       // echo '</pre>';
       // die;
+      
+      global $dbItem;
 
-      // jsのURLSearchParams()では空だと文字列でnullが入るためNULLに置き換える
-      foreach ($req as $key => $val) {
-         if ($val == '' || $val == "null") {
-            $val = NULL;
-         }
-         $req[$key] = $val;
+      // nullの文字列をNULLへ変換
+      $req = $this->changeNull($req);
+
+      // 画像の保存
+      if (!empty($req['new_img'])) {
+         $this->insertImage($req);
+      }
+      // 画像の更新
+      if (!empty($req['edit_img'])) {
+         $this->updateImage($req['edit_img']);
+      }
+      // 画像の削除
+      if (!empty($req['del_img'])) {
+         $this->deleteImage($req['del_img']);
       }
 
       // サインを保存して変数を上書き
@@ -103,11 +134,6 @@ class ItemController
       global $singe_dir;
       global $dbItem;
 
-      echo '<pre>';
-      var_export($req);
-      echo '</pre>';
-      // die;
-
       // 削除のタイミングに悩む：物理削除の時に削除する方がいい
       // if (!empty($req['old_signe'])) {
       //    // 古いサインの削除
@@ -115,6 +141,21 @@ class ItemController
       // }
 
       $dbItem->soft_delete($req);
+   }
+
+   /**
+    * 文字列からNULLへ変換
+    * jsのURLSearchParams()では空だと文字列でnullが入るためNULLに置き換える
+    */
+   public function changeNull($data)
+   {
+      foreach ($data as $key => $val) {
+         if ($val == '' || $val == "null") {
+            $val = NULL;
+         }
+         $data[$key] = $val;
+      }
+      return $data;
    }
 
    /**
@@ -129,8 +170,8 @@ class ItemController
       $signe_name = $data['user_id'] . 'signe_' . $now . '.png';
 
       if (!empty($data['signe']) && empty($data['old_signe'])) {
-         // 新の保存
-         echo 'pt.1';
+         // 新規の保存
+         // echo 'pt.1';
 
          // 保存するイメージの取得
          $img = file_get_contents($data['signe']);
@@ -143,7 +184,7 @@ class ItemController
          return $data;
       } else if (!empty($data['signe']) && !empty($data['old_signe']) && $data['signe'] == 'delete') {
          // サインの削除
-         echo 'pt.2';
+         // echo 'pt.2';
 
          // 古いサインの削除
          unlink($singe_dir . $data['old_signe']);
@@ -154,7 +195,7 @@ class ItemController
          return $data;
       } else if (!empty($data['signe']) && !empty($data['old_signe'])) {
          // 新の保存＋旧の削除
-         echo 'pt.3';
+         // echo 'pt.3';
 
          // 保存するイメージの取得
          $img = file_get_contents($data['signe']);
@@ -169,44 +210,98 @@ class ItemController
          return $data;
       } else if (empty($data['signe']) && !empty($data['old_signe'])) {
          // 旧のみ保存（何もしない）
-         echo 'pt.4';
+         // echo 'pt.4';
 
          // old_signeをsigneに代入
          $data['signe'] = $data['old_signe'];
          // old_signeをなくす
          unset($data['old_signe']);
          return $data;
+      } else {
+         return $data;
+      }
+   }
+
+
+   /**
+    * imageの保存
+    */
+   public function insertImage($data)
+   {
+      global $img_dir;
+      global $dbItem;
+      global $dbPhoto;
+
+      // $json_img = json_decode($data['img'], true);
+      $json_img = $data['new_img'];
+
+      $next_id = $dbItem->getNextId();
+      $now = date("Ymd_His");
+
+      foreach ($json_img as $key => $val) {
+         $img_name = $_POST['user_id'] . 'photo_' . $now . $key . '.png';
+
+         // 保存するイメージの取得
+         $img = file_get_contents($val['url']);
+         // 保存
+         file_put_contents($img_dir . $img_name, $img);
+
+         $arr = [];
+         if (empty($data['id'])) {
+            $arr['item_id'] = $next_id;
+         } else if (!empty($data['id'])) {
+            $arr['item_id'] = $data['id'];
+         }
+         $arr['photo_name'] = $img_name;
+         $arr['is_open'] = $val['is_open'];
+
+         $dbPhoto->insert($arr);
       }
    }
 
    /**
-    * imageの保存、更新、削除
-    * 仮作成
+    * imageの更新
     */
-   public function saveImage($data)
+   public function updateImage($data)
    {
-      // global $tmp;
-      // global $img_dir;
-
-
-      // if (!empty($req['img'])) {
-      //    $obj_img = $req['img'];
-      //    echo '<pre>';
-      //    var_export($obj_img);
-      //    echo '</pre>';
-      //    foreach ($obj_img as $key => $val) {
-      //       echo '<pre>';
-      //       var_export($val);
-      //       echo '</pre>';
-
-      //       foreach ($val as $k => $v) {
-      //          echo '<pre>';
-      //          var_export($v);
-      //          echo '</pre>';
-
-      //          move_uploaded_file($tmp, $img_dir . $v['name']);
-      //       }
-      //    }
-      // }
+      global $dbPhoto;
+      foreach ($data as $val) {
+         $dbPhoto->updateIsOpen($val);
+      }
    }
+
+   /**
+    * imageの削除
+    */
+   public function deleteImage($data)
+   {
+      global $dbPhoto;
+      global $img_dir;
+
+      if (!empty($data)) {
+         foreach ($data as $val) {
+            unlink($img_dir . $val['name']);
+            $dbPhoto->hard_delete($val['id']);
+         }
+      }
+   }
+   
+   /**
+    * 連想配列の重複するidを削除：新しく追加されたものを優先
+    */
+    public function reversArrayById($arr)
+    {
+       $tmp = [];
+       $unique = [];
+       foreach ($arr as $val) {
+          if (!in_array($val['id'], $tmp)) {
+             $tmp['id'] = $val['id'];
+             if (in_array($val['is_open'], $val)) {
+                $tmp['is_open'] = $val['is_open'];
+             }
+             $unique[] = $val;
+          }
+       }
+       return $unique;
+    }
 }
