@@ -21,7 +21,7 @@ class ItemModel extends BaseModel
     * itemsの最後のidを取得
     * @return array レコードの配列
     */
-   public function getMaxId()
+   public function getNextId()
    {
       $sql = '';
       $sql .= 'SELECT';
@@ -31,7 +31,8 @@ class ItemModel extends BaseModel
       $stmt = $this->dbh->prepare($sql);
       $stmt->execute();
       $ret = $stmt->fetch(PDO::FETCH_ASSOC);
-      return $ret;
+
+      return (int)$ret['max_id'] + 1;
    }
 
    /**
