@@ -12,6 +12,7 @@
          url: location.pathname,
 
          // price_planから計算
+         imgCunt: [],
          imgNum: 0,
          imgNumMax: 0,
 
@@ -121,9 +122,9 @@
 
       },
       computed: {
-         // this.uploadFileListに変更が加わった際に検知するためです
-         uploadFileList() {
-            return this.uploadFileList
+         mNewImg() {
+            console.log("--- computed app.js ---");
+            return this.mNewImg;
          }
       },
 
@@ -145,21 +146,27 @@
       },
       updated: function () {
          console.log('--- updated app.js ---');
+         this.mNewImg = this.mNewImg;
       },
       methods: {
          onGlay: function () {
             if (!this.isDetail && (this.mTitle || this.mDiveDate || this.mDiveNum || this.mErea)) {
-               var message = [
-                  '保存しますか？'
-               ].join('\n')
-               if (!window.confirm(message)) {
-                  this.resetDisplay();
-               } else {
+               var msg1 = ['保存しますか？'].join('\n');
+               var msg2 = ['編集を終了しますか？'].join('\n');
+               if (window.confirm(msg1)) {
                   this.onSubmit();
+               } else {
+                  if (window.confirm(msg2)) {
+                     this.resetDisplay();
+                  } else {
+                     return false;
+                  }
                }
             } else {
                this.resetDisplay();
             }
+            this.resetVal();
+            // console.log(this.mNewImg);
          },
          onItem: function (e) {
             // console.log(e);
@@ -195,6 +202,11 @@
             this.border = "border-bottom : 1px solid #000; border-radius: 0;";
             // this.signeTitleOpen = true;
          },
+         onCancel: function () {
+            this.resetDisplay();
+            this.resetVal();
+         },
+
          onEdit: function () {
             this.isNew = false;
             this.isEdit = true;
@@ -205,6 +217,19 @@
             this.border = "border-bottom : 1px solid #000; border-radius: 0;";
 
             this.closeAccordion("#signeTitle");
+         },
+         onDel: function (e) {
+            var message = ["削除してよろしいですか？"].join("\n")
+            if (!window.confirm(message)) {
+               e.preventDefault()
+            } else {
+               const params = new URLSearchParams();
+               params.append("id", Number(this.mId));
+               params.append("old_signe", this.mOldSigne);
+
+               var url = "../app/api/delete_item.php";
+               this.postAxios(url, params);
+            }
          },
 
          onFileChange: async function (e, i) {
@@ -235,9 +260,15 @@
                vm.mNewImg[i].url = e.target.result;
 
                // console.log(vm.mNewImg);
+               this.imgNum++;
+               this.imgNum--;
             }
             // FileAPIの起動
-            reader.readAsDataURL(file)
+            reader.readAsDataURL(file);
+            // this.mNewImg = vm.mNewImg;
+
+            console.log(vm.mNewImg);
+            console.log(this.mNewImg);
          },
 
          onEditImage: function (id, isOpen) {
@@ -278,9 +309,10 @@
 
          cntUpImg: function () {
             let max = this.imgNumMax;
+            // 公開・非公開の値を追加
             this.mIsOpen.push(0);
 
-            console.log(max);
+            // console.log(max);
             if (this.price_plan == 0 || this.price_plan == 1) {
                if (this.imgNum >= max) {
                   alert(
@@ -302,19 +334,25 @@
                   this.imgNum++;
                }
             }
-            // console.log(plan);
-            console.log(this.imgNum);
+            // console.log(this.imgNum);
             // console.log(this.imgNumMax);
          },
 
-         checkOverLap(args) {
-            args.filter((val, index, arr) => {
-               // console.log(val);
-               // console.log(val.id);
-               // console.log(index);
-               // console.log(arr);
-               return arr.findIndex(v => val.id === v.id && val.is_open !== v.is_open) === index
-            });
+         cntDownImg: function () {
+            if (this.imgNum < 1) {
+               // console.log("false");
+               return false;
+            } else {
+               this.imgNum--;
+               this.mNewImg.splice(this.imgNum, 1);
+            }
+            // console.log(this.imgNum);
+            // console.log(this.mNewImg);
+         },
+         checkImg: function () {
+            this.imgNum++;
+            this.imgNum--;
+            // console.log(this.mNewImg);
          },
 
          onSubmit: function () {
@@ -322,15 +360,13 @@
 
             if (valid) {
                const params = new URLSearchParams();
-               // let form = new FormData;
                // this.mNewImg = JSON.stringify(this.mNewImg);
                // this.mEditImg = JSON.stringify(this.mEditImg);
                // this.mDelImg = JSON.stringify(this.mDelImg);
 
- 
-               // mEditImgの
-               var rev = this.mEditImg.reverse();
-               this.mEditImg = rev.filter((val, index, arr) => {
+               // mEditImgの配列を逆順にしてから重複を削除
+               // filterで重複を検索してfilterIndexの値を返している
+               this.mEditImg = this.mEditImg.reverse().filter((val, index, arr) => {
                   return arr.findIndex(v => val.id === v.id) === index
                });
 
@@ -338,9 +374,9 @@
                this.mEditImgJson = JSON.stringify(this.mEditImg);
                this.mDelImgJson = JSON.stringify(this.mDelImg);
 
-               console.log(this.mNewImgJson);
-               console.log(this.mEditImgJson);
-               console.log(this.mDelImgJson);
+               // console.log(this.mNewImgJson);
+               // console.log(this.mEditImgJson);
+               // console.log(this.mDelImgJson);
 
                this.setParam(params);
 
@@ -360,19 +396,6 @@
                   this.postAxios(url, params);
                }
                this.resetVal();
-            }
-         },
-         onDel: function (e) {
-            var message = ["削除してよろしいですか？"].join("\n")
-            if (!window.confirm(message)) {
-               e.preventDefault()
-            } else {
-               const params = new URLSearchParams();
-               params.append("id", Number(this.mId));
-               params.append("old_signe", this.mOldSigne);
-
-               var url = "../app/api/delete_item.php";
-               this.postAxios(url, params);
             }
          },
 
@@ -407,7 +430,7 @@
             }).then(
                function (res) {
                   this.items = res.data;
-                  console.log(this.items);
+                  // console.log(this.items);
                }.bind(this)
             ).catch(function (e) {
                console.log("error");
@@ -468,7 +491,7 @@
             }).then(
                function (res) {
                   this.items = res.data;
-                  console.log(this.items);
+                  // console.log(this.items);
                }.bind(this)
             ).catch(function (e) {
                console.error(e);
@@ -496,7 +519,7 @@
 
                   this.itemById = val;
 
-                  console.log(this.itemById);
+                  // console.log(this.itemById);
                }.bind(this)
             ).catch(function (e) {
                console.error(e);
@@ -550,7 +573,7 @@
                   for (var num of this.mOldImg) {
                      this.imgNumMax--;
                   }
-                  console.log(this.imgNum);
+                  // console.log(this.imgNum);
                }.bind(this)
             ).catch(function (e) {
                console.error(e);
@@ -768,6 +791,7 @@
             this.mNewSigne = "";
             this.mOldSigne = "";
 
+            this.mIsOpen = [];
             this.mNewImg = [];
             this.mOldImg = [];
             this.mEditImg = [];
@@ -796,9 +820,6 @@
             this.isSearch = "";
 
             this.imgNum = 0;
-            this.mIsOpen = [];
-            this.mNewImg = [];
-
             this.setImgNummax();
 
          },
@@ -915,7 +936,7 @@
          // org：初期設定
          setCanvas: function () {
             this.canvas = this.$refs.canvas;
-            console.log(this.canvas);
+            // console.log(this.canvas);
 
             // let width = this.canvas.parentElement.clientWidth;
             let width = 640;
@@ -1005,6 +1026,7 @@
          },
 
 
+         // 
          getPosition: function (event) {
             var mouseX =
                event.touches[0].clientX - event.target.getBoundingClientRect().left;
@@ -1015,55 +1037,6 @@
                x: mouseX,
                y: mouseY
             };
-         },
-
-
-         // 画像のアップロード
-         uploadFile: function (event) {
-            var self = this;
-            var file = event.target.files[0];
-
-            var reader = new FileReader();
-            reader.readAsDataURL(file),
-               reader.onload = function (e) {
-                  self.image.src = reader.result;
-               }
-
-            this.image.onload = function (event) {
-               self.context.drawImage(
-                  this,
-                  0,
-                  0,
-                  self.canvas.width,
-                  self.canvas.height
-               );
-            }
-         },
-
-
-         getBase64(file) {
-            return new Promise((resolve, reject) => {
-               const reader = new FileReader()
-               reader.readAsDataURL(file)
-               reader.onload = () => resolve(reader.result)
-               reader.onerror = error => reject(error)
-            })
-         },
-         onChgImg: function (e) {
-            // console.log(e);
-            const images = e.target.files || e.dataTransfer.files
-            this.getBase64(images[0])
-               .then(image => this.avatar = image)
-               .catch(error => this.setError(error, '画像のアップロードに失敗しました。'))
-         },
-         upload() {
-            if (this.avatar) {
-               /* postで画像を送る処理をここに書く */
-               this.message = 'アップロードしました'
-               this.error = ""
-            } else {
-               this.error = '画像がありません'
-            }
          },
 
       },

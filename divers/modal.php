@@ -11,18 +11,22 @@
             <div class="mdlTopGrid">
                <div class="mdlBtn">
                   <template v-if="btnNew">
-                     <input type="submit" :name="mSub" class="btn" value="登録" />
-
+                     <input type="submit" :name="mSub" class="btn mr-2 my-2" value="登録" />
                   </template>
-                  <templatev v-if="btnUpdate">
-                     <input type="submit" :name="mSub" class="btn" value="更新" />
 
+                  <templatev v-if="btnUpdate">
+                     <input type="submit" :name="mSub" class="btn mr-2 my-2" value="更新" />
                   </templatev>
+
+                  <template v-if="btnNew || btnUpdate">
+                     <button type="button" class="btn mr-2 my-2" @click="onCancel">キャンセル</button>
+                  </template>
+
                   <template v-if="btnEdit">
-                     <button type="button" class="btn mr-2" @click="onEdit">編集</button>
+                     <button type="button" class="btn mr-2 my-2" @click="onEdit">編集</button>
                   </template>
                   <template v-if="btnDel">
-                     <button type="button" class="btn" @click="onDel">削除</button>
+                     <button type="button" class="btn mr-2 my-2" @click="onDel">削除</button>
                   </template>
                </div>
 
@@ -307,21 +311,20 @@
                      </canvas>
                   </div>
 
-                  <div class=" mdlGroupmdlBtn c">
-                     <button type="button" id="" class="btn mr-4" @click="onClear">リセット</button>
-                     <button type="button" id="" class="btn mr-4" @click="onSave">確定</button>
+                  <div class="mdlGroupmdlBtn c">
+                     <button type="button" id="" class="btn mr-3" @click="onClear">リセット</button>
+                     <button type="button" id="" class="btn mr-3" @click="onSave">確定</button>
                      <button type="button" id="" class="btn" @click="delSigne">削除</button>
                   </div>
-                  <div class="">
-                     保存イメージ
-                  </div>
+
+                  <div class="">保存イメージ</div>
                </template>
 
-               <div v-if="isImage" class="file-image">
+               <div v-if="isSigne" class="file-image">
                   <img v-if="mNewSigne" :src="mNewSigne">
                </div>
-               <div v-if="(!mOldSigne && !isImage) || mNewSigne === 'delete'">サインはありません</div>
-               <div v-else-if="mOldSigne && !isImage" class="file-image">
+               <div v-if="(!mOldSigne && !isSigne) || mNewSigne === 'delete'">サインはありません</div>
+               <div v-else-if="mOldSigne && !isSigne" class="file-image">
                   <img :src="'./signe/' + mOldSigne">
                </div>
 
@@ -332,20 +335,55 @@
 
          <!-- <div class="acdTitle">写真</div>
          <div class="acdItem"> -->
-         <div class="acdTitleOpen open">写真</div>
+         <div class="acdTitleOpen acdOpen">写真</div>
          <div class="acdOpen">
-            <template v-if="price_plan == 0 || price_plan == 1">
-               <div v-for="i in 3">
-                  <div class="mdlGroup">
-                     <input type="file" accept="image/*" @change="onFileChange($event,i)" multiple="multiple">
-                  </div>
+            <template v-if="isEdit || isNew">
+               <div class="imgBtn c my-3">
+                  <button type="button" @click="cntUpImg" class="btn mr-3 w100">＋</button>
+                  <button type="button" @click="cntDownImg" class="btn mr-3 w100">－</button>
+                  <!-- <button type="button" @click="checkImg" class="btn">確認</button> -->
+               </div>
 
-                  <div class="mdlGroup">
-                     <img :src="imageData[i].url" v-if="imageData[i]">
+               <div v-for="(num, i) of imgNum">
+                  <div class="imgGroup">
+                     <select name="is_open" id="" class="imgSelect" v-model="mIsOpen[i]" :disabled="dis" :style="border">
+                        <option value="0">公開しない</option>
+                        <option value="1">公開する</option>
+                     </select>
+                     <input ref="upfile" type="file" accept="image/*" id="" class="imgInput" @change="onFileChange($event,i)" multiple="multiple" required>
+
+                     <template v-if="mNewImg[i]">
+                        <img class="prevImg" :src="mNewImg[i].url">
+                     </template>
+                  </div>
+               </div>
+            </template>
+
+            <div class="mdlText" v-if="mOldImg.length == 0" key="img">保存している写真はありません</div>
+
+            <template v-else-if="mOldImg.length > 0" key="img">
+               <div class="mdlText">保存済の写真</div>
+               <div class="mdlGroup">
+                  <div class="" v-for="(img, i) of mOldImg">
+                     <select name="is_open" id="" class="" v-model="img.is_open" :disabled="dis" :style="border" @change="onEditImage(img.id, img.is_open)">
+                        <option value="0">公開しない</option>
+                        <option value="1">公開する</option>
+                     </select>
+                     <div>
+                        <a :href="url + '/img/' + img.photo_name" target=”_blank”><img class="photo" :src="'./img/' + img.photo_name"></a>
+                     </div>
+
+                     <template v-if="isEdit || isNew">
+                        <div>
+                           <button type="button" id="" class="btn delImgBtn" @click="onDelImage(img.id, img.photo_name)">del</button>
+                        </div>
+                     </template>
+
                   </div>
                </div>
 
             </template>
+
          </div>
 
       </div>
