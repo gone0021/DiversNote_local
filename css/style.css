@@ -578,6 +578,14 @@ p.look {margin: 0 3%;}
 .sh {display: none;}
 .mc {margin-left: auto; margin-right: auto;}
 
+.w25 {width: 25px;}
+.w50 {width: 50px;}
+.w75 {width: 75px;}
+.w100 {width: 100px;}
+.w125 {width: 125px;}
+.w150 {width: 150px;}
+.w175 {width: 175px;}
+.w200 {width: 200px;}
 
 /* --- 画面幅840px以下の設定 --- */
 @media screen and (max-width:840px){
