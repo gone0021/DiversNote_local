@@ -48,8 +48,8 @@
   position: fixed;
   margin-left: 20px;
 
-  width: 670px;
-  height: 90px;
+  width: 675px;
+  height: 110px;
 
   padding-bottom: 10px;
   border-bottom: solid 1px #000;
@@ -57,7 +57,7 @@
 }
 
 #adjTop {
-  margin-top: 90px;
+  margin-top: 110px;
 }
 
 /* gap: 10px; */
@@ -78,13 +78,41 @@
   gap: 10px;
 }
 
-.signeGroup {
-   padding: 0 25px;
-   margin: 5px;
+.signeGroup,
+.imgBtn {
+  padding: 0 25px;
+  margin: 5px;
+}
+
+.mdlText {
+   padding: 0 15px;
+   width: auto;
+   /* width: calc(100% - 50px); */
+   margin: 10px 30px;
+   border-bottom: dotted 1px;
+}
+
+.imgGroup,
+.imgBtn {
+  padding: 0 25px;
+  margin: 5px;
+}
+.imgSelect {
+   margin: 10px 20px;
+}
+.imgInput {
+   margin: 10px 20px;
+}
+.prevImg {
+   width: 200px;
+   /* height: 150px; */
+}
+.delImgBtn {
+   margin: 0 20px;
 }
 
 #canvas {
-   margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 /* モーダル input */
@@ -138,12 +166,14 @@
 .mdlBox input[type="submit"] {
 }
 
-.mdlGroup select {
+.mdlGroup select,
+.imgGroup select {
   width: 120px;
   border: none;
   background: none;
 }
-.mdlGroup select:disabled {
+.mdlGroup select:disabled,
+.imgGroup select:disabled {
   opacity: 1;
   color: #000;
 }
@@ -213,6 +243,13 @@ textarea.memoErea {
   transition: 0.3s;
 }
 
+.photo {
+  max-width: 200px;
+  /* max-height: 300px; */
+  vertical-align: middle;
+  margin: 10px 5px;
+}
+
 /* タブレット */
 @media screen and (max-width: 840px) {
   .mdlBox {
@@ -227,8 +264,8 @@ textarea.memoErea {
   }
 
   #mdlTop {
-    width: calc(100vw - 50px);
-    height: 80px;
+    width: calc(100vw - 40px);
+    height: 100px;
   }
 
   .mdlTitle input[type="text"] {
@@ -237,7 +274,8 @@ textarea.memoErea {
 }
 @media screen and (max-width: 620px) {
   #mdlTop {
-    height: 75px;
+    width: calc(100vw - 40px);
+    height: 95px;
   }
 }
 
@@ -247,12 +285,12 @@ textarea.memoErea {
     width: 100px;
   }
   #mdlTop {
-    height: 80px;
+    height: 100px;
   }
 }
 
 @media screen and (max-width: 380px) {
   #mdlTop {
-    height: 70px;
+    height: 90px;
   }
 }
