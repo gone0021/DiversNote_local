@@ -83,9 +83,10 @@
   text-align: center;
 
   width: auto;
+  /* width: calc(100% - 50px); */
   cursor: pointer;
-  margin: 5px 20px;
-  /* margin-left: 20px; */
+  margin: 5px 25px;
+  /* margin: 5px 30px 5px 25px; */
   background: #fff;
 }
 
@@ -96,7 +97,7 @@
   content: "";
   position: absolute;
   margin-top: 12px;
-  right: 35px;
+  right: 40px;
 
   /*縦線*/
   width: 15px;
@@ -111,7 +112,7 @@
   content: "";
   position: absolute;
   margin-top: 12px;
-  right: 35px;
+  right: 40px;
 
   /*横線*/
   width: 15px;
