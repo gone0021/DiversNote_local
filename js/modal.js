@@ -22,14 +22,14 @@ $(function () {
    // モーダルが呼び出された時
    $(".cardItem").on("click", function () {
       // $(".mdlBox").on("load", function () {
-      console.log("card-item");
+      // console.log("card-item");
       // console.log("--- positionb ---");
       mdlPositon();
       // console.log("--- height ---");
       mdlHeigt();
    });
    $("#navNew").on("click", function () {
-      console.log("nav-new");
+      // console.log("nav-new");
 
       // $(".mdlBox").on("load", function () {
       // console.log("--- positionb ---");
