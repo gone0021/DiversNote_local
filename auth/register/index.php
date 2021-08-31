@@ -56,13 +56,6 @@ if (!empty($_SESSION['post']['birthday'])) {
                   <h2 class="title">Register</h2>
                   <h3>新規登録</h3>
 
-                  <!-- エラーメッセージ -->
-                  <?php if (!empty($_SESSION["msg"]["error"])) : ?>
-                     <p class="error">
-                        <?= $_SESSION["msg"]["error"] ?>
-                     </p>
-                  <?php endif ?>
-
                   <!-- 送信フォーム -->
                   <form action="./check.php" method="post">
                      <!-- トークンの送信 -->

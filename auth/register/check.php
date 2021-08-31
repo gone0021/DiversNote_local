@@ -34,8 +34,18 @@ $validityCheck[] = validationUtil::isValidName(
    $post['name'],
    $_SESSION['msg']['name']
 );
+// ユーザー名
+$validityCheck[] = validationUtil::isUsedName(
+   $post['name'],
+   $_SESSION['msg']['name']
+);
 // メールアドレス
 $validityCheck[] = validationUtil::isValidEmail(
+   $post['email'],
+   $_SESSION['msg']['email']
+);
+// メールアドレスの重複
+$validityCheck[] = validationUtil::isUsedEmail(
    $post['email'],
    $_SESSION['msg']['email']
 );
