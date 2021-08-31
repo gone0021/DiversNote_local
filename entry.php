@@ -20,7 +20,7 @@
       </div>
    </form>
 
-   <p class="c">※ パスワードを忘れた方は<span class="url">こちら</span>から再設定してください。</p>
+   <p class="c">※ パスワードを忘れた方は<a href="./auth/password" class="url">こちら</a>から再設定してください。</p>
    <div class="c">
       <a class="btn btn_big" href="./auth/register/">登録はこちら</a>
    </div>
