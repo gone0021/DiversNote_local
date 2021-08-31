@@ -1,7 +1,7 @@
 <?php
 $root = $_SERVER["DOCUMENT_ROOT"];
 $root .= "/data/DiversNote_local";
-require_once($root . "/app/Model/UserModel.php");
+require_once($root . "/app/model/UserModel.php");
 $userModel = new UserModel();
 
 /**
