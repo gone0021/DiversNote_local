@@ -11,8 +11,8 @@ class UserController
    public function isCurrentPass($id, $pass, &$msg)
    {
       $dbUser = new UserModel();
-      $ret = $dbUser->getUserById($id);
-      if (!password_verify($pass, $ret['password'])) {
+      $rec = $dbUser->getUserById($id);
+      if (!password_verify($pass, $rec['password'])) {
          $msg = "パスワードが異なります";
          return false;
       }
@@ -29,14 +29,34 @@ class UserController
    public function checkPassEmail($email, $pass)
    {
       $dbUser = new UserModel();
-      $ret = $dbUser->getUserByEmail($email);
+      $rec = $dbUser->getUserByEmail($email);
 
-      if (!password_verify($pass, $ret['password'])) {
+      if (!password_verify($pass, $rec['password'])) {
          return array();
       }
 
-      unset($ret['password']);
+      unset($rec['password']);
 
-      return $ret;
+      return $rec;
+   }
+
+   /**
+    * メールアドレスからユーザーを検索して誕生日をチェック
+    * @param string $email メールアドレス
+    * @param string $password パスワード
+    * @return array ユーザー情報の配列（該当のユーザーが見つからないときは空の配列）
+    */
+   public function checkBirthdayEmail($email, $birthday)
+   {
+      $dbUser = new UserModel();
+      $rec = $dbUser->getUserByEmail($email);
+
+      if ($birthday != $rec['birthday']) {
+         return array();
+      }
+
+      unset($rec['password']);
+
+      return $rec;
    }
 }
