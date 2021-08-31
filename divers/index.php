@@ -45,6 +45,7 @@ $next_num = $dbItem->getMaxItemNum($user_id);
 // echo '</pre>';
 
 // var_dump($next_num);
+// var_dump($_SESSION['user']);
 ?>
 
 <!DOCTYPE html>
@@ -65,10 +66,11 @@ $next_num = $dbItem->getMaxItemNum($user_id);
                         <span>{{ item.title }}</span>
                         <div>{{ item.dive_date }}</div>
                         <div>{{ item.erea_name }}</div>
-                        <div v-if="item.point_name">{{ item.point_name }}</div>
-                        <div v-else>未入力</div>
+                        <div v-if="item.point_name" key="point_name">{{ item.point_name }}</div>
+                        <div v-else key="point_name">未入力</div>
                      </div>
                   </template>
+                  <div v-if="items.length == 0">ログはありません。</div>
                </div>
 
                <!-- modal -->
@@ -91,11 +93,14 @@ $next_num = $dbItem->getMaxItemNum($user_id);
    <!-- /#app -->
 
    <script>
-      let user_id = <?php echo $user_id; ?>
+      let user_id = <?= $user_id ?>
    </script>
-   <!-- <script>
-      let next_num = <?php echo $next_num; ?>
-   </script> -->
+   <script>
+      let user_name = <?= json_encode($_SESSION['user']['user_name']) ?>
+   </script>
+   <script>
+      let price_plan = <?= $_SESSION['user']['price_plan'] ?>
+   </script>
 
 </body>
 
