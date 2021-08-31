@@ -14,6 +14,11 @@ $url = 'http://' . $rootUrl;
 // セッションスタート
 SessionUtil::sessionStart();
 
+// authの他ページのセッションをクリア
+unset($_SESSION["msg"]['login']);
+unset($_SESSION["msg"]['reset']);
+unset($_SESSION["msg"]['reset_pass']);
+
 // トークンの生成
 $token = bin2hex(openssl_random_pseudo_bytes(108));
 $_SESSION['token'] = $token;
