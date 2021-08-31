@@ -16,9 +16,9 @@ $token = bin2hex(openssl_random_pseudo_bytes(108));
 $_SESSION['token'] = $token;
 
 
-echo '<pre>';
-var_dump($_SESSION);
-echo '</pre>';
+// echo '<pre>';
+// var_dump($_SESSION);
+// echo '</pre>';
 // die;
 
 ?>
