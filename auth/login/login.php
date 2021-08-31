@@ -10,9 +10,21 @@ require_once($root . "/app/model/UserModel.php");
 // セッションスタート
 SessionUtil::sessionStart();
 
+// フォームで送信されてきたトークンが正しいかどうか確認（CSRF対策）
+if (!isset($_SESSION['token']) || $_SESSION['token'] !== $_POST['token']) {
+   $_SESSION['msg']['err'] = "不正な処理が行われました。";
+   header('Location: ./');
+   exit;
+}
+
 // サニタイズ
 $post = CommonUtil::sanitaize($_POST);
+
+// POSTされてきた値をSESSIONに代入（入力画面で再表示）
+$_SESSION['post'] = $post;
+
 unset($post['token']);
+
 try {
    // ユーザー情報の取得
    $conUser = new UserController();
@@ -22,7 +34,7 @@ try {
    if (empty($user)) {
       // --- ユーザーの情報が取得できなかったとき ---
       // エラーメッセージをSESSIONに保存
-      $_SESSION["msg"]["error"] = "情報が一致しません";
+      $_SESSION["msg"]["login"] = "情報が一致しません";
 
       // POSTされてきたメールアドレスをSESSIONに保存
       $_SESSION["post"]["email"] = $post["email"];

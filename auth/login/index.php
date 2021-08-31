@@ -44,9 +44,9 @@ if (!empty($_SESSION['post']['email'])) {
                   <h3>ログイン</h3>
 
                   <!-- エラーメッセージ -->
-                  <?php if (!empty($_SESSION["msg"]["error"])) : ?>
+                  <?php if (!empty($_SESSION["msg"]["login"])) : ?>
                      <p class="error">
-                        <?= $_SESSION["msg"]["error"] ?>
+                        <?= $_SESSION["msg"]["login"] ?>
                      </p>
                   <?php endif ?>
 
@@ -68,7 +68,7 @@ if (!empty($_SESSION['post']['email'])) {
                      </div>
                   </form>
 
-                  <div class="c mb-4">※ パスワードを忘れた方は<span class="url">こちら</span>から再設定してください。</div>
+                  <div class="c mb-4">※ パスワードを忘れた方は<a href="../password/" class="url">こちら</a>から再設定してください。</div>
                   <div class="c">
                      <a class="btn login" href="../register/">登録はこちら</a>
                   </div>
