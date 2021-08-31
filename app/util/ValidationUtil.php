@@ -19,19 +19,31 @@ class ValidationUtil
    public static function isValidName($name, &$msg): bool
    {
       $msg = '';
-      $uers = new UserModel();
-      $checkName = $uers->getUserByName($name);
 
       if (empty($name)) {
          $msg = "ユーザー名を入力してください";
          return false;
       }
-      if (!empty($checkName)) {
-         $msg = "このユーザー名は既に使われています";
-         return false;
-      }
       if (strlen($name) > 50) {
          $msg = "名前は50文字以内で入力してください";
+         return false;
+      }
+      return true;
+   }
+   /**
+    * ユーザー名の重複チェック
+    * @param string $name 名前
+    * @param string $msg エラーメッセージを代入
+    * @return boolean
+    */
+   public static function isUsedName($name, &$msg): bool
+   {
+      $msg = '';
+      $uers = new UserModel();
+      $checkName = $uers->getUserByName($name);
+
+      if (!empty($checkName)) {
+         $msg = "このユーザー名は既に使われています";
          return false;
       }
       return true;
@@ -46,8 +58,6 @@ class ValidationUtil
    public static function isValidEmail($email, &$msg): bool
    {
       $msg = '';
-      $uers = new UserModel();
-      $checkEmail = $uers->getUserByEmail($email);
 
       if (empty($email)) {
          $msg = "メールアドレスを入力してください";
@@ -57,10 +67,6 @@ class ValidationUtil
          $msg = "メールアドレスを正しく入力してください";
          return false;
       }
-      if (!empty($checkEmail)) {
-         $msg = "このメールアドレスは既に使われています";
-         return false;
-      }
       if (strlen($email) > 256) {
          $msg = "メールアドレスは256文字以内で入力してください";
          return false;
@@ -68,6 +74,26 @@ class ValidationUtil
 
       return true;
    }
+
+   /**
+    * メールアドレスの重複チェック
+    * @param string $email メールアドレス
+    * @param string $msg エラーメッセージを代入
+    * @return boolean
+    */
+   public static function isUsedEmail($email, &$msg): bool
+   {
+      $msg = '';
+      $uers = new UserModel();
+      $checkEmail = $uers->getUserByEmail($email);
+
+      if (!empty($checkEmail)) {
+         $msg = "このメールアドレスは既に使われています";
+         return false;
+      }
+      return true;
+   }
+
 
    /**
     * 日付形式のチェック
