@@ -1,11 +1,11 @@
 <transition name="fadeGlay">
-   <div id="glayLayer" v-show="dispGlay" @click="onGlay" transition="fade"></div>
+   <div id="glayLayer" v-show="dispGlay" @click="onGlay" transition="fade" @keyup.esc="onEsc()"></div>
 </transition>
 
 <transition name="fade">
 
    <form @submit.prevent="onSubmit()" enctype="multipart/form-data">
-      <div class="mdlBox ui-widget-content" v-show="dispModalInput">
+      <div class="mdlBox ui-widget-content" v-show="dispModalInput" @keyup.esc="onEsc()">
          <!-- タイトル部分 -->
          <div id="mdlTop">
             <div class="mdlTopGrid">
@@ -47,7 +47,7 @@
             <div class="mdlGroup">
                <div id="number" class="my-1">
                   <label>No.
-                     <input type="text" name="dive_num" id="" class="" v-model="mDiveNum" :disabled="dis" :style="border" :placeholder="next_num" required>
+                     <input type="number" name="dive_num" id="" class="" v-model="mDiveNum" :disabled="dis" :style="border" :placeholder="next_num" required>
                   </label>
                </div>
 
@@ -136,7 +136,7 @@
 
                <div id="tankSize" class=" my-1">
                   <label>タンク容量 (L)：
-                     <input type="text" name="tank_size" id="" class="" v-model="mTankSize" :disabled="dis" :style="border" placeholder="未入力">
+                     <input type="number" name="tank_size" id="" class="" v-model="mTankSize" :disabled="dis" :style="border" placeholder="未入力">
                   </label>
                </div>
             </div>
@@ -157,14 +157,23 @@
             <div class="mdlGroup">
                <div id="startAir" class=" my-1">
                   <label>開始残圧 (bar)：
-                     <input type="text" name="start_air" id="" class="" v-model="mStartAir" :disabled="dis" :style="border" placeholder="未入力">
+                     <input type="number" name="start_air" id="" class="" v-model="mStartAir" :disabled="dis" :style="border" placeholder="未入力">
                   </label>
                </div>
 
                <div id="entAir" class=" my-1">
                   <label>終了残圧 (bar)：
-                     <input type="text" name="end_air" id="" class="" v-model="mEndAir" :disabled="dis" :style="border" placeholder="未入力">
+                     <input type="number" name="end_air" id="" class="" v-model="mEndAir" :disabled="dis" :style="border" placeholder="未入力">
                   </label>
+               </div>
+            </div>
+
+            <div class="mdlGroup">
+               <div id="enrche" class=" my-1">
+                  <label>空気消費率：
+                     <input type="text" name="air_rate" id="" class="" v-model="mAirRate" disabled :style="border" placeholder="計算ボタンで自動計算">
+                  </label>
+                  <button type="button" class="btn btn_s" :disabled="dis" @click="onCalcAirRate" >計算</button>
                </div>
             </div>
          </div>
@@ -246,7 +255,7 @@
 
                <div id="weight" class=" my-1">
                   <label>ウエイト (kg)：
-                     <input type="text" name="weight" id="" class="" v-model="mWeight" :disabled="dis" :style="border" placeholder="未入力">
+                     <input type="number" name="weight" id="" class="" v-model="mWeight" :disabled="dis" :style="border" placeholder="未入力">
                   </label>
                </div>
             </div>
@@ -267,7 +276,7 @@
                   <input type="text" name="map_link" id="" class="mMap" v-model="mMap" :disabled="dis" :style="border" placeholder="未入力">
                </div>
                <div id="map" class="mdlGroup">
-                  <p><a href="https://www.google.co.jp/maps/" target="blank">GoogleMap</a>から「共有→地図を埋め込む」のURLを貼り付けてください</p>
+                  <p><a href="https://www.google.co.jp/maps/" target="blank" class="url">GoogleMap</a>から「共有→地図を埋め込む」のURLを貼り付けてください</p>
                </div>
             </template>
             <template v-if="isDetail">

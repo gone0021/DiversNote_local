@@ -47,10 +47,13 @@
          mTankSize: "10",
          mStartAir: "",
          mEndAir: "",
+         mAirRate: "",
+
          mWaterTemp: "",
          mTemp: "",
          mView: "",
          mWeight: "",
+
          mComment: "",
          mMap: "",
          mBuddy: "",
@@ -149,6 +152,10 @@
          this.mNewImg = this.mNewImg;
       },
       methods: {
+         onEsc: function () {
+            this.resetDisplay();
+            this.resetVal();
+         },
          onGlay: function () {
             if (!this.isDetail && (this.mTitle || this.mDiveDate || this.mDiveNum || this.mErea)) {
                var msg1 = ['保存しますか？'].join('\n');
@@ -251,15 +258,79 @@
             let vm = this;
             // filereaderをインスタンス
             const reader = new FileReader()
+
+            const image = new Image();
+            let imgWidth = 400;
+
             // onload（fileのロードが完了したら）の中で処理を記述していく
             reader.onload = async (e) => {
+
+               image.onload = () => {
+                  const imgType = image.src.substring(5, image.src.indexOf(';'));
+                  const imgHeight = image.height * (imgWidth / image.width);
+                  const canvas = document.createElement('canvas');
+                  canvas.width = imgWidth;
+                  canvas.height = imgHeight;
+                  const ctx = canvas.getContext('2d');
+                  ctx.drawImage(image, 0, 0, imgWidth, imgHeight);
+
+                  dataUrl = canvas.toDataURL(imgType);
+
+                  // dataUrl = this.canvas.toDataURL("image/png");
+                  console.log(dataUrl);
+               }
+
+               // const image = new Image()
+
+               // image.onload = () => {
+
+               //    let width = img.width;
+               //    let height = img.height;
+               //    console.log(width);
+
+               //    if (width > imgWidth) {
+
+               //       height = Math.round(height * imgWidth / width);
+               //       width = imgWidth;
+
+
+               //    }
+
+               //    let canvas = document.createElement('canvas');
+               //    canvas.width = width;
+               //    canvas.height = height;
+               //    let ctx = canvas.getContext('2d');
+               //    ctx.drawImage(img, 0, 0, width, height);
+
+               //    ctx.canvas.toBlob((blob) => {
+
+               //       const imageFile = new File([blob], file.name, {
+               //          type: file.type,
+               //          lastModified: Date.now()
+               //       });
+               //       this.mNewImg[i].url = imageFile;
+
+               //       //  this.smallImages.push(imageFile);
+
+               //    }, file.type, 1);
+
+               //    // this.mNewImg[i].url = this.canvas.toDataURL("image/png");
+
+
+               // };
+               // image.src = event.target.result
+               // vm.mNewImg[i].url = reader.result;
+
+
                vm.mNewImg[i].name = file.name;
                vm.mNewImg[i].type = file.type;
                vm.mNewImg[i].is_open = this.mIsOpen[i];
                vm.mNewImg[i].size = file.size;
                vm.mNewImg[i].url = e.target.result;
+               vm.mNewImg[i].url2 = reader.result;
+               // vm.mNewImg[i].url = this.dataUrl;
 
-               // console.log(vm.mNewImg);
+               console.log(vm.mNewImg);
                this.imgNum++;
                this.imgNum--;
             }
@@ -353,6 +424,42 @@
             this.imgNum++;
             this.imgNum--;
             // console.log(this.mNewImg);
+         },
+
+         onCalcAirRate: function () {
+            console.log("calc");
+            if (!this.mStartAir) {
+               alert("開始残圧の入力がありません。");
+            }
+            if (!this.mEndAir) {
+               alert("終了残圧の入力がありません。");
+            }
+            if (!this.mTankSize) {
+               alert("タンク容量が選択されていません。");
+            }
+            if (!this.mTankSize) {
+               alert("タンク容量が選択されていません。");
+            }
+            if (!this.mStartTime) {
+               alert("開始時間の入力がありません。");
+            }
+            if (!this.mEndTime) {
+               alert("終了時間の入力がありません。");
+            }
+            if (!this.mAvgDepth) {
+               alert("平均深度の入力がありません。");
+            }
+
+
+            let [from_hour, from_minute] = this.mStartTime.split(':')
+            let [to_hour, to_minute] = this.mEndTime.split(':')
+            let time = to_hour - from_hour + (to_minute - from_minute);
+
+            let cal1 = (this.mStartAir - this.mEndAir) * this.mTankSize;
+            let cal2 = time * (this.mAvgDepth * 0.1 + 1)
+
+            this.mAirRate = Math.round(cal1 / cal2 * 100) / 100;
+
          },
 
          onSubmit: function () {
@@ -472,7 +579,7 @@
             }).then(
                function (res) {
                   this.items = res.data;
-                  // console.log(this.items);
+                  console.log(this.items);
                }.bind(this)
             ).catch(function (e) {
                console.error(e);
@@ -491,7 +598,7 @@
             }).then(
                function (res) {
                   this.items = res.data;
-                  // console.log(this.items);
+                  console.log(this.items);
                }.bind(this)
             ).catch(function (e) {
                console.error(e);
@@ -567,7 +674,7 @@
             }).then(
                function (res) {
                   var val = res.data;
-                  console.log(val);
+                  // console.log(val);
                   this.mOldImg = val;
 
                   for (var num of this.mOldImg) {
@@ -712,6 +819,7 @@
             this.mTankSize = args.tank_size;
             this.mStartAir = args.start_air;
             this.mEndAir = args.end_air;
+            this.mAirRate = args.air_rate;
 
             this.mTemp = args.temp;
             this.mWaterTemp = args.water_temp;
@@ -776,6 +884,7 @@
             this.mTankSize = "10";
             this.mStartAir = "";
             this.mEndAir = "";
+            this.mAirRate = "";
 
             this.mTemp = "";
             this.mWaterTemp = "";
@@ -883,6 +992,7 @@
             params.append("tank_size", this.mTankSize)
             params.append("start_air", this.mStartAir)
             params.append("end_air", this.mEndAir)
+            params.append("air_rate", this.mAirRate)
             params.append("is_enriche", this.mIsEnriche)
 
             params.append("temp", this.mTemp)
@@ -954,8 +1064,7 @@
 
             this.image = new Image();
          },
-
-
+         // canvas部分
          draw: function (e) {
             var x = e.layerX;
             var y = e.layerY;
@@ -1000,33 +1109,6 @@
             this.context.lineTo(position.x, position.y);
             this.context.stroke();
          },
-         // 描画終了（mouseup, mouseout）
-         drawEnd: function () {
-            this.context.closePath();
-            this.is_draw = false;
-         },
-         onClear: function () {
-            this.isSigne = false;
-            this.mNewSigne = "";
-
-            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.file = null;
-         },
-         delSigne: function () {
-            this.isSigne = false;
-            this.mNewSigne = "delete";
-
-            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.file = null;
-         },
-         onSave: function () {
-            this.isSigne = true;
-            this.mNewSigne = this.canvas.toDataURL("image/png");
-            // console.log(this.mNewSigne);
-         },
-
-
-         // 
          getPosition: function (event) {
             var mouseX =
                event.touches[0].clientX - event.target.getBoundingClientRect().left;
@@ -1038,6 +1120,36 @@
                y: mouseY
             };
          },
+         // 描画終了（mouseup, mouseout）
+         drawEnd: function () {
+            this.context.closePath();
+            this.is_draw = false;
+         },
+
+         // ボタン操作：リセット
+         onClear: function () {
+            this.isSigne = false;
+            this.mNewSigne = "";
+
+            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.file = null;
+         },
+         // ボタン操作：確定
+         onSave: function () {
+            this.isSigne = true;
+            this.mNewSigne = this.canvas.toDataURL("image/png");
+            // console.log(this.mNewSigne);
+         },
+         // ボタン操作：削除
+         delSigne: function () {
+            this.isSigne = false;
+            this.mNewSigne = "delete";
+
+            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.file = null;
+         },
+
+
 
       },
    });

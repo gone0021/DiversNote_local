@@ -89,6 +89,7 @@ class ItemModel extends BaseModel
       $sql .= ' ,i.tank_size';
       $sql .= ' ,i.start_air';
       $sql .= ' ,i.end_air';
+      $sql .= ' ,i.air_rate';
       $sql .= ' ,i.is_enriche';
 
       $sql .= ' ,i.suit_type';
@@ -306,6 +307,7 @@ class ItemModel extends BaseModel
       $sql .= ' ,tank_size';
       $sql .= ' ,start_air';
       $sql .= ' ,end_air';
+      $sql .= ' ,air_rate';
       $sql .= ' ,is_enriche';
       $sql .= ' ,temp';
       $sql .= ' ,water_temp';
@@ -336,8 +338,8 @@ class ItemModel extends BaseModel
       $sql .= ' ,:max_depth';
       $sql .= ' ,:tank_material';
       $sql .= ' ,:tank_size';
-      $sql .= ' ,:start_air';
       $sql .= ' ,:end_air';
+      $sql .= ' ,:air_rate';
       $sql .= ' ,:is_enriche';
       $sql .= ' ,:temp';
       $sql .= ' ,:water_temp';
@@ -374,6 +376,7 @@ class ItemModel extends BaseModel
       $stmt->bindParam(':tank_size', $data['tank_size'], PDO::PARAM_STR);
       $stmt->bindParam(':start_air', $data['start_air'], PDO::PARAM_STR);
       $stmt->bindParam(':end_air', $data['end_air'], PDO::PARAM_STR);
+      $stmt->bindParam(':air_rate', $data['air_rate'], PDO::PARAM_STR);
       $stmt->bindParam(':is_enriche', $data['is_enriche'], PDO::PARAM_STR);
 
       $stmt->bindParam(':temp', $data['temp'], PDO::PARAM_STR);
@@ -425,6 +428,7 @@ class ItemModel extends BaseModel
       $sql .= ' ,tank_size = :tank_size';
       $sql .= ' ,start_air = :start_air';
       $sql .= ' ,end_air = :end_air';
+      $sql .= ' ,air_rate = :air_rate';
       $sql .= ' ,is_enriche = :is_enriche';
 
       $sql .= ' ,temp = :temp';
@@ -465,6 +469,7 @@ class ItemModel extends BaseModel
       $stmt->bindParam(':tank_size', $data['tank_size'], PDO::PARAM_STR);
       $stmt->bindParam(':start_air', $data['start_air'], PDO::PARAM_STR);
       $stmt->bindParam(':end_air', $data['end_air'], PDO::PARAM_STR);
+      $stmt->bindParam(':air_rate', $data['air_rate'], PDO::PARAM_STR);
       $stmt->bindParam(':is_enriche', $data['is_enriche'], PDO::PARAM_STR);
 
       $stmt->bindParam(':temp', $data['temp'], PDO::PARAM_STR);
