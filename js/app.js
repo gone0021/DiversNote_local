@@ -71,9 +71,6 @@
          mEditImgJson: "",
          mDelImgJson: "",
 
-         cntDelImg: 0,
-         cntEditImg: 0,
-
          mEntryType: "",
          mTankMaterial: "0",
          mIsEnriche: "0",
@@ -82,7 +79,10 @@
          mCurrent: "",
          mSuitType: "",
 
-
+         // 値の配列番号：順不同のためインデントでは保存できない
+         cntEditImg: 0,
+         cntDelImg: 0,
+         // submitの状態を保存する変数：送信時の判定に使用
          mSub: "",
 
          // search
@@ -117,6 +117,7 @@
 
          root: "",
 
+         // signe（canvas）用
          canvas: null,
          context: null,
          is_draw: false,
@@ -152,10 +153,10 @@
          this.mNewImg = this.mNewImg;
       },
       methods: {
-         onEsc: function () {
-            this.resetDisplay();
-            this.resetVal();
-         },
+         // onEsc: function () {
+         //    this.resetDisplay();
+         //    this.resetVal();
+         // },
          onGlay: function () {
             if (!this.isDetail && (this.mTitle || this.mDiveDate || this.mDiveNum || this.mErea)) {
                var msg1 = ['保存しますか？'].join('\n');
@@ -209,6 +210,10 @@
             this.border = "border-bottom : 1px solid #000; border-radius: 0;";
             // this.signeTitleOpen = true;
          },
+         onColse: function () {
+            this.resetDisplay();
+            this.resetVal();
+         },
          onCancel: function () {
             this.resetDisplay();
             this.resetVal();
@@ -239,9 +244,18 @@
             }
          },
 
+         /**
+          * 画像をリサイズしてアップロードの準備（変数に保存）する
+          * @param {*} e 
+          * @param {*} i 
+          * @returns 
+          */
          onFileChange: async function (e, i) {
             // 配列の中身をオブジェクトに指定
-            this.mNewImg[i] = {};
+            // ionChgIsOpenで設定済の可能性があるためifで変数の有無を見る
+            if (!this.mNewImg[i]) {
+               this.mNewImg[i] = {};
+            }
             // イベントの取得
             let files = e.target.files;
 
@@ -258,112 +272,102 @@
             let vm = this;
             // filereaderをインスタンス
             const reader = new FileReader()
-
-            const image = new Image();
-            let imgWidth = 400;
-
-            // onload（fileのロードが完了したら）の中で処理を記述していく
+            const img = new Image();
+            let width = 1000;
             reader.onload = async (e) => {
+               // imgを読み込んでから画像をリサイズ
+               img.onload = () => {
+                  // 画像の情報を取得
+                  let imgWidth = img.width;
+                  let imgHeight = img.height;
+                  let imgType = img.src.substring(5, img.src.indexOf(';'));
 
-               image.onload = () => {
-                  const imgType = image.src.substring(5, image.src.indexOf(';'));
-                  const imgHeight = image.height * (imgWidth / image.width);
-                  const canvas = document.createElement('canvas');
-                  canvas.width = imgWidth;
-                  canvas.height = imgHeight;
-                  const ctx = canvas.getContext('2d');
-                  ctx.drawImage(image, 0, 0, imgWidth, imgHeight);
+                  // 画像のサイズが大きかったら
+                  if (imgWidth > width) {
+                     imgHeight = Math.round(imgHeight * width / imgWidth);
+                     imgWidth = width;
+                  }
 
-                  dataUrl = canvas.toDataURL(imgType);
+                  // 設定・計算した寸法でcanvasで再描画
+                  const imgCanvas = document.createElement('canvas');
+                  imgCanvas.width = imgWidth;
+                  imgCanvas.height = imgHeight;
+                  const ctx = imgCanvas.getContext('2d');
+                  ctx.drawImage(img, 0, 0, imgWidth, imgHeight);
 
-                  // dataUrl = this.canvas.toDataURL("image/png");
-                  console.log(dataUrl);
+                  // 画像をmNewImgに格納
+                  this.mNewImg[i].url = imgCanvas.toDataURL(imgType);
+                  // this.mNewImg[i].url = imgCanvas.toDataURL("image/png");
+
+                  // numの増減でプレビューが見えるようになる
+                  this.imgNum++;
+                  this.imgNum--;
                }
+               img.src = reader.result;
+               // 変数に値を保存
+               this.mNewImg[i].name = file.name;
+               this.mNewImg[i].type = file.type;
+               // is_openはonChgIsOpen()で編集
+               // this.mNewImg[i].is_open = this.mIsOpen[i];
 
-               // const image = new Image()
-
-               // image.onload = () => {
-
-               //    let width = img.width;
-               //    let height = img.height;
-               //    console.log(width);
-
-               //    if (width > imgWidth) {
-
-               //       height = Math.round(height * imgWidth / width);
-               //       width = imgWidth;
-
-
-               //    }
-
-               //    let canvas = document.createElement('canvas');
-               //    canvas.width = width;
-               //    canvas.height = height;
-               //    let ctx = canvas.getContext('2d');
-               //    ctx.drawImage(img, 0, 0, width, height);
-
-               //    ctx.canvas.toBlob((blob) => {
-
-               //       const imageFile = new File([blob], file.name, {
-               //          type: file.type,
-               //          lastModified: Date.now()
-               //       });
-               //       this.mNewImg[i].url = imageFile;
-
-               //       //  this.smallImages.push(imageFile);
-
-               //    }, file.type, 1);
-
-               //    // this.mNewImg[i].url = this.canvas.toDataURL("image/png");
-
-
-               // };
-               // image.src = event.target.result
-               // vm.mNewImg[i].url = reader.result;
-
-
-               vm.mNewImg[i].name = file.name;
-               vm.mNewImg[i].type = file.type;
-               vm.mNewImg[i].is_open = this.mIsOpen[i];
-               vm.mNewImg[i].size = file.size;
-               vm.mNewImg[i].url = e.target.result;
-               vm.mNewImg[i].url2 = reader.result;
-               // vm.mNewImg[i].url = this.dataUrl;
-
-               console.log(vm.mNewImg);
-               this.imgNum++;
-               this.imgNum--;
+               // vm.mNewImg[i].url = e.target.result;
+               // vm.mNewImg[i].url2 = reader.result;
             }
+
             // FileAPIの起動
             reader.readAsDataURL(file);
             // this.mNewImg = vm.mNewImg;
 
-            console.log(vm.mNewImg);
             console.log(this.mNewImg);
          },
-
+         /**
+          * 新規で登録する画像のis_openを編集
+          * @param {*} i 
+          */
+         onChgIsOpen: function (i) {
+            // onFileChangeで設定済の可能性があるためifで変数の有無を見る
+            if (!this.mNewImg[i]) {
+               this.mNewImg[i] = {};
+            }
+            this.mNewImg[i].is_open = this.mIsOpen[i];
+         },
+         /**
+          * 保存されている画像のis_openを編集
+          * @param {*} id 
+          * @param {*} isOpen 
+          */
          onEditImage: function (id, isOpen) {
-            // 保存している画像分のmaxが減少しているため削除時にmaxを追加
-            this.imgNumMax++;
-
-            // 記述を楽にするため代入
+            // 編集する値の配列番号を代入
+            // 順不同のためインデントでは保存できない
             let i = this.cntEditImg;
+            // 配列の中身をオブジェクトに指定
             this.mEditImg[i] = {};
 
+            // 値を代入
             this.mEditImg[i].id = id;
             this.mEditImg[i].is_open = isOpen;
 
-            // console.log(this.mEditImg);
+            // 編集する値の配列番号を+1する
             this.cntEditImg++;
+
+            // console.log(this.mEditImg);
          },
+         /**
+          * 保存されている画像の削除
+          * @param {*} id 
+          * @param {*} name 
+          */
          onDelImage: function (id, name) {
             // 保存している画像分のmaxが減少しているため削除時にmaxを追加
             this.imgNumMax++;
 
-            // 記述を楽にするため代入
+            // 削除する値の配列番号を代入
+            // 順不同のためインデントでは保存できない
             let i = this.cntDelImg;
+            // 配列の中身をオブジェクトに指定
             this.mDelImg[i] = {};
 
+            // 保存と削除する値のid一致する配列を削除
             for (var [key, val] of this.mOldImg.entries()) {
                if (val.id == id) {
                   this.mOldImg.splice(key, 1);
@@ -371,13 +375,16 @@
                }
             }
 
+            // 値を代入
             this.mDelImg[i].id = id;
+            // 保存している画像を削除する用
             this.mDelImg[i].name = name;
 
-            // console.log(this.mDelImg);
+            // 削除する値の配列番号を+1する
             this.cntDelImg++;
-         },
 
+            // console.log(this.mDelImg);
+         },
          cntUpImg: function () {
             let max = this.imgNumMax;
             // 公開・非公開の値を追加
@@ -426,40 +433,61 @@
             // console.log(this.mNewImg);
          },
 
+         /**
+          * 空気消費率の計算
+          * @returns 
+          */
          onCalcAirRate: function () {
             console.log("calc");
+            let flg = 0;
             if (!this.mStartAir) {
                alert("開始残圧の入力がありません。");
+               flg = 1;
             }
             if (!this.mEndAir) {
                alert("終了残圧の入力がありません。");
+               flg = 1;
             }
             if (!this.mTankSize) {
                alert("タンク容量が選択されていません。");
+               flg = 1;
             }
             if (!this.mTankSize) {
                alert("タンク容量が選択されていません。");
+               flg = 1;
             }
             if (!this.mStartTime) {
                alert("開始時間の入力がありません。");
+               flg = 1;
             }
             if (!this.mEndTime) {
                alert("終了時間の入力がありません。");
+               flg = 1;
             }
             if (!this.mAvgDepth) {
                alert("平均深度の入力がありません。");
+               flg = 1;
             }
 
+            if (flg == 0) {
+               let [from_hour, from_minute] = this.mStartTime.split(':')
+               let [to_hour, to_minute] = this.mEndTime.split(':')
+               let time = (to_hour - from_hour) * 60 + (to_minute - from_minute);
 
-            let [from_hour, from_minute] = this.mStartTime.split(':')
-            let [to_hour, to_minute] = this.mEndTime.split(':')
-            let time = to_hour - from_hour + (to_minute - from_minute);
+               let cal1 = (this.mStartAir - this.mEndAir) * this.mTankSize;
+               let cal2 = time * (this.mAvgDepth * 0.1 + 1)
 
-            let cal1 = (this.mStartAir - this.mEndAir) * this.mTankSize;
-            let cal2 = time * (this.mAvgDepth * 0.1 + 1)
+               this.mAirRate = Math.round(cal1 / cal2 * 100) / 100;
+            } else {
+               return false;
+            }
+         },
 
-            this.mAirRate = Math.round(cal1 / cal2 * 100) / 100;
-
+         /**
+          * 空気消費率のリセット（ボタン）
+          */
+         onResetAirRate: function () {
+            this.mAirRate = "";
          },
 
          onSubmit: function () {
@@ -1138,7 +1166,7 @@
          onSave: function () {
             this.isSigne = true;
             this.mNewSigne = this.canvas.toDataURL("image/png");
-            // console.log(this.mNewSigne);
+            console.log(this.mNewSigne);
          },
          // ボタン操作：削除
          delSigne: function () {
