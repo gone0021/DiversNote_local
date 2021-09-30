@@ -171,14 +171,29 @@
                   }
                }
             } else {
+               // 表示のリセット
                this.resetDisplay();
             }
+            // 値のリセット
             this.resetVal();
+            // モーダル出現時に背景をスクロールさせない設定：解除
+            // bodyはapp.jsの外のためjqで記述
+            $("html,body").css({
+               overflow: "visible",
+               // padding: "0"
+            });
+
             // console.log(this.mNewImg);
          },
          onItem: function (e) {
             // console.log(e);
             this.border = "";
+            // モーダル出現時に背景をスクロールさせない設定：実行
+            // bodyはapp.jsの外のためjqで記述
+            $("html,body").css({
+               overflow: "hidden",
+               // padding: "0 8px 0 0"
+            });
 
             this.getItemByIdRet(e).then(() => {
                this.isNew = false;
@@ -273,7 +288,7 @@
             // filereaderをインスタンス
             const reader = new FileReader()
             const img = new Image();
-            let width = 1000;
+            let width = 2000;
             reader.onload = async (e) => {
                // imgを読み込んでから画像をリサイズ
                img.onload = () => {
@@ -282,22 +297,25 @@
                   let imgHeight = img.height;
                   let imgType = img.src.substring(5, img.src.indexOf(';'));
 
-                  // 画像のサイズが大きかったら
                   if (imgWidth > width) {
+                     // 画像のサイズが大きかったらリサイズして保存
                      imgHeight = Math.round(imgHeight * width / imgWidth);
                      imgWidth = width;
+
+                     // 設定・計算した寸法でcanvasで再描画
+                     const imgCanvas = document.createElement('canvas');
+                     imgCanvas.width = imgWidth;
+                     imgCanvas.height = imgHeight;
+                     const ctx = imgCanvas.getContext('2d');
+                     ctx.drawImage(img, 0, 0, imgWidth, imgHeight);
+
+                     // 画像をmNewImgに格納
+                     this.mNewImg[i].url = imgCanvas.toDataURL(imgType);
+                     // this.mNewImg[i].url = imgCanvas.toDataURL("image/png");
+                  } else {
+                     // 画像のサイズが小さければそのまま保存
+                     this.mNewImg[i].url = reader.result;
                   }
-
-                  // 設定・計算した寸法でcanvasで再描画
-                  const imgCanvas = document.createElement('canvas');
-                  imgCanvas.width = imgWidth;
-                  imgCanvas.height = imgHeight;
-                  const ctx = imgCanvas.getContext('2d');
-                  ctx.drawImage(img, 0, 0, imgWidth, imgHeight);
-
-                  // 画像をmNewImgに格納
-                  this.mNewImg[i].url = imgCanvas.toDataURL(imgType);
-                  // this.mNewImg[i].url = imgCanvas.toDataURL("image/png");
 
                   // numの増減でプレビューが見えるようになる
                   this.imgNum++;
@@ -307,8 +325,8 @@
                // 変数に値を保存
                this.mNewImg[i].name = file.name;
                this.mNewImg[i].type = file.type;
-               // is_openはonChgIsOpen()で編集
-               // this.mNewImg[i].is_open = this.mIsOpen[i];
+               // 画像が変わった時点でもis_openを取得する
+               this.mNewImg[i].is_open = this.mIsOpen[i];
 
                // vm.mNewImg[i].url = e.target.result;
                // vm.mNewImg[i].url2 = reader.result;
