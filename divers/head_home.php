@@ -7,8 +7,10 @@
    <meta name="keywords" content="ダイビング,ダイブログ,ダイビングログ,ダイビング・ログ,ログブック">
 
    <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
    <script src="<?= $url ?>/js/jquery-3.6.0.min.js"></script>
+
+   <!-- jQuery UI -->
    <link rel="stylesheet" href="<?= $url ?>/css/jquery-ui.css">
    <script src="<?= $url ?>/js/jquery-ui.min.js"></script>
 
