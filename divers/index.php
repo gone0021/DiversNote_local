@@ -72,23 +72,21 @@ $next_num = $dbItem->getMaxItemNum($user_id);
                   </template>
                   <div v-if="items.length == 0">ログはありません。</div>
                </div>
+               <!-- cardBox -->
 
-               <!-- modal -->
-               <?php require_once($divers . "/modal.php"); ?>
             </div>
             <!--/.inner-->
 
          </div>
          <!--/#contents-->
+         <?php require_once($divers . "/modal.php"); ?>
 
+         <p id="toTop" class="nav-fix-pos-pagetop"><a href="javascript:void(0)">↑</a></p>
+
+         <!-- メニュー開閉ボタン -->
+         <div id="menubar_hdr" class="close"></div>
       </div>
       <!--/#container-->
-
-      <p id="toTop" class="nav-fix-pos-pagetop"><a href="javascript:void(0)">↑</a></p>
-
-      <!-- メニュー開閉ボタン -->
-      <div id="menubar_hdr" class="close"></div>
-
    </div>
    <!-- /#app -->
 
