@@ -5,11 +5,17 @@
 <transition name="fade">
 
    <form @submit.prevent="onSubmit()" enctype="multipart/form-data">
-      <div class="mdlBox ui-widget-content" v-show="dispModalInput" @keyup.esc="onEsc()">
+      <!-- <div class="mdlBox ui-widget-content" v-show="dispModalInput" @keyup.esc="onEsc()"> -->
+      <div class="mdlBox ui-widget-content" v-show="dispModalInput">
          <!-- タイトル部分 -->
          <div id="mdlTop">
             <div class="mdlTopGrid">
                <div class="mdlBtn">
+
+                  <template v-if="btnEdit">
+                     <button type="button" class="btn-x mr-4 my-2" @click="onColse">☓</button>
+                  </template>
+
                   <template v-if="btnNew">
                      <input type="submit" :name="mSub" class="btn mr-2 my-2" value="登録" />
                   </template>
@@ -73,8 +79,8 @@
          </div>
 
          <!-- 最初から表示 -->
-         <div class="acdTitle">基本情報2</div>
-         <div class="acdItem">
+         <div class="acdTitleOpen acdOpen">基本情報2</div>
+         <div class="acdOpen">
             <div class="mdlGroup">
 
                <div id="shop" class="">
@@ -115,6 +121,11 @@
                <div id="endtime" class=" my-1">
                   <label>平均水深 (m)：
                      <input type="text" name="avg_depth" id="" class="" v-model="mAvgDepth" :disabled="dis" :style="border" placeholder="未入力">
+                  </label>
+               </div>
+               <div id="view" class=" my-1">
+                  <label>透視度 (m)：
+                     <input type="text" name="view" id="" class="" v-model="mView" :disabled="dis" :style="border" placeholder="未入力">
                   </label>
                </div>
             </div>
@@ -173,7 +184,8 @@
                   <label>空気消費率：
                      <input type="text" name="air_rate" id="" class="" v-model="mAirRate" disabled :style="border" placeholder="計算ボタンで自動計算">
                   </label>
-                  <button type="button" class="btn btn_s" :disabled="dis" @click="onCalcAirRate" >計算</button>
+                  <button type="button" class="btn btn-s" :disabled="dis" @click="onCalcAirRate">計算</button>
+                  <button type="button" class="btn btn-s" :disabled="dis" @click="onResetAirRate">クリア</button>
                </div>
             </div>
          </div>
@@ -191,12 +203,6 @@
                <div id="watarTemp" class=" my-1">
                   <label>水温 (℃)：
                      <input type="text" name="water_temp" id="" class="" v-model="mWaterTemp" :disabled="dis" :style="border" placeholder="未入力">
-                  </label>
-               </div>
-
-               <div id="view" class=" my-1">
-                  <label>透視度 (m)：
-                     <input type="text" name="view" id="" class="" v-model="mView" :disabled="dis" :style="border" placeholder="未入力">
                   </label>
                </div>
             </div>
@@ -355,7 +361,7 @@
 
                <div v-for="(num, i) of imgNum">
                   <div class="imgGroup">
-                     <select name="is_open" id="" class="imgSelect" v-model="mIsOpen[i]" :disabled="dis" :style="border">
+                     <select name="is_open" id="" class="imgSelect" v-model="mIsOpen[i]" @change="onChgIsOpen(i)" :disabled="dis" :style="border">
                         <option value="0">公開しない</option>
                         <option value="1">公開する</option>
                      </select>
