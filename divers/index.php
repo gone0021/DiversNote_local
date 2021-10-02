@@ -59,8 +59,9 @@ $next_num = $dbItem->getMaxItemNum($user_id);
 
          <div id="contents">
             <div class="inner">
-               <div id="cardBox">
-                  <template v-if="items">
+               <template v-if="items">
+                  <h3>Diving・Log</h3>
+                  <div id="cardBox">
                      <div class="cardItem" v-for="(item, i) in items" @click="onItem(item.id)">
                         <span>No.{{ item.dive_num }}</span>
                         <span>{{ item.title }}</span>
@@ -69,24 +70,24 @@ $next_num = $dbItem->getMaxItemNum($user_id);
                         <div v-if="item.point_name" key="point_name">{{ item.point_name }}</div>
                         <div v-else key="point_name">未入力</div>
                      </div>
-                  </template>
-                  <div v-if="items.length == 0">ログはありません。</div>
-               </div>
-               <!-- cardBox -->
-
+               </template>
+               <div v-if="items.length == 0">ログはありません。</div>
             </div>
-            <!--/.inner-->
+            <!-- cardBox -->
 
          </div>
-         <!--/#contents-->
-         <?php require_once($divers . "/modal.php"); ?>
+         <!--/.inner-->
 
-         <p id="toTop" class="nav-fix-pos-pagetop"><a href="javascript:void(0)">↑</a></p>
-
-         <!-- メニュー開閉ボタン -->
-         <div id="menubar_hdr" class="close"></div>
       </div>
-      <!--/#container-->
+      <!--/#contents-->
+      <?php require_once($divers . "/item-modal.php"); ?>
+
+      <p id="toTop" class="nav-fix-pos-pagetop"><a href="javascript:void(0)">↑</a></p>
+
+      <!-- メニュー開閉ボタン -->
+      <div id="menubar_hdr" class="close"></div>
+   </div>
+   <!--/#container-->
    </div>
    <!-- /#app -->
 
