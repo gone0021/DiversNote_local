@@ -1,7 +1,7 @@
 <?php
 $root = $_SERVER['DOCUMENT_ROOT'];
 $root .= "/data/DiversNote_local";
-require_once($root . "/app/model/ItemModel.php");
+require_once($root . "/app/controllers/ItemController.php");
 
 $user_id = $_GET['user_id'];
 
@@ -10,20 +10,8 @@ $user_id = $_GET['user_id'];
 // echo '</pre>';
 // die;
 
-$dbItem = new ItemModel();
-
-if ((isset($_GET['search']) && !empty($_GET['search'])) && (isset($_GET['val']) && !empty($_GET['val']))) {
-   if ($_GET['search'] == 'all') {
-      // 全ての条件から検索
-      $ret = $dbItem->getSearchItemAll($user_id, null, $_GET['val']);
-   } else {
-      // 特定の条件から検索
-      $ret = $dbItem->getSearchItem($user_id, null,  $_GET['search'], $_GET['val']);
-   }
-} else {
-   // 検索に不備があった場合
-   $ret = $dbItem->getUserItem($user_id);
-}
+$conItem = new ItemController();
+$ret = $conItem->getSchItems($user_id, $_GET['select'], $_GET['val']);
 
 $json = json_encode($ret);
 
