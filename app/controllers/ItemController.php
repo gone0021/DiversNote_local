@@ -97,7 +97,7 @@ class ItemController
       // var_export($req);
       // echo '</pre>';
       // die;
-      
+
       global $dbItem;
 
       // nullの文字列をNULLへ変換
@@ -285,23 +285,47 @@ class ItemController
          }
       }
    }
-   
+
+   /**
+    * 検索でアイテムを取得
+    */
+   public function getSchItems($user_id, $select, $val)
+   {
+      global $dbItem;
+
+      if ((isset($select) && !empty($select)) && (isset($val) && !empty($val))) {
+         if ($select == 'all') {
+            // 全ての条件から検索
+            $ret = $dbItem->getSearchItemAll($user_id, $val);
+         } else {
+            // 特定の条件から検索
+            $ret = $dbItem->getSearchItem($user_id, $select, $val);
+         }
+      } else {
+         // 検索に不備があった場合
+         $ret = $dbItem->getUserItem($user_id);
+      }
+      return $ret;
+   }
+
+
+
    /**
     * 連想配列の重複するidを削除：新しく追加されたものを優先
     */
-    public function reversArrayById($arr)
-    {
-       $tmp = [];
-       $unique = [];
-       foreach ($arr as $val) {
-          if (!in_array($val['id'], $tmp)) {
-             $tmp['id'] = $val['id'];
-             if (in_array($val['is_open'], $val)) {
-                $tmp['is_open'] = $val['is_open'];
-             }
-             $unique[] = $val;
-          }
-       }
-       return $unique;
-    }
+   public function reversArrayById($arr)
+   {
+      $tmp = [];
+      $unique = [];
+      foreach ($arr as $val) {
+         if (!in_array($val['id'], $tmp)) {
+            $tmp['id'] = $val['id'];
+            if (in_array($val['is_open'], $val)) {
+               $tmp['is_open'] = $val['is_open'];
+            }
+            $unique[] = $val;
+         }
+      }
+      return $unique;
+   }
 }
