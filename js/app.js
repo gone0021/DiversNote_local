@@ -85,17 +85,32 @@
          // submitの状態を保存する変数：送信時の判定に使用
          mSub: "",
 
-         // search
-         schSelect: { 'all': '全てから', 'title': 'タイトル', 'dive_date': '日付', 'erea_name': '地域', 'point_name': 'ポイント名', 'shop_name': 'ショップ名', 'buddy_name': 'バディ名', 'instructor_name': 'イントラ名' },
-         // schSelect: ['全て','タイトル', '日付', '地域', 'ポイント名', 'ショップ名', 'バディ名', 'イントラ名'],
-         isSelect: "all",
+         // searchのselect
+         schSelect: { "all": "全てから", "title": "タイトル", "dive_date": "日付", "erea_name": "地域", "point_name": "ポイント名", "shop_name": "ショップ名", "buddy_name": "バディ名", "instructor_name": "イントラ名" },
+         // schSelect: ["全て","タイトル", "日付", "地域", "ポイント名", "ショップ名", "バディ名", "イントラ名"],
+
+         // searchの検索タイプ
+         isSchSelect: "all",
          schType: "all",
+         // searchの入力される検索の値
          isSearch: "",
+
+         // photoのselect
+         phtUser: { "0": "自分の写真", "1": "全員の公開写真" },
+         // phtUser: ["自分の写真", "全員の写真"],
+         phtSelect: { "all": "全てから", "title": "タイトル", "dive_date": "日付", "erea_name": "地域", "point_name": "ポイント名" },
+         // photoの検索タイプ
+         isPhtUser: 0,
+         isPhtSelect: "all",
+         phtType: "all",
+         // photoの入力される検索の値
+         isPhoto: "",
 
          // v-show, v-if
          dispGlay: false,
          dispModal: false,
          dispModalInput: false,
+         dispPhoto: false,
 
          btnNew: false,
          btnUpdate: false,
@@ -114,6 +129,7 @@
          // ajax保存用
          items: [],
          itemById: [],
+         photos: [],
 
          root: "",
 
@@ -222,16 +238,31 @@
             this.dispGlay = true;
             this.dispModalInput = true;
 
+            // inputに下線を入れる
             this.border = "border-bottom : 1px solid #000; border-radius: 0;";
             // this.signeTitleOpen = true;
+
+            // モーダル出現時に背景をスクロールさせない設定：実行
+            $("html,body").css({
+               overflow: "hidden",
+               // padding: "0 8px 0 0"
+            });
          },
          onColse: function () {
             this.resetDisplay();
             this.resetVal();
+            $("html,body").css({
+               overflow: "visible",
+               // padding: "0"
+            });
          },
          onCancel: function () {
             this.resetDisplay();
             this.resetVal();
+            $("html,body").css({
+               overflow: "visible",
+               // padding: "0"
+            });
          },
 
          onEdit: function () {
@@ -558,26 +589,29 @@
             }
          },
 
+         // 検索
          chgSearch: function () {
-            if (this.isSelect === "all") {
+            if (this.isSchSelect === "all") {
                this.schType = "all";
-            } else if (this.isSelect === "dive_date") {
+            } else if (this.isSchSelect === "dive_date") {
                this.schType = "date";
             } else {
                this.schType = "text";
             }
-            console.log(this.isSelect);
-            console.log(this.schType);
+            // console.log(this.isSchSelect);
+            // console.log(this.schType);
          },
 
          onSearch: function () {
-            console.log(this.isSelect);
-            console.log(this.isSearch);
+            // console.log(this.isSchSelect);
+            // console.log(this.isSearch);
+            this.dispPhoto = false;
 
+            this.photos = [];
             axios.get(`../app/api/get_item_search.php`, {
                params: {
                   user_id: this.user_id,
-                  search: this.isSelect,
+                  select: this.isSchSelect,
                   val: this.isSearch,
                },
             }).then(
@@ -591,6 +625,47 @@
             });
             this.resetVal();
          },
+
+         // --- 写真検索 ---
+         chgPhtSelect: function () {
+            if (this.isPhtSelect === "all") {
+               this.phtType = "all";
+            } else if (this.isPhtSelect === "dive_date") {
+               this.phtType = "date";
+            } else {
+               this.phtType = "text";
+            }
+            console.log(this.isPhtSelect);
+            console.log(this.phtType);
+         },
+
+         onPhoto: function () {
+            console.log("photo");
+            // console.log(this.isSchSelect);
+            this.dispPhoto = true;
+            console.log(this.phtUser);
+
+            this.items = [];
+            axios.get(`../app/api/get_photo.php`, {
+               params: {
+                  user_type: this.isPhtUser,
+                  user_id: this.user_id,
+                  select: this.isPhtSelect,
+                  val: this.isPhoto,
+               },
+            }).then(
+               function (res) {
+                  this.photos = res.data;
+                  // console.log(this.items);
+               }.bind(this)
+            ).catch(function (e) {
+               console.log("error");
+               console.error(e);
+            });
+            this.resetVal();
+         },
+
+
 
          // --- method ---
          /**
@@ -625,7 +700,7 @@
             }).then(
                function (res) {
                   this.items = res.data;
-                  console.log(this.items);
+                  // console.log(this.items);
                }.bind(this)
             ).catch(function (e) {
                console.error(e);
@@ -970,7 +1045,7 @@
 
             this.mSuitType = "";
 
-            this.isSelect = "all";
+            this.isSchSelect = "all";
             this.schType = "all";
             this.isSearch = "";
 
