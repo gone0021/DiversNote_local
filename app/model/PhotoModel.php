@@ -28,9 +28,11 @@ class PhotoModel extends BaseModel
       $sql .= ' p.id';
       $sql .= ' ,p.item_id';
       // $sql .= ' ,i.user_id';
-      // $sql .= ' ,i.dive_date';
-      // $sql .= ' ,i.erea_name';
-      // $sql .= ' ,i.point_name';
+      $sql .= ' ,i.title';
+      $sql .= ' ,i.dive_date';
+      $sql .= ' ,i.erea_name';
+      $sql .= ' ,i.point_name';
+
       $sql .= ' ,p.photo_name';
       $sql .= ' ,p.is_open';
       $sql .= ' FROM photos as p';
@@ -89,28 +91,145 @@ class PhotoModel extends BaseModel
     * 対象ユーザーの全ての検索条件のレコードを取得
     * @return array レコードの配列
     */
-   public function getSearchPhotoAll($user_id, $val)
+   public function getAllPhoto($user_id = null)
    {
-      $this->checkId($user_id);
+      if (!empty($user_id)) {
+         // 自分の写真で検索する場合
+         $this->checkId($user_id);
+      }
 
       $sql = "";
       // 登録済みのカラムをセレクトで取得
       $sql = $this->selectPhoto();
-      $sql .= ' WHERE i.deleted_at IS NULL';
-      $sql .= ' AND i.user_id = :user_id';
-      $sql .= ' AND i.erea_name LIKE :erea_name';
-      $sql .= ' order by i.dive_num desc';
+      if (!empty($user_id)) {
+         $sql .= ' WHERE i.user_id = :user_id';
+      } else {
+         $sql .= ' WHERE p.is_open = 1';
+      }
+      $sql .= ' order by i.dive_date desc';
+
+      $stmt = $this->dbh->prepare($sql);
+
+      if (!empty($user_id)) {
+         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+      }
+      $stmt->execute();
+      $ret = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      return $ret;
+   }
+
+
+   // 検索：photo
+   /**
+    * 対象ユーザーの全ての検索条件のレコードを取得
+    * @return array レコードの配列
+    */
+   public function getPhotoAll($val, $user_id = null)
+   {
+      if (!empty($user_id)) {
+         // 自分の写真で検索する場合
+         $this->checkId($user_id);
+      }
+
+      $sql = "";
+      // 登録済みのカラムをセレクトで取得
+      $sql = $this->selectPhoto();
+      if (!empty($user_id)) {
+         // 自分の写真で検索する場合
+         $sql .= ' WHERE i.user_id = :user_id';
+      } else {
+         $sql .= ' WHERE p.is_open = 1';
+      }
+      $sql .= ' AND (';
+      $sql .= ' i.title LIKE :title';
+      $sql .= ' OR i.dive_date LIKE :dive_date';
+      $sql .= ' OR i.erea_name LIKE :erea_name';
+      $sql .= ' OR i.point_name LIKE :point_name';
+      $sql .= ' )';
+      $sql .= ' order by i.dive_date desc';
 
       $likeWord = "%$val%";
 
       $stmt = $this->dbh->prepare($sql);
-      $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+      if (!empty($user_id)) {
+         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+      }
+      $stmt->bindParam(':title', $likeWord, PDO::PARAM_STR);
+      $stmt->bindParam(':dive_date', $likeWord, PDO::PARAM_STR);
       $stmt->bindParam(':erea_name', $likeWord, PDO::PARAM_STR);
+      $stmt->bindParam(':point_name', $likeWord, PDO::PARAM_STR);
 
       $stmt->execute();
       $ret = $stmt->fetchAll(PDO::FETCH_ASSOC);
       return $ret;
    }
+
+
+   /**
+    * 対象ユーザーの特定の検索条件のレコードを取得
+    * @return array レコードの配列
+    */
+   public function getPhotoSelect($select, $val, $user_id = null)
+   {
+      if (!empty($user_id)) {
+         // 自分の写真で検索する場合
+         $this->checkId($user_id);
+      }
+
+      // echo '<pre>';
+      // var_export($select);
+      // echo '</pre>';
+      // die;
+
+      $sql = "";
+      // 登録済みのカラムをセレクトで取得
+      $sql = $this->selectPhoto();
+      if (!empty($user_id)) {
+         // 自分の写真で検索する場合
+         $sql .= ' WHERE i.user_id = :user_id';
+      } else {
+         $sql .= ' WHERE p.is_open = 1';
+      }
+
+      if ($select == 'title') {
+         $sql .= ' AND i.title LIKE :title';
+      }
+      if ($select == 'dive_date') {
+         $sql .= ' AND i.dive_date LIKE :dive_date';
+      }
+      if ($select == 'erea_name') {
+         $sql .= ' AND i.erea_name LIKE :erea_name';
+      }
+      if ($select == 'point_name') {
+         $sql .= ' AND i.point_name LIKE :point_name';
+      }
+      $sql .= ' order by i.dive_date desc';
+
+      $likeWord = "%$val%";
+
+      $stmt = $this->dbh->prepare($sql);
+      if (!empty($user_id)) {
+         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+      }
+      if ($select == 'title') {
+         $stmt->bindParam(':title', $likeWord, PDO::PARAM_STR);
+      }
+      if ($select == 'dive_date') {
+         $stmt->bindParam(':dive_date', $likeWord, PDO::PARAM_STR);
+      }
+      if ($select == 'erea_name') {
+         $stmt->bindParam(':erea_name', $likeWord, PDO::PARAM_STR);
+      }
+      if ($select == 'point_name') {
+         $stmt->bindParam(':point_name', $likeWord, PDO::PARAM_STR);
+      }
+
+      $stmt->execute();
+      $ret = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      return $ret;
+   }
+
+
 
    /**
     * 新規追加
@@ -256,5 +375,4 @@ class PhotoModel extends BaseModel
          return false;
       }
    }
-
 }
