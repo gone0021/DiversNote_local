@@ -289,4 +289,40 @@ class UserModel extends BaseModel
          return false;
       }
    }
+
+   /**
+    * ユーザー名の重複チェック
+    * @param string $name 名前
+    * @param string $msg エラーメッセージを代入
+    * @return boolean
+    */
+   public function isUsedName($name, &$msg): bool
+   {
+      $msg = '';
+      $checkName = $this->getUserByName($name);
+
+      if (!empty($checkName)) {
+         $msg = "このユーザー名は既に使われています";
+         return false;
+      }
+      return true;
+   }
+
+   /**
+    * メールアドレスの重複チェック
+    * @param string $email メールアドレス
+    * @param string $msg エラーメッセージを代入
+    * @return boolean
+    */
+   public function isUsedEmail($email, &$msg)
+   {
+      $msg = '';
+      $checkEmail = $this->getUserByEmail($email);
+
+      if (!empty($checkEmail)) {
+         $msg = "このメールアドレスは既に使われています";
+         return false;
+      }
+      return true;
+   }
 }
