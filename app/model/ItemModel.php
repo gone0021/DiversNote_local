@@ -58,7 +58,7 @@ class ItemModel extends BaseModel
     * レコードを取得するselect文
     * @return string レコードを取得するselect文
     */
-   public function selectItem($args = null)
+   public function selectItem()
    {
       $sql = '';
       $sql .= 'SELECT';
@@ -121,16 +121,33 @@ class ItemModel extends BaseModel
    }
 
    /**
+    * 最大数を設定してレコードを取得：ページング用
+    * @return array レコードの配列
+    */
+   public function getItemNum($page, $cnt)
+   {
+      $sql = '';
+      $sql = $this->selectItem();
+      $sql .= ' WHERE i.deleted_at IS NULL';
+      $sql .= " ORDER BY i.id LIMIT " . (($page - 1) * $cnt) . ", " . $cnt;
+
+      $stmt = $this->dbh->prepare($sql);
+      $stmt->execute();
+      $ret = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+      return $ret;
+   }
+
+   /**
     * 対象ユーザーの全てのレコードを取得
     * @return array レコードの配列
     */
-   public function getUserItem($user_id, $args = null)
+   public function getUserItem($user_id)
    {
       $this->checkId($user_id);
 
       $sql = "";
       // 登録済みのカラムをセレクトで取得
-      $sql = $this->selectItem($args);
+      $sql = $this->selectItem();
       $sql .= ' WHERE i.deleted_at IS NULL';
       $sql .= ' AND i.user_id = :user_id';
       $sql .= ' order by i.dive_num desc';
@@ -148,13 +165,13 @@ class ItemModel extends BaseModel
     * 対象ユーザーの全ての検索条件のレコードを取得
     * @return array レコードの配列
     */
-   public function getSearchItemAll($user_id, $args = null, $val)
+   public function getSearchItemAll($user_id, $val)
    {
       $this->checkId($user_id);
 
       $sql = "";
       // 登録済みのカラムをセレクトで取得
-      $sql = $this->selectItem($args);
+      $sql = $this->selectItem();
       $sql .= ' WHERE i.deleted_at IS NULL';
       $sql .= ' AND i.user_id = :user_id';
 
@@ -191,35 +208,35 @@ class ItemModel extends BaseModel
     * 対象ユーザーの特定の検索条件のレコードを取得
     * @return array レコードの配列
     */
-   public function getSearchItem($user_id, $args = null, $search, $val)
+   public function getSearchItem($user_id, $select, $val)
    {
       $this->checkId($user_id);
 
       $sql = "";
       // 登録済みのカラムをセレクトで取得
-      $sql = $this->selectItem($args);
+      $sql = $this->selectItem();
       $sql .= ' WHERE i.deleted_at IS NULL';
       $sql .= ' AND i.user_id = :user_id';
 
-      if ($search == 'title') {
+      if ($select == 'title') {
          $sql .= ' AND i.title LIKE :title';
       }
-      if ($search == 'dive_date') {
+      if ($select == 'dive_date') {
          $sql .= ' AND i.dive_date LIKE :dive_date';
       }
-      if ($search == 'erea_name') {
+      if ($select == 'erea_name') {
          $sql .= ' AND i.erea_name LIKE :erea_name';
       }
-      if ($search == 'point_name') {
+      if ($select == 'point_name') {
          $sql .= ' AND i.point_name LIKE :point_name';
       }
-      if ($search == 'shop_name') {
+      if ($select == 'shop_name') {
          $sql .= ' AND i.shop_name LIKE :shop_name';
       }
-      if ($search == 'buddy_name') {
+      if ($select == 'buddy_name') {
          $sql .= ' AND i.buddy_name LIKE :buddy_name';
       }
-      if ($search == 'instructor_name') {
+      if ($select == 'instructor_name') {
          $sql .= ' AND i.instructor_name LIKE :instructor_name';
       }
       $sql .= ' order by i.dive_num desc';
@@ -229,25 +246,25 @@ class ItemModel extends BaseModel
       $stmt = $this->dbh->prepare($sql);
       $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 
-      if ($search == 'title') {
+      if ($select == 'title') {
          $stmt->bindParam(':title', $likeWord, PDO::PARAM_STR);
       }
-      if ($search == 'dive_date') {
+      if ($select == 'dive_date') {
          $stmt->bindParam(':dive_date', $likeWord, PDO::PARAM_STR);
       }
-      if ($search == 'erea_name') {
+      if ($select == 'erea_name') {
          $stmt->bindParam(':erea_name', $likeWord, PDO::PARAM_STR);
       }
-      if ($search == 'point_name') {
+      if ($select == 'point_name') {
          $stmt->bindParam(':point_name', $likeWord, PDO::PARAM_STR);
       }
-      if ($search == 'shop_name') {
+      if ($select == 'shop_name') {
          $stmt->bindParam(':shop_name', $likeWord, PDO::PARAM_STR);
       }
-      if ($search == 'buddy_name') {
+      if ($select == 'buddy_name') {
          $stmt->bindParam(':buddy_name', $likeWord, PDO::PARAM_STR);
       }
-      if ($search == 'instructor_name') {
+      if ($select == 'instructor_name') {
          $stmt->bindParam(':instructor_name', $likeWord, PDO::PARAM_STR);
       }
 
@@ -260,13 +277,13 @@ class ItemModel extends BaseModel
     * 対象ユーザーのレコードを取得
     * @return array レコードの配列
     */
-   public function getItemById($user_id, $id, $args = null)
+   public function getItemById($user_id, $id)
    {
       $this->checkId($user_id);
 
       $sql = "";
       // 登録済みのカラムをセレクトで取得
-      $sql = $this->selectItem($args);
+      $sql = $this->selectItem();
       $sql .= ' WHERE i.deleted_at IS NULL ';
       $sql .= ' AND i.id = :id ';
       $sql .= ' AND i.user_id = :user_id ';
@@ -288,6 +305,10 @@ class ItemModel extends BaseModel
     */
    public function insert($data)
    {
+      // echo '<pre>';
+      // var_export($data);
+      // echo '</pre>';
+
       // テーブルの構造でデフォルト値が設定されているカラムをinsert文で指定する必要はありません（特に理由がない限り）。
       $sql = '';
       $sql .= 'INSERT into items (';
@@ -339,6 +360,7 @@ class ItemModel extends BaseModel
       $sql .= ' ,:tank_material';
       $sql .= ' ,:tank_size';
       $sql .= ' ,:end_air';
+      $sql .= ' ,:start_air';
       $sql .= ' ,:air_rate';
       $sql .= ' ,:is_enriche';
       $sql .= ' ,:temp';
