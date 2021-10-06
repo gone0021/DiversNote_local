@@ -8,6 +8,7 @@
       <li class="ddnav">
          <a href="javascript:void(0)" id="navNew" class="" @click="onNew">NEW</a>
       </li>
+
       <li id="navSch" class="">
          <a href="javascript:void(0)" id="" class="">SEARCH</a>
          <ul id="ddSch" class="ddmenu">
