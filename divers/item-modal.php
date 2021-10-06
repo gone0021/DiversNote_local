@@ -49,7 +49,7 @@
 
          <!-- アイテム詳細 -->
          <div class="acdTitleOpen acdOpen">基本情報1</div>
-         <div class="acdOpen">
+         <div class="">
             <div class="mdlGroup">
                <div id="number" class="my-1">
                   <label>No.
@@ -80,7 +80,7 @@
 
          <!-- 最初から表示 -->
          <div class="acdTitleOpen acdOpen">基本情報2</div>
-         <div class="acdOpen">
+         <div class="">
             <div class="mdlGroup">
 
                <div id="shop" class="">
@@ -351,7 +351,7 @@
          <!-- <div class="acdTitle">写真</div>
          <div class="acdItem"> -->
          <div class="acdTitleOpen acdOpen">写真</div>
-         <div class="acdOpen">
+         <div class="">
             <template v-if="isEdit || isNew">
                <div class="imgBtn c my-3">
                   <button type="button" @click="cntUpImg" class="btn mr-3 w100">＋</button>
