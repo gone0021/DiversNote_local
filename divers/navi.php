@@ -5,25 +5,17 @@
       <!-- <a href="./" class="" >HOME</a> -->
          <a href="<?= $url."/divers" ?>/">HOME</a>
       </li>
-      <li class="ddnav">
-         <a href="javascript:void(0)" class="">MY PHOTO</a>
-         <ul class="ddmenu">
-            <li><a href="./">全ての投稿写真</a></li>
-            <li><a href="./">地域ごとの投稿写真</a></li>
-         </ul>
-      </li>
-      <li class="ddnav">
-         <a href="javascript:void(0)" class="">OTHER PHOTO</a>
-         <ul class="ddmenu">
-            <li><a href="./">全ての投稿写真</a></li>
-            <li><a href="./">地域ごとの投稿写真</a></li>
-         </ul>
-      </li>
+
       <li class="ddnav">
       <a href="javascript:void(0)" class="">USER</a>
          <ul class="ddmenu">
             <li><a href="<?= $url."/divers" ?>/user">会員情報</a></li>
             <li><a href="<?= $url."/divers" ?>/logout.php">ログアウト</a></li>
+         </ul>
+      </li>
+      <li class="ddnav">
+      <a href="javascript:void(0)" class="">OTHERE</a>
+         <ul class="ddmenu">
          </ul>
       </li>
    </ul>
@@ -37,24 +29,15 @@
          <a href="<?= $url . "/divers" ?>/">HOME</a>
       </li>
 
-      <li id="menubar_hdr2" class="close">MY PHOTO
-         <ul class="menubar-s2">
-         <li><a href="./">全ての投稿写真</a></li>
-            <li><a href="./">地域ごとの投稿写真</a></li>
-         </ul>
-      </li>
-
-      <li id="menubar_hdr2" class="close">OTHER PHOTO
-         <ul class="menubar-s2">
-         <li><a href="./">全ての投稿写真</a></li>
-            <li><a href="./">地域ごとの投稿写真</a></li>
-         </ul>
-      </li>
-
       <li id="menubar_hdr2" class="close">USER
          <ul class="menubar-s2">
          <li><a href="<?= $url . "/divers" ?>/user">会員情報</a></li>
             <li><a href="<?= $url . "/divers" ?>/logout.php">ログアウト</a></li>
+         </ul>
+      </li>
+
+      <li id="menubar_hdr2" class="close">OTHERE
+         <ul class="menubar-s2">
          </ul>
       </li>
    </ul>
