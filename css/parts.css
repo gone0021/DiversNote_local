@@ -11,8 +11,8 @@
 }
 
 #contents p.error {
-   color: red;
-   padding: 5px 0;
+  color: red;
+  padding: 5px 0;
 }
 
 .btn {
@@ -33,19 +33,30 @@
   box-shadow: 5px 5px 5px #a1a3a6;
 }
 .btn:hover {
-  border: 1px solid #333;
   background: #dd6b3d;
+  border: 1px solid #333;
   /* background: #5876a3; */
   color: #fff;
   box-shadow: none;
   box-shadow: 2px 2px 5px #a1a3a6;
 }
+.btn:disabled:hover {
+  background: #5876a3;
+  border: 1px solid #5876a3;
+  box-shadow: 5px 5px 5px #a1a3a6;
+}
 
-.btn_big {
+.btn-big {
   padding: 10px 30px;
 }
-.btn-sch{
-   box-shadow: none;
+.btn-s {
+  font-size: 90%;
+}
+.btn-sch {
+  box-shadow: none;
+}
+.btn-disa {
+  box-shadow: none;
 }
 
 .btn:focus,
@@ -57,6 +68,28 @@
 .btn.disabled,
 .btn:disabled {
   opacity: 0.65;
+}
+
+.btn-x {
+  display: inline-block;
+  cursor: pointer;
+  -webkit-appearance: none;
+
+  font-size: 100%;
+  font-weight: bold;
+  color: #fff;
+  background: #5876a3;
+
+  width: 36px;
+  border: 1px solid #000;
+
+  text-decoration: none;
+  /* border-radius: 100%; */
+  transition: 0.3s;
+  margin-left: auto;
+}
+.btn-x:hover {
+  background: #dd6b3d;
 }
 
 /* edit app.css */
@@ -133,12 +166,12 @@ input[type="time"]:hover {
 }
 
 select {
-   /* -webkit-appearance: none; */
-   height: 36px;
-   outline: none;
-   padding-left: 5px;
-   border: 1px solid #333;
-   border-radius: 5px;
+  /* -webkit-appearance: none; */
+  height: 36px;
+  outline: none;
+  padding-left: 5px;
+  border: 1px solid #333;
+  border-radius: 5px;
 }
 
 #menubar.auth ul li {
@@ -146,6 +179,13 @@ select {
   /*5個なので100÷5=20*/
   width: 33%;
   font-size: 20px;
+}
+
+.photo {
+  max-width: 200px;
+  /* max-height: 300px; */
+  vertical-align: middle;
+  margin: 10px 5px;
 }
 
 /* ここからcssの上書き */

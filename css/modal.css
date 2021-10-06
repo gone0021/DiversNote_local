@@ -85,11 +85,11 @@
 }
 
 .mdlText {
-   padding: 0 15px;
-   width: auto;
-   /* width: calc(100% - 50px); */
-   margin: 10px 30px;
-   border-bottom: dotted 1px;
+  padding: 0 15px;
+  width: auto;
+  /* width: calc(100% - 50px); */
+  margin: 10px 30px;
+  border-bottom: dotted 1px;
 }
 
 .imgGroup,
@@ -98,17 +98,17 @@
   margin: 5px;
 }
 .imgSelect {
-   margin: 10px 20px;
+  margin: 10px 20px;
 }
 .imgInput {
-   margin: 10px 20px;
+  margin: 10px 20px;
 }
 .prevImg {
-   width: 200px;
-   /* height: 150px; */
+  width: 200px;
+  /* height: 150px; */
 }
 .delImgBtn {
-   margin: 0 20px;
+  margin: 0 20px;
 }
 
 #canvas {
@@ -129,7 +129,8 @@
   border: none;
 }
 
-.mdlTitle input[type="text"] {
+.mdlTitle input[type="text"],
+.mdlTitle input[type="search"] {
   width: 380px;
 }
 
@@ -154,12 +155,14 @@
   background: none;
 }
 
-.mdlGroup input[type="text"] {
+.mdlGroup input[type="text"],
+.mdlGroup input[type="search"] {
   width: 180px;
   border: none;
   background: none;
 }
-.mdlGroup input[type="text"].mMap {
+.mdlGroup input[type="text"].mMap,
+.mdlGroup input[type="search"].mMap {
   width: 500px;
 }
 
@@ -243,12 +246,6 @@ textarea.memoErea {
   transition: 0.3s;
 }
 
-.photo {
-  max-width: 200px;
-  /* max-height: 300px; */
-  vertical-align: middle;
-  margin: 10px 5px;
-}
 
 /* タブレット */
 @media screen and (max-width: 840px) {
@@ -268,7 +265,8 @@ textarea.memoErea {
     height: 100px;
   }
 
-  .mdlTitle input[type="text"] {
+  .mdlTitle input[type="text"],
+  .mdlTitle input[type="search"] {
     width: 200px;
   }
 }
@@ -281,7 +279,8 @@ textarea.memoErea {
 
 /* スマホ */
 @media screen and (max-width: 480px) {
-  .mdlTitle input[type="text"] {
+  .mdlTitle input[type="text"],
+  .mdlTitle input[type="search"] {
     width: 100px;
   }
   #mdlTop {

@@ -9,7 +9,7 @@
   /* transition: flex 300ms ease-out; */
   cursor: pointer;
 
-  /* width: 240px; */
+  max-width: 240px;
   height: auto;
   min-height: 60px;
 
@@ -35,10 +35,10 @@
   width: 100vw;
 }
 /* メニュー１個あたりの設定 */
-/* 5個なので100÷4=25 */
+/* 5個なので100÷3=33.3 */
 #menubar ul li {
   float: left;
-  width: 25%;
+  width: 33.3%;
   font-size: 20px;
 }
 /* 5個なので100÷6=16.6 */
@@ -76,7 +76,8 @@
 
 /* アコーディオン */
 .acdTitle,
-.acdTitleOpen {
+.acdTitleOpen,
+.editPass {
   display: grid;
   grid-template-columns: auto;
   text-align: center;
@@ -89,16 +90,23 @@
   background: #fff;
 }
 
+.acdTitle:hover,
+.acdTitleOpen:hover,
+.editPass:hover {
+  background: #ffe6c8;
+  color: #000;
+}
+
 /* 十字線 */
 .acdTitle::before,
-.acdTitleOpen::before {
+.acdTitleOpen::before,
+.editPass::before {
   z-index: 0;
   content: "";
   position: absolute;
   margin-top: 12px;
   right: 40px;
 
-  /*縦線*/
   width: 15px;
   height: 2px;
   transform: rotate(90deg);
@@ -106,26 +114,34 @@
   transition: all 0.3s ease-in-out;
 }
 .acdTitle:after,
-.acdTitleOpen:after {
+.acdTitleOpen:after,
+.editPass:after {
   z-index: 1;
   content: "";
   position: absolute;
   margin-top: 12px;
   right: 40px;
 
-  /*横線*/
   width: 15px;
   height: 2px;
   background: #000;
   transition: all 0.2s ease-in-out;
 }
+.editPass::before {
+   right: 60px;
+}
+.editPass:after {
+   right: 60px;
+}
 
 .acdTitle.acdOpen::before,
-.acdTitleOpen.acdOpen::before {
+.acdTitleOpen.acdOpen::before,
+.editPass.acdOpen::before {
   transform: rotate(180deg);
 }
 .acdTitle.acdOpen::after,
-.acdTitleOpen.acdOpen::after {
+.acdTitleOpen.acdOpen::after,
+.editPass.acdOpen::after {
   opacity: 0;
 }
 
@@ -135,6 +151,8 @@
 
 .acdOpen {
   display: block;
+  background: #ffe6c8;
+  color: #000;
 }
 
 .acdItem {
@@ -150,21 +168,26 @@
 
 /* タブレット */
 @media screen and (max-width: 800px) {
-   .clsSearch {
-      padding: 10px 20px;
-   }
+  .clsSearch {
+    padding: 10px 20px;
+  }
+
+  .cardItem {
+    max-width: none;
+  }
 }
 
 /* スマホ */
 @media screen and (max-width: 480px) {
-  #idSearch input[type="text"] {
+  .isSearch input[type="text"],
+  .isSearch input[type="search"] {
     width: auto;
   }
-
 }
 
-@media screen and (max-width: 380px) {
-   #idSearch input[type="text"] {
-      /* width: 240px; */
-    }
+@media screen and (max-width: 382px) {
+  .isSearch input[type="text"],
+  .isSearch input[type="search"] {
+    width: 200px;
+  }
 }
