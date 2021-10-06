@@ -3,7 +3,8 @@ $root = $_SERVER['DOCUMENT_ROOT'];
 $root .= "/data/DiversNote_local";
 require_once($root . "/app/util/SessionUtil.php");
 require_once($root . "/app/util/CommonUtil.php");
-require_once($root . "/app/controllers/ItemController.php");
+require_once($root . "/app/model/ItemModel.php");
+require_once($root . "/app/model/PhotoModel.php");
 
 $divers = $root . '/divers';
 
@@ -25,27 +26,12 @@ if (empty($_SESSION['user'])) {
    $user = $_SESSION['user'];
 }
 
-// 検索キーワード
-if (isset($_SESSION['search'])) {
-   $search = $_SESSION['search'];
-} else {
-   $search = '';
-}
+$token = bin2hex(openssl_random_pseudo_bytes(108));
+$_SESSION['token'] = $token;
 
 $user_id = $_SESSION['user']['id'];
 // echo $user_id;
 
-$conItem = new ItemController();
-$dbItem = new ItemModel();
-$items = $dbItem->getUserItem($user_id);
-$next_num = $dbItem->getMaxItemNum($user_id);
-
-// echo '<pre>';
-// var_export($items);
-// echo '</pre>';
-
-// var_dump($next_num);
-// var_dump($_SESSION['user']);
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +45,7 @@ $next_num = $dbItem->getMaxItemNum($user_id);
 
          <div id="contents">
             <div class="inner">
-               <template v-if="items">
+               <template v-if="!dispPhoto">
                   <h3>Diving・Log</h3>
                   <div id="cardBox">
                      <div class="cardItem" v-for="(item, i) in items" @click="onItem(item.id)">
@@ -71,7 +57,23 @@ $next_num = $dbItem->getMaxItemNum($user_id);
                         <div v-else key="point_name">未入力</div>
                      </div>
                </template>
-               <div v-if="items.length == 0">ログはありません。</div>
+
+               <template v-if="dispPhoto">
+                  <h3>Photo</h3>
+                  <div id="cardBox">
+                     <div class="cardItem" v-for="(photo, i) in photos" @click="onItem(item.id)">
+                        <p>
+                           <a :href="url + '/img/' + photo.photo_name" target=”_blank”><img class="" :src="'./img/' + photo.photo_name"></a>
+                        </p>
+                        <span>{{ photo.title }}</span>
+                        <span>{{ photo.erea_name }}</span>
+                        <span v-if="photo.point_name" key="point_na me">{{ photo.point_name }}</span>
+                        <span v-else key="point_name">未入力</span>
+                        <span>{{ photo.dive_date }}</span>
+                     </div>
+               </template>
+               <div v-if="items.length == 0 && !dispPhoto">ログはありません。</div>
+               <div v-if="photos.length == 0 && dispPhoto">写真はありません。</div>
             </div>
             <!-- cardBox -->
 
