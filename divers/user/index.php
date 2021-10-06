@@ -52,7 +52,7 @@ if (!empty($_SESSION['post']['birthday'])) {
 }
 
 // var_dump($root);
-// var_dump($_SESSION['post']);
+// var_dump($_SESSION);
 
 
 ?>
@@ -129,10 +129,12 @@ if (!empty($_SESSION['post']['birthday'])) {
                      </div>
 
 
-                     <div class="acdTitle mb-3">
-                        <span class="">
-                           パスワードを変更する場合
-                        </span>
+                     <!-- バリデーション -->
+                     <?php if (isset($_SESSION['msg']['pass2'])) : ?>
+                        <p class="error c mt-4">新しいパスワード：<?= $_SESSION['msg']['pass2'] ?></p>
+                     <?php endif ?>
+                     <div class="editPass mb-3">
+                        パスワードを変更する場合
                      </div>
                      <div class="acdItem">
                         <!-- ※新しいパスワード -->
@@ -148,10 +150,7 @@ if (!empty($_SESSION['post']['birthday'])) {
 
                         <!-- ※確認用パスワード（送信対象） -->
                         <div class="form-group col-6 mx-auto">
-                           <!-- バリデーション -->
-                           <?php if (isset($_SESSION['msg']['pass2'])) : ?>
-                              <p class="error"><?= $_SESSION['msg']['pass2'] ?></p>
-                           <?php endif ?>
+                           <!-- バリデーション：上部に移動 -->
                            <!-- 入力フォーム -->
                            <label for="pass2">パスワード（確認用）</label>
                            <input type="password" name="pass2" id="pass2" class="form-control new_pass" placeholder="確認用" autocomplete="off" disabled>
@@ -160,10 +159,10 @@ if (!empty($_SESSION['post']['birthday'])) {
 
                      <!-- ※ボタン -->
                      <div class="c mt-4">
-                        <input type="submit" value="更新" class="btn mr-3" @click="onRegCheck()">
+                        <input type="submit" value="確認" class="btn mr-3" @click="onRegCheck()">
                         <input type="reset" value="リセット" class="btn mr-3">
                         <!-- <a href="<?= $url . "/divers" ?>/" class="btn">戻る</a> -->
-                        <button type="bottun" class="btn" onclick="history.back()">戻る</button>
+                        <a href="../" class="btn">戻る</a>
                      </div>
 
                   </form>
@@ -180,8 +179,8 @@ if (!empty($_SESSION['post']['birthday'])) {
       <!-- /#container -->
       <!--メニュー開閉ボタン-->
       <div id="menubar_hdr" class="close"></div>
-
-
+      
+      <?php require_once("../../unsession.php"); ?>
    </div>
    <!-- /#app -->
 </body>
