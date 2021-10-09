@@ -39,6 +39,7 @@
    <script src="<?= $url ?>/js/ddmenu.js" defer></script>
    <script src="<?= $url ?>/js/openclose.js" defer></script>
    <script src="<?= $url ?>/js/divers.js" defer></script>
+   <script src="<?= $url ?>/js/weight.js" defer></script>
    <!-- <script src="<?= $url ?>/js/style.js" defer></script> -->
 
    <!--[if lt IE 9]>

@@ -80,9 +80,12 @@
             <li><a href="<?= $url . "/divers" ?>/logout.php">ログアウト</a></li>
          </ul>
       </li>
+
       <li class="ddnav">
          <a href="javascript:void(0)" class="">OTHER</a>
          <ul class="ddmenu">
+            <li><a href="<?= $url . "/divers" ?>/weight">適正ウエイト</a></li>
+            <li><a href="<?= $url . "/divers" ?>/list">持ち物リスト</a></li>
          </ul>
       </li>
    </ul>
@@ -186,6 +189,8 @@
 
       <li id="menubar_hdr2" class="close">OTHERE
          <ul class="menubar-s2">
+            <li><a href="<?= $url . "/divers" ?>/weight">適正ウエイト</a></li>
+            <li><a href="<?= $url . "/divers" ?>/list">持ち物リスト</a></li>
          </ul>
       </li>
    </ul>
