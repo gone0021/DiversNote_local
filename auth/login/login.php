@@ -10,12 +10,8 @@ require_once($root . "/app/model/UserModel.php");
 // セッションスタート
 SessionUtil::sessionStart();
 
-// フォームで送信されてきたトークンが正しいかどうか確認（CSRF対策）
-if (!isset($_SESSION['token']) || $_SESSION['token'] !== $_POST['token']) {
-   $_SESSION['msg']['err'] = "不正な処理が行われました。";
-   header('Location: ./');
-   exit;
-}
+// CSRF対策）
+CommonUtil::csrf($_SESSION['token'], $_POST['token']);
 
 // サニタイズ
 $post = CommonUtil::sanitaize($_POST);
@@ -45,7 +41,7 @@ try {
       // --- ユーザー情報が取得できたとき ---
       // ユーザー情報をSESSIONに保存
       // session_destroy();
-   
+
       $_SESSION["user"] = $user;
       $dbUser->updateUserLastLogin($user['id']);
 
@@ -59,7 +55,7 @@ try {
 
       $_SESSION["token"] = "";
       unset($_SESSION["token"]);
-      
+
       // var_dump($_SESSION);die;
 
       // itemsページへリダイレクト

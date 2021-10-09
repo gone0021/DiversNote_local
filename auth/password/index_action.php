@@ -18,12 +18,8 @@ $url = 'http://' . $rootUrl;
 // セッションスタート
 SessionUtil::sessionStart();
 
-// フォームで送信されてきたトークンが正しいかどうか確認（CSRF対策）
-if (!isset($_SESSION['token']) || $_SESSION['token'] !== $_POST['token']) {
-   $_SESSION['msg']['err'] = "不正な処理が行われました。";
-   header('Location: ./');
-   exit;
-}
+// CSRF対策）
+CommonUtil::csrf($_SESSION['token'], $_POST['token']);
 
 // サニタイズ
 $post = CommonUtil::sanitaize($_POST);

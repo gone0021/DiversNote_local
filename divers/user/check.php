@@ -16,12 +16,9 @@ $url = 'http://' . $rootUrl;
 // セッションスタート
 SessionUtil::sessionStart();
 
-// フォームで送信されてきたトークンが正しいかどうか確認（CSRF対策）
-if (!isset($_SESSION['token']) || $_SESSION['token'] !== $_POST['token']) {
-   $_SESSION['msg']['err'] = "不正な処理が行われました。";
-   header('Location: ./');
-   exit;
-}
+// CSRF対策）
+CommonUtil::csrf($_SESSION['token'], $_POST['token']);
+
 // サニタイズ
 $post = CommonUtil::sanitaize($_POST);
 
@@ -37,12 +34,9 @@ $dbUser = new UserModel();
 // idからユーザーを取得
 $user = $dbUser->getUserById($userId);
 
-unset($_SESSION['msg']);
-
 // echo '<pre>';
 // var_export($post);
 // echo '</pre>';
-
 
 // バリデーションチェック
 $validityCheck = array();
@@ -57,6 +51,14 @@ if ($post['user_name'] !== $user['user_name']) {
       $_SESSION['msg']['user_name']
    );
 }
+// ユーザー名の重複
+if ($user['user_name'] != $post['user_name']) {
+   $validityCheck[] = $dbUser->isUsedName(
+      $post['user_name'],
+      $_SESSION['msg']['user_name']
+   );
+}
+
 // メールアドレス
 if ($post['email'] !== $user['email']) {
    $validityCheck[] = validationUtil::isValidEmail(
@@ -64,6 +66,14 @@ if ($post['email'] !== $user['email']) {
       $_SESSION['msg']['email']
    );
 }
+// メールアドレスの重複
+if ($user['email'] != $post['email']) {
+   $validityCheck[] = $dbUser->isUsedEmail(
+      $post['email'],
+      $_SESSION['msg']['email']
+   );
+}
+
 // 誕生日
 if ($post['birthday'] !== $user['birthday']) {
    $validityCheck[] = validationUtil::isBirthday(
@@ -77,9 +87,7 @@ $validityCheck[] = validationUtil::isValidPass(
    $post['pass'],
    $_SESSION['msg']['pass']
 );
-
 $post_pass = $post['pass'];
-
 
 // 新しいパスワード
 // ダブルチェック
