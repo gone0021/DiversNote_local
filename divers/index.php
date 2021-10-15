@@ -26,11 +26,27 @@ if (empty($_SESSION['user'])) {
    $user = $_SESSION['user'];
 }
 
-$token = bin2hex(openssl_random_pseudo_bytes(108));
+$token = bin2hex(openssl_random_pseudo_bytes(32));
 $_SESSION['token'] = $token;
 
-$user_id = $_SESSION['user']['id'];
-// echo $user_id;
+$toJs = [
+   'user_id' => $user['id'],
+   'price_plan' => $user['price_plan'],
+   'token' => $token,
+];
+
+// $conItem = new ItemController();
+$dbItem = new ItemModel();
+$dbPhoto = new PhotoModel();
+$items = $dbItem->getUserItem($user['id']);
+$next_num = $dbItem->getMaxItemNum($user['id']);
+
+// echo '<pre>';
+// var_export($_SESSION);
+// echo '</pre>';
+
+// var_dump($next_num);
+// var_dump($_SESSION['user']);
 
 ?>
 
@@ -45,7 +61,7 @@ $user_id = $_SESSION['user']['id'];
 
          <div id="contents">
             <div class="inner">
-               <template v-if="!dispPhoto">
+               <template v-if="!dispPhoto" id="imtes">
                   <h3>Diving・Log</h3>
                   <div id="cardBox">
                      <div class="cardItem" v-for="(item, i) in items" @click="onItem(item.id)">
@@ -58,7 +74,7 @@ $user_id = $_SESSION['user']['id'];
                      </div>
                </template>
 
-               <template v-if="dispPhoto">
+               <template v-if="dispPhoto" id="photos">
                   <h3>Photo</h3>
                   <div id="cardBox">
                      <div class="cardItem" v-for="(photo, i) in photos" @click="onItem(item.id)">
@@ -72,35 +88,33 @@ $user_id = $_SESSION['user']['id'];
                         <span>{{ photo.dive_date }}</span>
                      </div>
                </template>
+
                <div v-if="items.length == 0 && !dispPhoto">ログはありません。</div>
                <div v-if="photos.length == 0 && dispPhoto">写真はありません。</div>
+
             </div>
-            <!-- cardBox -->
+            <!--/.inner-->
 
          </div>
-         <!--/.inner-->
+         <!--/#contents-->
+         <?php require_once($divers . "/item-modal.php"); ?>
+
+         <p id="toTop" class="nav-fix-pos-pagetop"><a href="javascript:void(0)">↑</a></p>
+
+         <!-- メニュー開閉ボタン -->
+         <div id="menubar_hdr" class="close"></div>
 
       </div>
-      <!--/#contents-->
-      <?php require_once($divers . "/item-modal.php"); ?>
+      <!--/#container-->
+      <?php require_once("../unsession.php"); ?>
 
-      <p id="toTop" class="nav-fix-pos-pagetop"><a href="javascript:void(0)">↑</a></p>
-
-      <!-- メニュー開閉ボタン -->
-      <div id="menubar_hdr" class="close"></div>
-   </div>
-   <!--/#container-->
    </div>
    <!-- /#app -->
+   </div>
+   </div>
 
    <script>
-      let user_id = <?= $user_id ?>
-   </script>
-   <script>
-      let user_name = <?= json_encode($_SESSION['user']['user_name']) ?>
-   </script>
-   <script>
-      let price_plan = <?= $_SESSION['user']['price_plan'] ?>
+      let php = <?= json_encode($toJs); ?>
    </script>
 
 </body>
