@@ -5,9 +5,10 @@
       el: '#app',
       data: {
          // phpからの受け取り：メモ代わり
-         user_id: user_id,
-         user_name: user_name,
-         price_plan: price_plan,
+         user_id: php.user_id,
+         price_plan: php.plice_plan,
+         token: php.token,
+
          next_num: "",
          url: location.pathname,
 
@@ -150,19 +151,15 @@
 
       created: function () {
          console.log('--- created app.js ---');
-         // console.log(this.url);
-         // console.log(next_num);
-         // console.log(this.arrEntryType);
+         // console.log(this.user_id);
          this.getItem();
          this.getNextNum();
 
          this.setImgNummax();
-         // console.log(this.imgNumMax);
       },
       mouted: function () {
          console.log('--- mounted app.js ---');
          // console.log(token);
-         // console.log(root);
       },
       updated: function () {
          console.log('--- updated app.js ---');
@@ -282,6 +279,7 @@
                e.preventDefault()
             } else {
                const params = new URLSearchParams();
+               params.append("token", this.token);
                params.append("id", Number(this.mId));
                params.append("old_signe", this.mOldSigne);
 
@@ -1094,6 +1092,7 @@
           * パラメータをセット
           */
          setParam(params) {
+            params.append("token", this.token);
             params.append("id", this.mId)
             params.append("user_id", this.user_id)
             params.append("title", this.mTitle)
