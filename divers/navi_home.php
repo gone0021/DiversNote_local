@@ -130,6 +130,7 @@
                         <input type="date" name="search" id="" class="schInput mr-3" v-model="isSearch" placeholder="">
                      </template>
                   </div>
+
                   <div>
                      <input type="submit" id="schBtn" class="btn btn-sch onClose" value="検索">
                   </div>
@@ -137,6 +138,7 @@
                </form>
             </li>
          </ul>
+      </li>
 
       <li id="menubar_hdr2" class="close">PHOTO
          <ul id="ddSch" class="menubar-s2">
@@ -171,6 +173,7 @@
                         <input type="date" name="search" id="" class="schInput mr-3" v-model="isPhoto" placeholder="">
                      </template>
                   </div>
+
                   <div>
                      <input type="submit" id="schBtn" class="btn btn-sch onClose" value="検索">
                   </div>
