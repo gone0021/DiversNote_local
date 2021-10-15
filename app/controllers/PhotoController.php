@@ -42,13 +42,12 @@ class PhotoController extends BaseController
 
    public function index($req = null)
    {
-      global $conItem;
       global $url;
       global $divers_dir;
 
       $user = CommonUtil::checkVal($_SESSION['user']);
 
-      $ret = $conItem->getSchPhoto($req['user_id'], $req['user_type'], $req['select'], $req['val']);
+      $ret = $this->getSchPhoto($req['user_id'], $req['user_type'], $req['select'], $req['val']);
 
 
       $param = [
