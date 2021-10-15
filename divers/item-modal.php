@@ -1,5 +1,5 @@
 <transition name="fadeGlay">
-   <div id="glayLayer" v-show="dispGlay" @click="onGlay" transition="fade" @keyup.esc="onEsc()"></div>
+   <div id="glayLayer" v-show="dispGlay" @click="onGlay" transition="fade"></div>
 </transition>
 
 <transition name="fade">
@@ -362,8 +362,8 @@
                <div v-for="(num, i) of imgNum">
                   <div class="imgGroup">
                      <select name="is_open" id="" class="imgSelect" v-model="mIsOpen[i]" @change="onChgIsOpen(i)" :disabled="dis" :style="border">
-                        <option value="0">公開しない</option>
-                        <option value="1">公開する</option>
+                        <option value="0">公開する</option>
+                        <option value="1">公開しない</option>
                      </select>
                      <input ref="upfile" type="file" accept="image/*" id="" class="imgInput" @change="onFileChange($event,i)" multiple="multiple" required>
 
@@ -381,8 +381,8 @@
                <div class="mdlGroup">
                   <div class="" v-for="(img, i) of mOldImg">
                      <select name="is_open" id="" class="" v-model="img.is_open" :disabled="dis" :style="border" @change="onEditImage(img.id, img.is_open)">
-                        <option value="0">公開しない</option>
-                        <option value="1">公開する</option>
+                        <option value="0">公開する</option>
+                        <option value="1">公開しない</option>
                      </select>
                      <div>
                         <a :href="url + '/img/' + img.photo_name" target=”_blank”><img class="photo" :src="'./img/' + img.photo_name"></a>
