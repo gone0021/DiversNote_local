@@ -7,7 +7,7 @@
       <input type="hidden" class="ws" name="token" value="<?= $token ?>">
 
       <div class="form-group col-6 mx-auto mb-3">
-         <input type="email" name="email" id="email" class="form-control" value="" placeholder="メールアドレス" autocomplete="off">
+         <input type="search" name="email" id="email" class="form-control" value="" placeholder="メールアドレス" autocomplete="off">
       </div>
 
       <div class="form-group col-6 mx-auto mb-4">
@@ -22,7 +22,7 @@
 
    <p class="c">※ パスワードを忘れた方は<a href="./auth/password" class="url">こちら</a>から再設定してください。</p>
    <div class="c">
-      <a class="btn btn_big" href="./auth/register/">登録はこちら</a>
+      <a class="btn btn-big" href="./auth/register/">登録はこちら</a>
    </div>
 
 </section>
