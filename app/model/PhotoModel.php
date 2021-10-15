@@ -104,7 +104,7 @@ class PhotoModel extends BaseModel
       if (!empty($user_id)) {
          $sql .= ' WHERE i.user_id = :user_id';
       } else {
-         $sql .= ' WHERE p.is_open = 1';
+         $sql .= ' WHERE p.is_open = 0';
       }
       $sql .= ' order by i.dive_date desc';
 
@@ -138,7 +138,7 @@ class PhotoModel extends BaseModel
          // 自分の写真で検索する場合
          $sql .= ' WHERE i.user_id = :user_id';
       } else {
-         $sql .= ' WHERE p.is_open = 1';
+         $sql .= ' WHERE p.is_open = 0';
       }
       $sql .= ' AND (';
       $sql .= ' i.title LIKE :title';
@@ -188,7 +188,7 @@ class PhotoModel extends BaseModel
          // 自分の写真で検索する場合
          $sql .= ' WHERE i.user_id = :user_id';
       } else {
-         $sql .= ' WHERE p.is_open = 1';
+         $sql .= ' WHERE p.is_open = 0';
       }
 
       if ($select == 'title') {
