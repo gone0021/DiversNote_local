@@ -74,7 +74,7 @@ if (!empty($_SESSION['post']['birthday'])) {
                         <?php endif ?>
                         <!-- 入力フォーム -->
                         <label for="name">ユーザー名</label>
-                        <input type="text" name="name" value="<?= $name ?>" id="name" class="form-control" placeholder="ユーザー名" autocomplete="off" required>
+                        <input type="search" name="name" value="<?= $name ?>" id="name" class="form-control" placeholder="ユーザー名" autocomplete="off" required>
                      </div>
 
                      <!-- メールアドレス -->
@@ -85,7 +85,7 @@ if (!empty($_SESSION['post']['birthday'])) {
                         <?php endif ?>
                         <!-- 入力フォーム -->
                         <label for="email">メールアドレス</label>
-                        <input type="text" name="email" value="<?= $email ?>" id="email" class="form-control" placeholder="メールアドレス" autocomplete="off" required>
+                        <input type="search" name="email" value="<?= $email ?>" id="email" class="form-control" placeholder="メールアドレス" autocomplete="off" required>
                      </div>
 
                      <!-- 誕生日 -->

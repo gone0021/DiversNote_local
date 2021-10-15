@@ -64,7 +64,7 @@ if (!empty($_SESSION['post']['email'])) {
                      <input type="hidden" class="ws" name="token" value="<?= $token ?>">
 
                      <div class="form-group col-6 mx-auto mb-3">
-                        <input type="email" name="email" id="email" class="form-control" value="<?= $email ?>" placeholder="メールアドレス" autocomplete="off">
+                        <input type="search" name="email" id="email" class="form-control" value="<?= $email ?>" placeholder="メールアドレス" autocomplete="off">
                      </div>
 
                      <div class="form-group col-6 mx-auto mb-4">
