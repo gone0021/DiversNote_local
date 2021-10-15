@@ -1,6 +1,8 @@
 <?php
 $root = $_SERVER['DOCUMENT_ROOT'];
 $root .= "/data/DiversNote_local";
+require_once($root . "/app/util/SessionUtil.php");
+require_once($root . "/app/util/CommonUtil.php");
 require_once($root . "/app/model/ItemModel.php");
 require_once($root . "/app/model/PhotoModel.php");
 
@@ -70,6 +72,10 @@ class ItemController
       // echo '</pre>';
       // die;
 
+      SessionUtil::sessionStart();
+      // CSRF対策）
+      CommonUtil::csrf($_SESSION['token'], $req['token']);
+
       global $dbItem;
 
       // nullの文字列をNULLへ変換
@@ -97,6 +103,10 @@ class ItemController
       // var_export($req);
       // echo '</pre>';
       // die;
+
+      SessionUtil::sessionStart();
+      // CSRF対策）
+      CommonUtil::csrf($_SESSION['token'], $req['token']);
 
       global $dbItem;
 
