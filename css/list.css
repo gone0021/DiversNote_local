@@ -1,0 +1,142 @@
+:root {
+  --mw: 720px;
+}
+
+tr {
+   border: #000 1px;
+}
+
+/* input */
+.mdlTitle input {
+  width: auto;
+  /* min-width: 480px; */
+  max-width: 600px;
+  background: none;
+  border: none;
+}
+
+.mdlTitle input:hover {
+  background: none;
+  border: none;
+}
+
+.mdlTitle input[type="text"],
+.mdlTitle input[type="search"] {
+  width: 380px;
+}
+
+#mShop input {
+  width: auto;
+  min-width: 100px;
+  max-width: 480px;
+}
+
+#mPoit input {
+  width: auto;
+  min-width: 100px;
+  max-width: 480px;
+}
+
+.listTable input {
+  border: none;
+  background: none;
+  /* border-bottom: 1px solid #000;
+  border-radius: 0; */
+}
+.listTable input:hover {
+  border: none;
+  background: none;
+  border-bottom: 1px solid #000;
+  border-radius: 0;
+}
+
+.mdlGroup input[type="text"],
+.mdlGroup input[type="search"] {
+  width: 180px;
+  border: none;
+  background: none;
+}
+.mdlGroup input[type="text"].mMap,
+.mdlGroup input[type="search"].mMap {
+  width: 500px;
+}
+
+.mdlBtn {
+  padding-top: 5px;
+  /* padding: 5px 15px 0; */
+}
+
+.btn {
+  z-index: 10;
+  display: inline-block;
+  cursor: pointer;
+
+  color: #fff;
+  background: #5876a3;
+  padding: 2px 10px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+#contents input[type="submit"].btn,
+#contents input[type="button"].btn,
+#contents input[type="reset"].btn {
+  z-index: 10;
+  display: inline-block;
+  cursor: pointer;
+
+  color: #fff;
+  background: #5876a3;
+  padding: 2px 10px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+/* タブレット */
+@media screen and (max-width: 840px) {
+  .mdlBox {
+    top: 80px;
+  }
+}
+
+/* モーダルの幅 */
+@media screen and (max-width: 720px) {
+  .mdlBox {
+    width: 100vw;
+  }
+
+  #mdlTop {
+    width: calc(100vw - 40px);
+    height: 100px;
+  }
+
+  .mdlTitle input[type="text"],
+  .mdlTitle input[type="search"] {
+    width: 200px;
+  }
+}
+@media screen and (max-width: 620px) {
+  #mdlTop {
+    width: calc(100vw - 40px);
+    height: 95px;
+  }
+}
+
+/* スマホ */
+@media screen and (max-width: 480px) {
+  .mdlTitle input[type="text"],
+  .mdlTitle input[type="search"] {
+    width: 100px;
+  }
+  #mdlTop {
+    height: 100px;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  #mdlTop {
+    height: 90px;
+  }
+}
