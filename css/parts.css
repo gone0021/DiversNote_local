@@ -15,6 +15,10 @@
   padding: 5px 0;
 }
 
+.splice {
+   cursor: pointer;
+}
+
 .btn {
   display: inline-block;
   cursor: pointer;
