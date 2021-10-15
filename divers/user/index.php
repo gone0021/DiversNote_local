@@ -120,8 +120,8 @@ if (!empty($_SESSION['post']['birthday'])) {
                      <!-- ※パスワード -->
                      <div class="form-group col-6 mx-auto mb-4">
                         <!-- バリデーション -->
-                        <?php if (isset($_SESSION['msg']['check'])) : ?>
-                           <p class="error"><?= $_SESSION['msg']['check'] ?></p>
+                        <?php if (isset($_SESSION['msg']['pass'])) : ?>
+                           <p class="error"><?= $_SESSION['msg']['pass'] ?></p>
                         <?php endif ?>
                         <!-- 入力フォーム -->
                         <label for="pass">現在のパスワード</label>
