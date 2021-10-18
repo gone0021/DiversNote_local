@@ -19,6 +19,7 @@
          <ul class="ddmenu">
             <li><a href="<?= $url . "/divers" ?>/weight">適正ウエイト</a></li>
             <li><a href="<?= $url . "/divers" ?>/list">持ち物リスト</a></li>
+            <li><a href="<?= $url . "/divers" ?>/contact">お問い合わせ</a></li>
          </ul>
       </li>
    </ul>
@@ -43,6 +44,7 @@
          <ul class="menubar-s2">
             <li><a href="<?= $url . "/divers" ?>/weight">適正ウエイト</a></li>
             <li><a href="<?= $url . "/divers" ?>/list">持ち物リスト</a></li>
+            <li><a href="<?= $url . "/divers" ?>/contact">お問い合わせ</a></li>
          </ul>
       </li>
    </ul>
