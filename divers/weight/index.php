@@ -13,9 +13,9 @@ require_once('./weight.php');
 
          <div id="contents">
             <div class="inner">
-               <section id="entry">
-                  <h2 class="title">Your Weight</h2>
-                  <h3>適正ウエイトの計算</h3>
+               <section id="weight">
+                  <h2 class="title">About Weight</h2>
+                  <h3>目安ウエイトの計算</h3>
 
 
                   <!-- 性別 -->
