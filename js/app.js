@@ -6,7 +6,7 @@
       data: {
          // phpからの受け取り：メモ代わり
          user_id: php.user_id,
-         price_plan: php.plice_plan,
+         price_plan: php.price_plan,
          token: php.token,
 
          next_num: "",
@@ -151,7 +151,9 @@
 
       created: function () {
          console.log('--- created app.js ---');
-         // console.log(this.user_id);
+         console.log(this.user_id);
+         console.log(this.price_plan);
+
          this.getItem();
          this.getNextNum();
 
@@ -436,7 +438,8 @@
             let max = this.imgNumMax;
             // 公開・非公開の値を追加
             this.mIsOpen.push(0);
-
+            console.log(this.mIsOpen);
+            console.log(this.imgNum);
             // console.log(max);
             if (this.price_plan == 0 || this.price_plan == 1) {
                if (this.imgNum >= max) {
@@ -464,6 +467,9 @@
          },
 
          cntDownImg: function () {
+            console.log(this.mIsOpen);
+            console.log(this.imgNum);
+
             if (this.imgNum < 1) {
                // console.log("false");
                return false;
