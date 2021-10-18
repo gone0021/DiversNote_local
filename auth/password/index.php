@@ -47,7 +47,6 @@ if (!empty($_SESSION['post']['birthday'])) {
 <body>
    <div id="app">
       <div id="container">
-         <?php require_once($root . "/header.php"); ?>
          <?php require_once($auth . "/navi.php"); ?>
 
          <div id="contents">

@@ -43,7 +43,6 @@ if (!empty($_SESSION['post']['email'])) {
 <body>
    <div id="app">
       <div id="container">
-         <?php require_once($root . "/header.php"); ?>
          <?php require_once($auth . "/navi.php"); ?>
 
          <div id="contents">
