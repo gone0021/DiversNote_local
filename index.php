@@ -36,7 +36,6 @@ $_SESSION['token'] = $token;
             <div class="inner">
                <?php require_once($root . "/about.php"); ?>
                <?php require_once($root . "/news.php"); ?>
-               <?php require_once($root . "/contact.php"); ?>
                <?php require_once($root . "/entry.php"); ?>
             </div>
             <!--/.inner-->
