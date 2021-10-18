@@ -109,7 +109,7 @@ $suit = ['ワンピース', 'シーガル', 'ロンジョン', 'フードベス�
 
          </div>
          <!-- /#contents -->
-         <!-- <div class="push"></div> -->
+         <?php require_once($root . "/footer.php"); ?>
 
       </div>
       <!-- /#container -->
