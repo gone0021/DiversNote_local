@@ -94,6 +94,13 @@ header #h1, header #logo {
 	width: 20%;
 	font-size: 20px;
 }
+
+/* authページ用 */
+#menubar.auth ul li {
+   /*4個なので100÷4=25*/
+   width: 25%;
+}
+ 
 #menubar ul li a {
    /* ※ここの「height」と「padding-top」の値の合計と、「#menubar」の「height」、「fixmenu設定」に2箇所ある「margin-top」の数字を合わせること */
 	text-decoration: none;
@@ -398,7 +405,8 @@ footer .pr {display: block;font-size: 80%;}
 /* ボックス全体 */
 #footermenu {
 	overflow: hidden;
-	background: url(../images/footer_logo.png) no-repeat right center / 20%;/* 背景画像の読み込み*/
+	/* background: url(../images/favicon.png) no-repeat right center / 20%; */
+   /* 背景画像の読み込み*/
 	padding: 50px 0;
 }
 /* リンクテキスト */
