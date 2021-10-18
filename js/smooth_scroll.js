@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', function () {
+$(function () {
    let adj = 0;
    let pageTop = 0;
    let home = 0;
@@ -8,17 +8,14 @@ window.addEventListener('DOMContentLoaded', function () {
    let entry = 0;
 
    // DOM読み込み時
-   $(function() {
-   // $(document).on("load", function () {
-      calcAdj();
-      setSize();
-   });
+   calcAdj();
+   setSize();
 
    // ウインドウがリサイズされた時
    $(window).resize(function () {
       calcAdj();
       setSize();
-      // console.log(adj);
+      console.log(entry);
    });
 
    let time = 500;
@@ -84,7 +81,6 @@ window.addEventListener('DOMContentLoaded', function () {
       home = $('#new').offset().top - adj;
       news = $('#new').offset().top - adj;
       about = $('#about').offset().top - adj;
-      contact = $('#contact').offset().top - adj;
       entry = $('#entry').offset().top - adj;
    }
 });
