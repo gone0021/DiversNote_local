@@ -353,11 +353,6 @@
          <div class="acdTitleOpen acdOpen">写真</div>
          <div class="">
             <template v-if="isEdit || isNew">
-               <div class="imgBtn c my-3">
-                  <button type="button" @click="cntUpImg" class="btn mr-3 w100">＋</button>
-                  <button type="button" @click="cntDownImg" class="btn mr-3 w100">－</button>
-                  <!-- <button type="button" @click="checkImg" class="btn">確認</button> -->
-               </div>
 
                <div v-for="(num, i) of imgNum">
                   <div class="imgGroup">
@@ -371,6 +366,11 @@
                         <img class="prevImg" :src="mNewImg[i].url">
                      </template>
                   </div>
+               </div>
+
+               <div class="imgBtn c my-3">
+                  <button type="button" @click="cntUpImg" class="btn mr-3 w100">＋</button>
+                  <button type="button" @click="cntDownImg" class="btn mr-3 w100">－</button>
                </div>
             </template>
 
