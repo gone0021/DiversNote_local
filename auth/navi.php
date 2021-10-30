@@ -13,8 +13,8 @@
       <li class="ddnav">
          <a href="javascript:void(0)" class="">OTHERE<span>その他機能</span></a>
          <ul class="ddmenu">
-            <li><a href="../../contact.php">お問い合わせ</a></li>
-            <li><a href="../../weight.php">目安ウエイト</a></li>
+            <li><a href="../../other/contact.php">お問い合わせ</a></li>
+            <li><a href="../../other/weight.php">目安ウエイト</a></li>
          </ul>
       </li>
    </ul>
@@ -35,8 +35,8 @@
       </li>
       <li id="menubar_hdr2" class="close">Other<span>その他機能</span>
          <ul class="menubar-s2">
-            <li><a href="../../contact.php">お問い合わせ</a></li>
-            <li><a href="../../weight.php">目安ウエイト</a></li>
+            <li><a href="../../other/contact.php">お問い合わせ</a></li>
+            <li><a href="../../other/weight.php">目安ウエイト</a></li>
          </ul>
       </li>
    </ul>

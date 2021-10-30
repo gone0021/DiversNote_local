@@ -1,12 +1,5 @@
 <?php
-$root = $_SERVER['DOCUMENT_ROOT'];
-$root .= "/data/DiversNote_local";
-
-// urlの指定
-$rootUrl = $_SERVER['SERVER_NAME'];
-$rootUrl .= "/data/DiversNote_local";
-$url = 'http://' . $rootUrl;
-// echo $url;
+require_once('../common.php');
 
 // スーツ
 $suit = ['ワンピース', 'シーガル', 'ロンジョン', 'フードベスト', '水着',];
@@ -20,7 +13,7 @@ $suit = ['ワンピース', 'シーガル', 'ロンジョン', 'フードベス�
 <body>
    <div id="app">
       <div id="container">
-         <?php include_once($root . "/navi.php"); ?>
+         <?php include_once($root . "./other/navi.php"); ?>
 
          <div id="contents">
             <div class="inner">
@@ -109,7 +102,7 @@ $suit = ['ワンピース', 'シーガル', 'ロンジョン', 'フードベス�
 
          </div>
          <!-- /#contents -->
-         <?php require_once($root . "/footer.php"); ?>
+         <?php include_once($root . "/footer.php"); ?>
 
       </div>
       <!-- /#container -->

@@ -100,6 +100,12 @@ header #h1, header #logo {
    /*4個なので100÷4=25*/
    width: 25%;
 }
+
+/* homeOtherページ用 */
+#menubar.homeOther ul li {
+   /*4個なので100÷3=33.3*/
+   width: 33.3%;
+}
  
 #menubar ul li a {
    /* ※ここの「height」と「padding-top」の値の合計と、「#menubar」の「height」、「fixmenu設定」に2箇所ある「margin-top」の数字を合わせること */

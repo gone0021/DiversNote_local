@@ -1,33 +1,16 @@
 <?php
-// クラスの読み込み
-$root = $_SERVER['DOCUMENT_ROOT'];
-$root .= "/data/DiversNote_local";
-require_once($root . "/app/util/SessionUtil.php");
-
-// urlの指定
-$rootUrl = $_SERVER['SERVER_NAME'];
-$rootUrl .= "/data/DiversNote_local";
-$url = 'http://' . $rootUrl;
-
-// セッションスタート
-SessionUtil::sessionStart();
-
-// トークンの生成
-$token = bin2hex(openssl_random_pseudo_bytes(108));
-$_SESSION['token'] = $token;
-
-// echo $url;
+require_once('../common.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php require_once($root . "/head.php"); ?>
+<?php include_once($root . "./head.php"); ?>
 
 <body>
    <div id="app">
       <div id="container">
 
-         <?php require_once($root . "/navi.php"); ?>
+         <?php include_once($root . "./other/navi.php"); ?>
 
          <div id="contents">
 
@@ -66,7 +49,7 @@ $_SESSION['token'] = $token;
 
          </div>
          <!--/#contents-->
-         <?php require_once($root . "/footer.php"); ?>
+         <?php include_once($root . "./footer.php"); ?>
 
       </div>
       <!--/#container-->
