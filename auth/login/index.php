@@ -1,49 +1,15 @@
 <?php
-// クラスの読み込み
-$root = $_SERVER['DOCUMENT_ROOT'];
-$root .= "/data/DiversNote_local";
-require_once($root . "/app/util/SessionUtil.php");
-$auth = $root . '/auth';
-
-// urlの指定
-$rootUrl = $_SERVER['SERVER_NAME'];
-$rootUrl .= "/data/DiversNote_local";
-$url = 'http://' . $rootUrl;
-
-// セッションスタート
-SessionUtil::sessionStart();
-
-// authの他ページのセッションをクリア
-unset($_SESSION["msg"]['name']);
-unset($_SESSION["msg"]['email']);
-unset($_SESSION["msg"]['birthday']);
-unset($_SESSION["msg"]['pass1']);
-unset($_SESSION["msg"]['pass2']);
-unset($_SESSION["msg"]['reset']);
-unset($_SESSION["msg"]['reset_pass']);
-
-// トークンの生成
-$token = bin2hex(openssl_random_pseudo_bytes(108));
-$_SESSION['token'] = $token;
-
-// SESSIONに保存したPOSTデータ（パスワードは保存しない）
-// メールアドレス
-$email = "";
-if (!empty($_SESSION['post']['email'])) {
-   $email = $_SESSION['post']['email'];
-}
-
-// echo $url;
+require_once('./index_util.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php require_once($auth . "/head.php"); ?>
+<?php include_once($auth . "/head.php"); ?>
 
 <body>
    <div id="app">
       <div id="container">
-         <?php require_once($auth . "/navi.php"); ?>
+         <?php include_once($auth . "/navi.php"); ?>
 
          <div id="contents">
             <div class="inner">
@@ -55,6 +21,11 @@ if (!empty($_SESSION['post']['email'])) {
                   <?php if (!empty($_SESSION["msg"]["login"])) : ?>
                      <p class="error">
                         <?= $_SESSION["msg"]["login"] ?>
+                     </p>
+                  <?php endif ?>
+                  <?php if (!empty($_SESSION["msg"]["error"])) : ?>
+                     <p class="error">
+                        <?= $_SESSION["msg"]["error"] ?>
                      </p>
                   <?php endif ?>
 
@@ -84,17 +55,17 @@ if (!empty($_SESSION['post']['email'])) {
                </section>
 
             </div>
-            <!-- /#main -->
+            <!-- /#inner -->
 
          </div>
          <!-- /#contents -->
-         <!-- <div class="push"></div> -->
-         <?php require_once($root . "/footer.php"); ?>
+         <?php include_once($root . "/footer.php"); ?>
 
       </div>
       <!-- /#container -->
       <!--メニュー開閉ボタン-->
       <div id="menubar_hdr" class="close"></div>
+      <?php require_once("../../unsession.php"); ?>
 
    </div>
    <!-- /#app -->

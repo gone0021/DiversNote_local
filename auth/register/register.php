@@ -1,14 +1,12 @@
 <?php
-$root = $_SERVER["DOCUMENT_ROOT"];
-$root .= "/data/DiversNote_local";
-require_once($root . "/app/util/SessionUtil.php");
+// 共通ファイル
+require_once("../common.php");
+
+// クラスの読み込み
 require_once($root . "/app/util/CommonUtil.php");
 require_once($root . "/app/util/ValidationUtil.php");
 require_once($root . "/app/controllers/UserController.php");
 require_once($root . "/app/model/UserModel.php");
-
-// セッションスタート
-SessionUtil::sessionStart();
 
 // サニタイズ
 $post = CommonUtil::sanitaize($_POST);
@@ -32,6 +30,7 @@ $data = array(
 // インスタンス
 $dbUser = new UserModel();
 
+// ユーザーの登録
 try {
    $dbUser->insertUser($data);
    echo 'ok';
@@ -41,6 +40,7 @@ try {
    header('Location: ../../error.php');
 }
 
+// ユーザー情報を取得してログイン
 try {
    // ユーザー情報の取得
    $conUser = new UserController();

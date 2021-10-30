@@ -1,16 +1,6 @@
 <?php
-// クラスの読み込み
-$root = $_SERVER['DOCUMENT_ROOT'];
-$root .= "/data/DiversNote_local";
-require_once($root . "/app/util/SessionUtil.php");
-$auth = $root . '/auth';
-
-// urlの指定
-$rootUrl = $_SERVER['SERVER_NAME'];
-$rootUrl .= "/data/DiversNote_local";
-$url = 'http://' . $rootUrl;
-
-SessionUtil::sessionStart();
+// 共通ファイル
+require_once("../common.php");
 
 $token = bin2hex(openssl_random_pseudo_bytes(108));
 $_SESSION['token'] = $token;
@@ -25,13 +15,12 @@ $_SESSION['token'] = $token;
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php require_once($auth . "/head.php"); ?>
+<?php include_once($auth . "../head.php"); ?>
 
 <body>
    <div id="app">
       <div id="container">
-         <?php require_once($root . "/header.php"); ?>
-         <?php require_once($auth . "/navi.php"); ?>
+         <?php include_once($auth . "../navi.php"); ?>
 
          <div id="contents">
             <div class="inner">
@@ -47,9 +36,14 @@ $_SESSION['token'] = $token;
                         <?= $_SESSION["msg"]["reset_pass"] ?>
                      </p>
                   <?php endif ?>
+                  <?php if (!empty($_SESSION["msg"]["error"])) : ?>
+                     <p class="error">
+                        <?= $_SESSION["msg"]["error"] ?>
+                     </p>
+                  <?php endif ?>
 
                   <!-- 送信フォーム -->
-                  <form action="./reset_action.php" method="post" class="">
+                  <form action="./comp.php" method="post" class="">
                      <input type="hidden" class="ws" name="token" value="<?= $token ?>">
 
                      <!-- ※パスワード -->
@@ -88,7 +82,7 @@ $_SESSION['token'] = $token;
          </div>
          <!-- /#contents -->
          <!-- <div class="push"></div> -->
-         <?php require_once($root . "/footer.php"); ?>
+         <?php include_once($root . "/footer.php"); ?>
 
       </div>
       <!-- /#container -->

@@ -1,13 +1,11 @@
 <?php
+// 共通ファイル
+require_once("../common.php");
+
 // クラスの読み込み
-$root = $_SERVER["DOCUMENT_ROOT"];
-$root .= "/data/DiversNote_local";
-require_once($root . "/app/util/SessionUtil.php");
 require_once($root . "/app/util/CommonUtil.php");
 require_once($root . "/app/util/ValidationUtil.php");
-
 require_once($root . "/app/controllers/UserController.php");
-require_once($root . "/app/model/UserModel.php");
 
 // urlの指定
 $rootUrl = $_SERVER['SERVER_NAME'];

@@ -1,14 +1,11 @@
 <?php
+// 共通ファイル
+require_once("../common.php");
+
 // クラスの読み込み
-$root = $_SERVER["DOCUMENT_ROOT"];
-$root .= "/data/DiversNote_local";
-require_once($root . "/app/util/SessionUtil.php");
 require_once($root . "/app/util/CommonUtil.php");
 require_once($root . "/app/controllers/UserController.php");
 require_once($root . "/app/model/UserModel.php");
-
-// セッションスタート
-SessionUtil::sessionStart();
 
 // CSRF対策）
 CommonUtil::csrf($_SESSION['token'], $_POST['token']);
