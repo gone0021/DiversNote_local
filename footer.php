@@ -7,13 +7,13 @@
          <li class="title">ENTRY</li>
          <li><a href="<?= $url ?>/auth/login/">ログイン</a></li>
          <li><a href="<?= $url ?>/auth/register/">新規登録</a></li>
-         <li><a href="<?= $url ?>/auth/password/">お問い合わせ</a></li>
+         <li><a href="<?= $url ?>/auth/password/">パスワード再設定</a></li>
          
       </ul>
       <ul>
          <li class="title">OTHER</li>
-         <li><a href="<?= $url ?>/contact.php">お問い合わせ</a></li>
-         <li><a href="<?= $url ?>/weight.php">適正ウエイト</a></li>
+         <li><a href="<?= $url ?>/other/contact.php">お問い合わせ</a></li>
+         <li><a href="<?= $url ?>/other/weight.php">適正ウエイト</a></li>
       </ul>
    </div>
    <!--/#footermenu-->
