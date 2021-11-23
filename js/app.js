@@ -191,12 +191,6 @@
             }
             // 値のリセット
             this.resetVal();
-            // モーダル出現時に背景をスクロールさせない設定：解除
-            // bodyはapp.jsの外のためjqで記述
-            $("html,body").css({
-               overflow: "visible",
-               // padding: "0"
-            });
 
             // console.log(this.mNewImg);
          },
@@ -204,11 +198,7 @@
             // console.log(e);
             this.border = "";
             // モーダル出現時に背景をスクロールさせない設定：実行
-            // bodyはapp.jsの外のためjqで記述
-            $("html,body").css({
-               overflow: "hidden",
-               // padding: "0 8px 0 0"
-            });
+            this.closeScrollbar();
 
             this.getItemByIdRet(e).then(() => {
                this.isNew = false;
@@ -242,26 +232,15 @@
             // this.signeTitleOpen = true;
 
             // モーダル出現時に背景をスクロールさせない設定：実行
-            $("html,body").css({
-               overflow: "hidden",
-               // padding: "0 8px 0 0"
-            });
+            this.closeScrollbar();
          },
          onColse: function () {
             this.resetDisplay();
             this.resetVal();
-            $("html,body").css({
-               overflow: "visible",
-               // padding: "0"
-            });
          },
          onCancel: function () {
             this.resetDisplay();
             this.resetVal();
-            $("html,body").css({
-               overflow: "visible",
-               // padding: "0"
-            });
          },
 
          onEdit: function () {
@@ -287,6 +266,7 @@
 
                var url = "../app/api/delete_item.php";
                this.postAxios(url, params);
+               this.resetVal();
             }
          },
 
@@ -923,7 +903,7 @@
 
          /**
           * v-model用変数に値を代入
-          * @param {Array} args 
+          * @param {obj} args 
           */
          setVal: function (args) {
             // v-model（edit）用
@@ -1054,7 +1034,11 @@
             this.isSearch = "";
 
             this.imgNum = 0;
+
+            // プランごとの保存imgの最大数を計算
             this.setImgNummax();
+            // モーダル出現時に背景をスクロールさせない設定を解除
+            this.openScrollbar();
 
          },
 
@@ -1145,8 +1129,6 @@
             // params.append('new_img', this.mNewImg);
             // params.append('del_img', this.mEditImg);
             // params.append('edit_img', this.mDelImg);
-
-
          },
 
          /**
@@ -1167,6 +1149,25 @@
             $(element).addClass("acdOpen");
          },
 
+         /**
+          * スクロールバーを非表示
+          */
+         closeScrollbar: function () {
+            $("html,body").css({
+               overflow: "hidden",
+               // padding: "0 8px 0 0"
+            });
+         },
+
+         /**
+          * スクロールバーを表示
+          */
+         openScrollbar: function () {
+            $("html,body").css({
+               overflow: "visible",
+               // padding: "0"
+            });
+         },
 
          // --- canvas ---
          // org：初期設定
