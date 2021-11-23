@@ -6,7 +6,6 @@ require_once($root . "/app/util/CommonUtil.php");
 require_once($root . "/app/model/ItemModel.php");
 require_once($root . "/app/model/PhotoModel.php");
 require_once($root . "/app/controllers/ItemController.php");
-require_once($root . "/app/controllers/BaseController.php");
 
 // use app\controllers\BaseController;
 
@@ -31,15 +30,8 @@ $conItem = new ItemController();
 /**
  * ItemContorollerクラス
  */
-class PhotoController extends BaseController
+class PhotoController
 {
-   public function __construct()
-   {
-      // 親クラスのコンストラクタを呼び出す
-      parent::__construct();
-      // echo 'filename is ParentModel.php' . PHP_EOL;
-   }
-
    public function index($req = null)
    {
       global $url;
@@ -48,7 +40,6 @@ class PhotoController extends BaseController
       $user = CommonUtil::checkVal($_SESSION['user']);
 
       $ret = $this->getSchPhoto($req['user_id'], $req['user_type'], $req['select'], $req['val']);
-
 
       $param = [
          'url' => $url,
