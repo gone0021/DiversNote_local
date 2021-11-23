@@ -46,18 +46,14 @@ class ItemController
     */
    public function getItemPhoto($item_id)
    {
-      // まだjoinしないように値を変えてる
-      // 写真は写真で取得した方がいい気がしてる
       global $dbPhoto;
 
       $ret = $dbPhoto->getPhotoByItemId($item_id);
-
 
       // echo '<pre>';
       // var_dump($ret);
       // echo '</pre>';
       // die;
-
 
       return $ret;
    }
