@@ -8,6 +8,8 @@ require_once($root . "/app/util/ValidationUtil.php");
 require_once($root . "/app/controllers/UserController.php");
 require_once($root . "/app/model/UserModel.php");
 
+// CSRF対策）
+CommonUtil::csrf($_SESSION['token'], $_POST['token']);
 // サニタイズ
 $post = CommonUtil::sanitaize($_POST);
 
@@ -35,8 +37,7 @@ try {
    $dbUser->insertUser($data);
    echo 'ok';
 } catch (Exception $e) {
-   var_dump($e);
-   exit;
+   // var_dump($e);exit;
    header('Location: ../../error.php');
 }
 

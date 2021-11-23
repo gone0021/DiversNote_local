@@ -19,7 +19,7 @@ require_once("./check_util.php");
                   <h3>登録内容の確認</h3>
 
                   <form action="./register.php" method="post">
-                     <!-- <input type="hidden" name="token" value="<?= $token ?>"> -->
+                     <input type="hidden" name="token" value="<?= $token ?>">
 
                      <table class="ta1">
                         <tr>
