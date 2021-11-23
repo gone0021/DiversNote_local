@@ -2,7 +2,7 @@
 require_once('./common.php');
 
 session_destroy();
-// header('refresh: 5; ./');
+header('refresh: 5; ./');
 ?>
 
 <!DOCTYPE html>

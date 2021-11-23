@@ -151,8 +151,8 @@
 
       created: function () {
          console.log('--- created app.js ---');
-         console.log(this.user_id);
-         console.log(this.price_plan);
+         // console.log(this.user_id);
+         // console.log(this.price_plan);
 
          this.getItem();
          this.getNextNum();
@@ -550,14 +550,14 @@
 
                if (this.mSub === "new") {
                   // insert
-                  console.log("store");
+                  // console.log("store");
 
                   var url = "../app/api/store_item.php";
                   // set params
                   this.postAxios(url, params);
                } else if (this.mSub === "edit") {
                   // update
-                  console.log("update");
+                  // console.log("update");
 
                   var url = "../app/api/update_item.php";
                   // set params
@@ -604,7 +604,7 @@
                   // console.log(this.items);
                }.bind(this)
             ).catch(function (e) {
-               console.log("error");
+               // console.log("error");
                console.error(e);
             });
             this.resetVal();
@@ -619,15 +619,15 @@
             } else {
                this.phtType = "text";
             }
-            console.log(this.isPhtSelect);
-            console.log(this.phtType);
+            // console.log(this.isPhtSelect);
+            // console.log(this.phtType);
          },
 
          onPhoto: function () {
             console.log("photo");
             // console.log(this.isSchSelect);
             this.dispPhoto = true;
-            console.log(this.phtUser);
+            // console.log(this.phtUser);
 
             this.items = [];
             axios.get(`../app/api/get_photo.php`, {
@@ -643,7 +643,7 @@
                   // console.log(this.items);
                }.bind(this)
             ).catch(function (e) {
-               console.log("error");
+               // console.log("error");
                console.error(e);
             });
             this.resetVal();
@@ -668,7 +668,7 @@
                }.bind(this)
             ).catch(function (e) {
                console.error(e);
-               alert("入力に不備がありました。");
+               alert("申し訳ございませんがエラーが発生しました。\n処理を中断してログインし直してください。");
                this.resetDisplay();
             });
          },
@@ -703,7 +703,7 @@
             }).then(
                function (res) {
                   this.items = res.data;
-                  console.log(this.items);
+                  // console.log(this.items);
                }.bind(this)
             ).catch(function (e) {
                console.error(e);
@@ -1265,7 +1265,7 @@
          onSave: function () {
             this.isSigne = true;
             this.mNewSigne = this.canvas.toDataURL("image/png");
-            console.log(this.mNewSigne);
+            // console.log(this.mNewSigne);
          },
          // ボタン操作：削除
          delSigne: function () {
