@@ -13,7 +13,7 @@ require_once('./weight.php');
 
          <div id="contents">
             <div class="inner">
-               <section id="weight">
+               <section id="calcweight">
                   <h2 class="title">About Weight</h2>
                   <h3>目安ウエイトの計算</h3>
 
