@@ -38,7 +38,7 @@
           */
          onDel: function (n) {
             this.lists.splice(n, 1);
-            console.log(this.lists);
+            // console.log(this.lists);
          },
          /**
           * 対象の配列を削除
@@ -87,7 +87,7 @@
             var tagName = [];
             var checked = [];
             if (this.addLists.length) {
-               console.log("is new todo");
+               // console.log("is new todo");
                for (var i = 0; i < this.addLists.length; i++) {
                   // tag_nameの値
                   if (this.addTags[i] === undefined) {
