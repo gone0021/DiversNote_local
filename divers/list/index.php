@@ -4,7 +4,7 @@ require_once('./list.php');
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php include_once($divers . "/head.php"); ?>
+<?php include_once($divers . "/head_list.php"); ?>
 
 <body>
    <div id="list">
