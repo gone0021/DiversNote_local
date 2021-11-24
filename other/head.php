@@ -26,7 +26,6 @@
    <script src="<?= $url ?>/js/fixmenu_pagetop.js" defer></script>
    <script src="<?= $url ?>/js/ddmenu.js" defer></script>
    <script src="<?= $url ?>/js/openclose.js" defer></script>
-   <script src="<?= $url ?>/js/smooth_scroll.js" defer></script>
    <script src="<?= $url ?>/js/weight.js" defer></script>
    <!-- <script src="<?= $url ?>/js/style.js" defer></script> -->
 

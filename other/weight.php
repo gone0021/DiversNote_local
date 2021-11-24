@@ -8,7 +8,7 @@ $suit = ['ワンピース', 'シーガル', 'ロンジョン', 'フードベス�
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php include_once($root . "/head.php"); ?>
+<?php include_once($root . "./other/head.php"); ?>
 
 <body>
    <div id="app">
@@ -17,7 +17,7 @@ $suit = ['ワンピース', 'シーガル', 'ロンジョン', 'フードベス�
 
          <div id="contents">
             <div class="inner">
-               <section id="weight">
+               <section id="calcweight">
                   <h2 class="title">About Weight</h2>
                   <h3>目安ウエイトの計算</h3>
 
@@ -35,21 +35,21 @@ $suit = ['ワンピース', 'シーガル', 'ロンジョン', 'フードベス�
                   <!-- 身長 -->
                   <div class="form-group col-6 mx-auto mt-3">
                      <label for="height">身長</label>
-                     <input type="number" name="height" value="<?= $height ?>" id="height" class="form-control" placeholder="cm">
+                     <input type="number" name="height" value="" id="height" class="form-control" placeholder="cm">
                   </div>
 
                   <!-- 体重 -->
                   <div class="form-group col-6 mx-auto">
                      <!-- 入力フォーム -->
                      <label for="weight">体重</label>
-                     <input type="number" name="weight" value="<?= $weight ?>" id="weight" class="form-control" placeholder="kg">
+                     <input type="number" name="weight" value="" id="weight" class="form-control" placeholder="kg">
                   </div>
 
                   <!-- 体脂肪率 -->
                   <div class="form-group col-6 mx-auto">
                      <!-- 入力フォーム -->
                      <label for="percentage">体脂肪率</label>
-                     <input type="number" name="percentage" value="<?= $percentage ?>" id="percentage" class="form-control" placeholder="%">
+                     <input type="number" name="percentage" value="" id="percentage" class="form-control" placeholder="%">
                   </div>
 
                   <!-- タンク素材 -->
