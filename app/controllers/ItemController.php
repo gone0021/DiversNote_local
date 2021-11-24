@@ -6,10 +6,8 @@ require_once($root . "/app/util/CommonUtil.php");
 require_once($root . "/app/model/ItemModel.php");
 require_once($root . "/app/model/PhotoModel.php");
 
-$tmp = $root . '/divers/tmp/';
 $img_dir = $root . '/divers/img/';
 $singe_dir = $root . '/divers/signe/';
-$tmp = $root . '/divers/tmp/';
 
 $dbItem = new ItemModel();
 $dbPhoto = new PhotoModel();
@@ -24,19 +22,14 @@ class ItemController
     */
    public function getItemById($user_id, $item_id)
    {
-      // まだjoinしないように値を変えてる
-      // 写真は写真で取得した方がいい気がしてる
-      $args = ['photo none'];
       global $dbItem;
 
       $ret = $dbItem->getItemById($user_id, $item_id);
-
 
       // echo '<pre>';
       // var_dump($ret);
       // echo '</pre>';
       // die;
-
 
       return $ret;
    }
@@ -85,6 +78,14 @@ class ItemController
       $req = $this->saveSigen($req);
 
       // dbの新規追加
+      try {
+         header('Location: ../../error.php');
+      } catch (Exception $e) {
+         var_dump($e);
+         die;
+         header('Location: ../../error.php');
+      }
+      die;
       $dbItem->insert($req);
 
       return true;
