@@ -33,6 +33,7 @@
    <link rel="stylesheet" href="<?= $url ?>/css/parts.css">
    <link rel="stylesheet" href="<?= $url ?>/css/divers.css">
    <link rel="stylesheet" href="<?= $url ?>/css/anim.css">
+   <link rel="stylesheet" href="<?= $url ?>/css/list.css">
 
    <!-- js -->
    <script src="<?= $url ?>/js/main.js" defer></script>
@@ -40,6 +41,7 @@
    <script src="<?= $url ?>/js/openclose.js" defer></script>
    <script src="<?= $url ?>/js/divers.js" defer></script>
    <script src="<?= $url ?>/js/weight.js" defer></script>
+   <script src="<?= $url ?>/js/list.js" defer></script>
    <!-- <script src="<?= $url ?>/js/style.js" defer></script> -->
 
    <!--[if lt IE 9]>
