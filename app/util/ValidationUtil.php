@@ -1,8 +1,12 @@
 <?php
-$root = $_SERVER["DOCUMENT_ROOT"];
+// namespace app\util;
+
+// rootの指定
+$root = $_SERVER['DOCUMENT_ROOT'];
 $root .= "/data/DiversNote_local";
+
+// クラスの読み込み
 require_once($root . "/app/model/UserModel.php");
-$userModel = new UserModel();
 
 /**
  * バリデーションチェック
@@ -39,8 +43,8 @@ class ValidationUtil
    public static function isUsedName($name, &$msg): bool
    {
       $msg = '';
-      $uers = new UserModel();
-      $checkName = $uers->getUserByName($name);
+      $dbUser = new UserModel();
+      $checkName = $dbUser->getUserByName($name);
 
       if (!empty($checkName)) {
          $msg = "このユーザー名は既に使われています";
@@ -84,8 +88,8 @@ class ValidationUtil
    public static function isUsedEmail($email, &$msg): bool
    {
       $msg = '';
-      $uers = new UserModel();
-      $checkEmail = $uers->getUserByEmail($email);
+      $dbUser = new UserModel();
+      $checkEmail = $dbUser->getUserByEmail($email);
 
       if (!empty($checkEmail)) {
          $msg = "このメールアドレスは既に使われています";
