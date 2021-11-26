@@ -1,15 +1,13 @@
 <?php
-$root = $_SERVER["DOCUMENT_ROOT"];
-$root .= "/data/DiversNote_local";
-require_once($root . "/app/util/SessionUtil.php");
-require_once($root . "/app/util/CommonUtil.php");
-require_once($root . "/app/model/UserModel.php");
+require_once '../common_divers.php';
 
-// セッションスタート
-SessionUtil::sessionStart();
+// クラスの読み込み
+require_once($root . "/app/model/UserModel.php");
 
 // サニタイズ
 $post = CommonUtil::sanitaize($_POST);
+
+//   var_dump($post); exit;
 
 // データベースに登録する内容を連想配列にする。
 $data = array(
@@ -20,8 +18,6 @@ $data = array(
    'password' => $post['password'],
 );
 
-//   var_dump($post); exit;
-
 // ユーザー情報のアップデート
 try {
    $db = new UserModel();
@@ -31,9 +27,9 @@ try {
    header('Location: ../../error.php');
 }
 
+// tokenのクリア
+$post['token'] = '';
 unset($post['token']);
 
 // ユーザーページへ遷移
 header("Location: ./");
-
-?>

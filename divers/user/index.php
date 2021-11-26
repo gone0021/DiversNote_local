@@ -1,70 +1,15 @@
 <?php
-// クラスの読み込み
-$root = $_SERVER['DOCUMENT_ROOT'];
-$root .= "/data/DiversNote_local";
-require_once($root . "/app/util/SessionUtil.php");
-require_once($root . "/app/util/CommonUtil.php");
-require_once($root . "/app/controllers/UserController.php");
-require_once($root . "/app/model/UserModel.php");
-$divers = $root . '/divers';
-
-// urlの指定
-$rootUrl = $_SERVER['SERVER_NAME'];
-$rootUrl .= "/data/DiversNote_local";
-$url = 'http://' . $rootUrl;
-// echo $url;
-
-// セッションスタート
-SessionUtil::sessionStart();
-
-// セッションからユーザーidを変数に代入
-$userId = $_SESSION['user']['id'];
-
-// UserModelのインスタンス
-$conUser = new UserController();
-$dbUser = new UserModel();
-
-// idからユーザーを取得
-$user = $dbUser->getUserById($userId);
-
-// トークンを変数に代入
-// $token = $_SESSION['token'];
-$token = bin2hex(openssl_random_pseudo_bytes(108));
-$_SESSION['token'] = $token;
-
-// var_dump($_SESSION);
-
-// ※ SESSIONに保存したPOSTデータ（パスワードは保存しない）
-// ユーザー名
-$user_name = $user['user_name'];
-if (!empty($_SESSION['post']['user_name'])) {
-   $name =  $_SESSION['post']['user_name'];
-}
-// メールアドレス
-$email = $user['email'];
-if (!empty($_SESSION['post']['email'])) {
-   $email = $_SESSION['post']['email'];
-}
-// 誕生日
-$birthday = $user['birthday'];
-if (!empty($_SESSION['post']['birthday'])) {
-   $birthday = $_SESSION['post']['birthday'];
-}
-
-// var_dump($root);
-// var_dump($_SESSION);
-
-
+require_once 'index_util.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php require_once($divers . "/head.php"); ?>
+<?php require_once($rootDivers . "/head.php"); ?>
 
 <body>
    <div id="app">
       <div id="container">
-         <?php require_once($divers . "/navi.php"); ?>
+         <?php require_once($rootDivers . "/navi.php"); ?>
 
          <div id="contents">
             <div class="inner">

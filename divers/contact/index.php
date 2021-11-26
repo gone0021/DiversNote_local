@@ -1,15 +1,15 @@
 <?php
-require_once('./contact.php');
+require_once 'index_util.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php include_once($divers . "/head.php"); ?>
+<?php include_once($rootDivers . "/head.php"); ?>
 
 <body>
    <div id="app">
       <div id="container">
-         <?php include_once($divers . "/navi.php"); ?>
+         <?php include_once($rootDivers . "/navi.php"); ?>
 
          <div id="contents">
 

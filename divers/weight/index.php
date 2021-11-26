@@ -1,15 +1,15 @@
 <?php
-require_once('./weight.php');
+require_once 'weight.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php include_once($divers . "/head.php"); ?>
+<?php include_once($rootDivers . "/head.php"); ?>
 
 <body>
    <div id="app">
       <div id="container">
-         <?php include_once($divers . "/navi.php"); ?>
+         <?php include_once($rootDivers . "/navi.php"); ?>
 
          <div id="contents">
             <div class="inner">
@@ -83,14 +83,10 @@ require_once('./weight.php');
                      <span id="aboutWeight"></span>
                   </h3>
 
-
                   <!-- ※ボタン -->
                   <div class="c mt-4">
                      <button type="button" id="calc" class="btn mr-3">計算</button>
                      <button type="button" id="reset" class="btn mr-3">リセット</button>
-                     <?php if ($user['price_plan'] == 2) : ?>
-                        <input type="submit" name="" id="" class="btn mr-3" value="登録">
-                     <?php endif; ?>
                      <a href="../" class="btn">戻る</a>
                   </div>
 

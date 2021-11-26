@@ -1,15 +1,15 @@
 <?php
-require_once('./list.php');
+require_once 'list.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php include_once($divers . "/head_list.php"); ?>
+<?php include_once($rootDivers . "/head_list.php"); ?>
 
 <body>
    <div id="list">
       <div id="container">
-         <?php include_once($divers . "/navi.php"); ?>
+         <?php include_once($rootDivers . "/navi.php"); ?>
 
          <div id="contents">
             <div class="inner">

@@ -1,63 +1,15 @@
 <?php
-$root = $_SERVER['DOCUMENT_ROOT'];
-$root .= "/data/DiversNote_local";
-require_once($root . "/app/util/SessionUtil.php");
-require_once($root . "/app/util/CommonUtil.php");
-require_once($root . "/app/model/ItemModel.php");
-require_once($root . "/app/model/PhotoModel.php");
-
-$divers = $root . '/divers';
-
-// urlの指定
-$rootUrl = $_SERVER['SERVER_NAME'];
-$rootUrl .= "/data/DiversNote_local";
-$url = 'http://' . $rootUrl;
-
-// セッションスタート
-SessionUtil::sessionStart();
-
-// --- ログインの確認 ---
-// $_SESSION['user']：ログイン時に取得したユーザー情報
-if (empty($_SESSION['user'])) {
-   // 未ログインのとき
-   header('Location: ../');
-} else {
-   // ログイン済みのとき
-   $user = $_SESSION['user'];
-}
-
-$token = bin2hex(openssl_random_pseudo_bytes(32));
-$_SESSION['token'] = $token;
-
-$toJs = [
-   'user_id' => $user['id'],
-   'price_plan' => $user['price_plan'],
-   'token' => $token,
-];
-
-// $conItem = new ItemController();
-$dbItem = new ItemModel();
-$dbPhoto = new PhotoModel();
-$items = $dbItem->getUserItem($user['id']);
-$next_num = $dbItem->getMaxItemNum($user['id']);
-
-// echo '<pre>';
-// var_export($_SESSION);
-// echo '</pre>';
-
-// var_dump($next_num);
-// var_dump($_SESSION['user']);
-
+require_once 'index_util.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php require_once($divers . "/head_home.php"); ?>
+<?php require_once($rootDivers . "/head_home.php"); ?>
 
 <body>
    <div id="app">
       <div id="container">
-         <?php require_once($divers . "/navi_home.php"); ?>
+         <?php require_once($rootDivers . "/navi_home.php"); ?>
 
          <div id="contents">
             <div class="inner">
@@ -97,7 +49,7 @@ $next_num = $dbItem->getMaxItemNum($user['id']);
 
          </div>
          <!--/#contents-->
-         <?php require_once($divers . "/item-modal.php"); ?>
+         <?php require_once($rootDivers . "/item-modal.php"); ?>
 
          <p id="toTop" class="nav-fix-pos-pagetop"><a href="javascript:void(0)">↑</a></p>
 
