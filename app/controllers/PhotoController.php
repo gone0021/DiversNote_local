@@ -1,37 +1,22 @@
 <?php
-$root = $_SERVER['DOCUMENT_ROOT'];
-$root .= "/data/DiversNote_local";
-require_once($root . "/app/util/SessionUtil.php");
-require_once($root . "/app/util/CommonUtil.php");
-require_once($root . "/app/model/ItemModel.php");
+require_once 'common_con.php';
+
+// クラスの読み込み
 require_once($root . "/app/model/PhotoModel.php");
-require_once($root . "/app/controllers/ItemController.php");
-
-// use app\controllers\BaseController;
-
-
-// ディレクトリの指定
-$img_dir = $root . '/divers/img/';
-$singe_dir = $root . '/divers/signe/';
-$divers_dir = $root . '/divers';
-
-// urlの指定
-$rootUrl = $_SERVER['SERVER_NAME'];
-$rootUrl .= "/data/DiversNote_local";
-$url = 'http://' . $rootUrl;
-
-// セッションスタート
-SessionUtil::sessionStart();
-
-$dbItem = new ItemModel();
-$dbPhoto = new PhotoModel();
-$conItem = new ItemController();
 
 /**
  * ItemContorollerクラス
  */
 class PhotoController
 {
+   /** @var object インスタンス */
+   protected $dbPhoto;
+
+   public function __construct()
+   {
+      $this->dbPhoto = new PhotoModel();
+   }
+
    public function index($req = null)
    {
       global $url;
@@ -93,11 +78,11 @@ class PhotoController
             if ($select == 'all') {
                // 全ての条件から検索
                // die("11");
-               $ret = $dbPhoto->getPhotoAll($val, $user_id);
+               $ret = $this->dbPhoto->getPhotoAll($val, $user_id);
             } else {
                // 特定の条件から検索
                // die("12");
-               $ret = $dbPhoto->getPhotoSelect($select, $val, $user_id);
+               $ret = $this->dbPhoto->getPhotoSelect($select, $val, $user_id);
             }
          } else {
             // die("2");
@@ -105,19 +90,19 @@ class PhotoController
             if ($select == 'all') {
                // 全ての条件から検索
                // die("21");
-               $ret = $dbPhoto->getPhotoAll($val);
+               $ret = $this->dbPhoto->getPhotoAll($val);
             } else {
                // 特定の条件から検索
                // die("22");
-               $ret = $dbPhoto->getPhotoSelect($select, $val);
+               $ret = $this->dbPhoto->getPhotoSelect($select, $val);
             }
          }
       } else {
          // 検索に不備があった場合：または検索値が空白の場合
          if ($user_type == 0) {
-            $ret = $dbPhoto->getAllPhoto($user_id);
+            $ret = $this->dbPhoto->getAllPhoto($user_id);
          } else {
-            $ret = $dbPhoto->getAllPhoto();
+            $ret = $this->dbPhoto->getAllPhoto();
          }
       }
       return $ret;

@@ -1,30 +1,33 @@
 <?php
-$root = $_SERVER['DOCUMENT_ROOT'];
-$root .= "/data/DiversNote_local";
+require_once 'common_con.php';
+
+// クラスの読み込み
 require_once($root . "/app/util/SessionUtil.php");
 require_once($root . "/app/util/CommonUtil.php");
 require_once($root . "/app/model/ItemModel.php");
 require_once($root . "/app/model/PhotoModel.php");
-
-$img_dir = $root . '/divers/img/';
-$singe_dir = $root . '/divers/signe/';
-
-$dbItem = new ItemModel();
-$dbPhoto = new PhotoModel();
 
 /**
  * ItemContorollerクラス
  */
 class ItemController
 {
+   /** @var object インスタンス */
+   protected $dbItem;
+   protected $dbPhoto;
+
+   public function __construct()
+   {
+      $this->dbItem = new ItemModel();
+      $this->dbPhoto = new PhotoModel();
+   }
+
    /**
     * idに合致するアイテムの取得
     */
    public function getItemById($user_id, $item_id)
    {
-      global $dbItem;
-
-      $ret = $dbItem->getItemById($user_id, $item_id);
+      $ret = $this->dbItem->getItemById($user_id, $item_id);
 
       // echo '<pre>';
       // var_dump($ret);
@@ -39,9 +42,7 @@ class ItemController
     */
    public function getItemPhoto($item_id)
    {
-      global $dbPhoto;
-
-      $ret = $dbPhoto->getPhotoByItemId($item_id);
+      $ret = $this->dbPhoto->getPhotoByItemId($item_id);
 
       // echo '<pre>';
       // var_dump($ret);
@@ -65,8 +66,6 @@ class ItemController
       // CSRF対策）
       CommonUtil::csrf($_SESSION['token'], $req['token']);
 
-      global $dbItem;
-
       // nullの文字列をNULLへ変換
       $req = $this->changeNull($req);
 
@@ -78,15 +77,7 @@ class ItemController
       $req = $this->saveSigen($req);
 
       // dbの新規追加
-      try {
-         header('Location: ../../error.php');
-      } catch (Exception $e) {
-         var_dump($e);
-         die;
-         header('Location: ../../error.php');
-      }
-      die;
-      $dbItem->insert($req);
+      $this->dbItem->insert($req);
 
       return true;
    }
@@ -104,8 +95,6 @@ class ItemController
       SessionUtil::sessionStart();
       // CSRF対策）
       CommonUtil::csrf($_SESSION['token'], $req['token']);
-
-      global $dbItem;
 
       // nullの文字列をNULLへ変換
       $req = $this->changeNull($req);
@@ -127,7 +116,7 @@ class ItemController
       $req = $this->saveSigen($req);
 
       // dbの更新
-      $dbItem->update($req);
+      $this->dbItem->update($req);
 
       return true;
    }
@@ -139,15 +128,13 @@ class ItemController
    {
       global $img_dir;
       global $singe_dir;
-      global $dbItem;
-
       // 削除のタイミングに悩む：物理削除の時に削除する方がいい
       // if (!empty($req['old_signe'])) {
       //    // 古いサインの削除
       //    unlink($singe_dir . $req['old_signe']);
       // }
 
-      $dbItem->soft_delete($req);
+      $this->dbItem->soft_delete($req);
    }
 
    /**
@@ -236,13 +223,11 @@ class ItemController
    public function insertImage($data)
    {
       global $img_dir;
-      global $dbItem;
-      global $dbPhoto;
 
       // $json_img = json_decode($data['img'], true);
       $json_img = $data['new_img'];
 
-      $next_id = $dbItem->getNextId();
+      $next_id = $this->dbItem->getNextId();
       $now = date("Ymd_His");
 
       foreach ($json_img as $key => $val) {
@@ -262,7 +247,7 @@ class ItemController
          $arr['photo_name'] = $img_name;
          $arr['is_open'] = $val['is_open'];
 
-         $dbPhoto->insert($arr);
+         $this->dbPhoto->insert($arr);
       }
    }
 
@@ -271,9 +256,8 @@ class ItemController
     */
    public function updateImage($data)
    {
-      global $dbPhoto;
       foreach ($data as $val) {
-         $dbPhoto->updateIsOpen($val);
+         $this->dbPhoto->updateIsOpen($val);
       }
    }
 
@@ -282,13 +266,12 @@ class ItemController
     */
    public function deleteImage($data)
    {
-      global $dbPhoto;
       global $img_dir;
 
       if (!empty($data)) {
          foreach ($data as $val) {
             unlink($img_dir . $val['name']);
-            $dbPhoto->hard_delete($val['id']);
+            $this->dbPhoto->hard_delete($val['id']);
          }
       }
    }
@@ -298,19 +281,17 @@ class ItemController
     */
    public function getSchItems($user_id, $select, $val)
    {
-      global $dbItem;
-
       if ((isset($select) && !empty($select)) && (isset($val) && !empty($val))) {
          if ($select == 'all') {
             // 全ての条件から検索
-            $ret = $dbItem->getSearchItemAll($user_id, $val);
+            $ret = $this->dbItem->getSearchItemAll($user_id, $val);
          } else {
             // 特定の条件から検索
-            $ret = $dbItem->getSearchItem($user_id, $select, $val);
+            $ret = $this->dbItem->getSearchItem($user_id, $select, $val);
          }
       } else {
          // 検索に不備があった場合
-         $ret = $dbItem->getUserItem($user_id);
+         $ret = $this->dbItem->getUserItem($user_id);
       }
       return $ret;
    }
