@@ -1,4 +1,6 @@
 <?php
+// namespace app\model;
+
 /**
  * 基本となるモデル
  */
@@ -31,8 +33,7 @@
       //DB接続における例外発生時にPDOExceptionが投げられる
       $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (Exception $e) {
-      var_dump($e);
-      exit;
+      // var_dump($e);exit;
     }
 
     // PDO::__construct()は指定したデータベースへの接続が失敗した場合にPDOExceptionがthrowされる

@@ -1,7 +1,5 @@
 <?php
-$root = $_SERVER['DOCUMENT_ROOT'];
-$root .= '/data/DiversNote_local';
-require_once($root . '/app/model/BaseModel.php');
+require_once 'common_model.php';
 
 /**
  * ListModel

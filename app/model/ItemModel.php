@@ -1,7 +1,8 @@
 <?php
-$root = $_SERVER['DOCUMENT_ROOT'];
-$root .= '/data/DiversNote_local';
-require_once($root . '/app/model/BaseModel.php');
+// namespace app\Model;
+// use app\Model\BaseModel;
+
+require_once 'common_model.php';
 
 /**
  * ItemModel
