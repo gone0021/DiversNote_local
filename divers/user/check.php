@@ -71,7 +71,6 @@ require_once 'check_util.php';
          </div>
          <!-- /#contents -->
          <!-- <div class="push"></div> -->
-         <?php require_once($root . "../footer.php"); ?>
 
       </div>
       <!-- /#container -->
