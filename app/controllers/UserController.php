@@ -8,10 +8,17 @@ require_once($root . "/app/model/UserModel.php");
  */
 class UserController
 {
+   /** @var object インスタンス */
+   protected $dbUser;
+
+   public function __construct()
+   {
+      $this->dbUser = new UserModel();
+   }
+
    public function isCurrentPass($id, $pass, &$msg)
    {
-      $dbUser = new UserModel();
-      $rec = $dbUser->getUserById($id);
+      $rec = $this->dbUser->getUserById($id);
       if (!password_verify($pass, $rec['password'])) {
          $msg = "パスワードが異なります";
          return false;
@@ -28,8 +35,7 @@ class UserController
     */
    public function checkPassEmail($email, $pass)
    {
-      $dbUser = new UserModel();
-      $rec = $dbUser->getUserByEmail($email);
+      $rec = $this->dbUser->getUserByEmail($email);
 
       if (!password_verify($pass, $rec['password'])) {
          return array();
@@ -48,8 +54,7 @@ class UserController
     */
    public function checkBirthdayEmail($email, $birthday)
    {
-      $dbUser = new UserModel();
-      $rec = $dbUser->getUserByEmail($email);
+      $rec = $this->dbUser->getUserByEmail($email);
 
       if ($birthday != $rec['birthday']) {
          return array();

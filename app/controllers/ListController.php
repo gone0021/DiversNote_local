@@ -7,13 +7,19 @@ require_once($root . "/app/model/ListModel.php");
 
 // use app\controllers\BaseController;
 
-$dbList = new ListModel();
-
 /**
  * ItemContorollerクラス
  */
 class ListController
 {
+   /** @var object インスタンス */
+   protected $dbList;
+
+   public function __construct()
+   {
+      $this->dbList = new ListModel();
+   }
+
    public function index($req = null)
    {
       // code...
@@ -36,10 +42,9 @@ class ListController
       // CSRF対策）
       CommonUtil::csrf($_SESSION['token'], $req['token']);
 
-      global $dbList;
       // 物理削除してからinsertする
       if (!empty($req['list_name'])) {
-         $dbList->hard_delete($req['user_id']);
+         $this->dbList->hard_delete($req['user_id']);
       }
 
       $toSql = [];
@@ -53,7 +58,7 @@ class ListController
          // echo '<pre>';
          // var_export($toSql);
          // echo '</pre>';
-         $dbList->insert($toSql);
+         $this->dbList->insert($toSql);
       }
    }
 
