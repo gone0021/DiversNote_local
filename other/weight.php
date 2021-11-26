@@ -1,5 +1,8 @@
 <?php
-require_once('../common.php');
+// jsで計算するだけのため当ファイルのみで処理する
+
+// 共通ファイル
+require_once('../base_setting.php');
 
 // スーツ
 $suit = ['ワンピース', 'シーガル', 'ロンジョン', 'フードベスト', '水着',];
