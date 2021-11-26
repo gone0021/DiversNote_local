@@ -15,6 +15,9 @@ if (empty($_SESSION['user'])) {
    $user = $_SESSION['user'];
 }
 
+// sessionに$tokenの値を保存する
+$_SESSION['token'] = $token;
+
 // jsへ送る値
 $toJs = [
    'user_id' => $user['id'],
