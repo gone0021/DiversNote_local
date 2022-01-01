@@ -1,20 +1,30 @@
 <?php
-$root = $_SERVER['DOCUMENT_ROOT'];
-$root .= "/data/DiversNote_local";
-require_once($root . "/app/controllers/ItemController.php");
+require_once('../config.php');
+
+use app\util\CommonUtil;
+use app\controllers\ItemController;
+
+
+// // CSRF対策）
+CommonUtil::csrf($_SESSION['token'], $_POST['token']);
+
+// サニタイズ
+$post = CommonUtil::sanitaize($_POST);
 
 // echo '<pre>';
-// var_dump($_POST);
+// var_dump($post);
 // echo '</pre>';
 // die;
 
-$_POST['new_img'] = json_decode($_POST['new_img'], true);
+$post['new_img'] = json_decode($post['new_img'], true);
 
-$conItem = new ItemController();
-$conItem->store($_POST);
-
-exit;
-
+try {
+   $conItem = new ItemController();
+   $conItem->store($post);
+} catch (Exception $e) {
+   // var_dump($e);exit;
+   header('Location: ./');
+}
 // echo '<br />';
 // var_dump($ret);
 // return json_encode($ret);

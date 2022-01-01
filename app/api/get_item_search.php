@@ -1,23 +1,18 @@
 <?php
-$root = $_SERVER['DOCUMENT_ROOT'];
-$root .= "/data/DiversNote_local";
-require_once($root . "/app/controllers/ItemController.php");
+require_once('../config.php');
 
-$user_id = $_GET['user_id'];
+use app\controllers\ItemController;
 
-// echo '<pre>';
-// var_export($_GET);
-// echo '</pre>';
-// die;
+try {
+   $conItem = new ItemController();
+   $ret = $conItem->getSchItems($_GET['user_id'], $_GET['select'], $_GET['val']);
 
-$conItem = new ItemController();
-$ret = $conItem->getSchItems($user_id, $_GET['select'], $_GET['val']);
-
-$json = json_encode($ret);
-
-echo $json;
-return;
-
+   $json = json_encode($ret);
+   echo $json;
+} catch (Exception $e) {
+   // var_dump($e);exit;
+   header('Location: ./');
+}
 
 // echo '<br />';
 // var_dump($ret);

@@ -1,20 +1,21 @@
 <?php
-$root = $_SERVER['DOCUMENT_ROOT'];
-$root .= "/data/DiversNote_local";
-require_once($root . "/app/model/ItemModel.php");
+require_once('../config.php');
 
-$user_id = $_GET['user_id'];
+use app\model\BaseModel;
+use app\model\ItemModel;
 
-$dbItem = new ItemModel();
-$ret = $dbItem->getMaxItemNum($user_id);
+try {
+   $db = BaseModel::getInstance();
+   $dbItem = new ItemModel($db);
+   $ret = $dbItem->getMaxItemNum($_GET['user_id']);
 
-$json = json_encode($ret);
+   $json = json_encode($ret);
+   echo $json;
 
-echo $json;
-return;
-
-
+} catch (Exception $e) {
+   // var_dump($e);exit;
+   header('Location: ./');
+}
 // echo '<br />';
 // var_dump($ret);
 // return json_encode($ret);
-
