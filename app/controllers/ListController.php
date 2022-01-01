@@ -1,11 +1,9 @@
 <?php
-$root = $_SERVER['DOCUMENT_ROOT'];
-$root .= "/data/DiversNote_local";
-require_once($root . "/app/util/SessionUtil.php");
-require_once($root . "/app/util/CommonUtil.php");
-require_once($root . "/app/model/ListModel.php");
 
-// use app\controllers\BaseController;
+namespace app\controllers;
+
+use app\model\BaseModel;
+use app\model\ListModel;
 
 /**
  * ItemContorollerクラス
@@ -17,7 +15,8 @@ class ListController
 
    public function __construct()
    {
-      $this->dbList = new ListModel();
+      $db = BaseModel::getInstance();
+      $this->dbList = new ListModel($db);
    }
 
    public function index($req = null)
@@ -38,14 +37,15 @@ class ListController
     */
    public function update($req)
    {
-      SessionUtil::sessionStart();
-      // CSRF対策）
-      CommonUtil::csrf($_SESSION['token'], $req['token']);
-
       // 物理削除してからinsertする
       if (!empty($req['list_name'])) {
          $this->dbList->hard_delete($req['user_id']);
       }
+
+      // echo '<pre>';
+      // var_export($req);
+      // echo '</pre>';
+      // die;
 
       $toSql = [];
       $cnt = count($req['list_name']);
@@ -58,6 +58,7 @@ class ListController
          // echo '<pre>';
          // var_export($toSql);
          // echo '</pre>';
+         // die;
          $this->dbList->insert($toSql);
       }
    }

@@ -1,8 +1,8 @@
 <?php
-require_once 'common_con.php';
+namespace app\controllers;
 
-// クラスの読み込み
-require_once($root . "/app/model/PhotoModel.php");
+use app\model\BaseModel;
+use app\model\PhotoModel;
 
 /**
  * ItemContorollerクラス
@@ -14,7 +14,8 @@ class PhotoController
 
    public function __construct()
    {
-      $this->dbPhoto = new PhotoModel();
+      $db = BaseModel::getInstance();
+      $this->dbPhoto = new PhotoModel($db);
    }
 
    public function index($req = null)

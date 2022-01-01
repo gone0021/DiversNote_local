@@ -1,18 +1,23 @@
 <?php
-require_once 'common_model.php';
+namespace app\model;
 
 /**
  * UserModel
  */
 class UserModel extends BaseModel
 {
+   /** @var \PDO $pdo \PDOクラスインスタンス */
+   private $pdo;
+
    /**
     * コンストラクタ
+    *
+    * @param \PDO $pdo \PDOクラスインスタンス
     */
-   public function __construct()
+   public function __construct($pdo)
    {
-      // 親クラスのコンストラクタを呼び出す
-      parent::__construct();
+      // 引数に指定した\PDOクラスのインスタンスをプロパティに代入
+      $this->pdo = $pdo;
    }
 
    // --- select ---
@@ -49,11 +54,11 @@ class UserModel extends BaseModel
       $sql .= ' order by id';
 
       // セレクトで取得した情報をSQL文にセット
-      $stmt = $this->dbh->prepare($sql);
+      $stmt = $this->pdo->prepare($sql);
       // SQL文の実行
       $stmt->execute();
       // PDO::FETCH_ASSOC：カラム名をキーとする連想配列で取得
-      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      return $stmt->fetchAll(\PDO::FETCH_ASSOC);
    }
 
 
@@ -73,10 +78,10 @@ class UserModel extends BaseModel
       $sql .= ' WHERE deleted_at IS NULL ';
       $sql .= ' and id = :id ';
 
-      $stmt = $this->dbh->prepare($sql);
-      $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindParam(':id', $id, \PDO::PARAM_STR);
       $stmt->execute();
-      $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+      $rec = $stmt->fetch(\PDO::FETCH_ASSOC);
 
       // 検索結果が0件のときは空の配列を返却
       if (!$rec) {
@@ -88,6 +93,7 @@ class UserModel extends BaseModel
 
    /**
     * ユーザー名から当該ユーザーを検索
+    * 主にバリデーションに使用
     * @param string $name ユーザー名
     * @return array ユーザー情報の配列
     */
@@ -102,10 +108,10 @@ class UserModel extends BaseModel
       $sql .= ' WHERE deleted_at IS NULL ';
       $sql .= ' and user_name = :user_name ';
 
-      $stmt = $this->dbh->prepare($sql);
-      $stmt->bindParam(':user_name', $name, PDO::PARAM_STR);
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindParam(':user_name', $name, \PDO::PARAM_STR);
       $stmt->execute();
-      $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+      $rec = $stmt->fetch(\PDO::FETCH_ASSOC);
 
       // 検索結果が0件のときは空の配列を返却
       if (!$rec) {
@@ -117,6 +123,7 @@ class UserModel extends BaseModel
 
    /**
     * メールアドレスから当該ユーザーを検索
+    * 主にバリデーションに使用
     * @param string $email メールアドレス
     * @return array ユーザー情報の配列
     */
@@ -130,11 +137,11 @@ class UserModel extends BaseModel
       $sql .= ' WHERE deleted_at IS NULL ';
       $sql .= ' and email = :email ';
 
-      $stmt = $this->dbh->prepare($sql);
+      $stmt = $this->pdo->prepare($sql);
       // パラメータをバインド（:emailをポストしてきたemailの値へ変換） 
-      $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+      $stmt->bindParam(':email', $email, \PDO::PARAM_STR);
       $stmt->execute();
-      $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+      $rec = $stmt->fetch(\PDO::FETCH_ASSOC);
 
       // 検索結果が0件のときは空の配列を返却
       if (!$rec) {
@@ -172,12 +179,12 @@ class UserModel extends BaseModel
       $sql .= ')';
 
       // 情報をSQL文にセット
-      $stmt = $this->dbh->prepare($sql);
+      $stmt = $this->pdo->prepare($sql);
       // パラメータをバインド
-      $stmt->bindParam(':user_name', $data['user_name'], PDO::PARAM_STR);
-      $stmt->bindParam(':email', $data['email'], PDO::PARAM_STR);
-      $stmt->bindParam(':birthday', $data['birthday'], PDO::PARAM_STR);
-      $stmt->bindParam(':password', $data['password'], PDO::PARAM_STR);
+      $stmt->bindParam(':user_name', $data['user_name'], \PDO::PARAM_STR);
+      $stmt->bindParam(':email', $data['email'], \PDO::PARAM_STR);
+      $stmt->bindParam(':birthday', $data['birthday'], \PDO::PARAM_STR);
+      $stmt->bindParam(':password', $data['password'], \PDO::PARAM_STR);
       // SQL文の実行
       $ret = $stmt->execute();
 
@@ -208,12 +215,12 @@ class UserModel extends BaseModel
       $sql .= ' ,password = :password';
       $sql .= ' where id = :id';
 
-      $stmt = $this->dbh->prepare($sql);
-      $stmt->bindParam(':user_name', $data['user_name'], PDO::PARAM_STR);
-      $stmt->bindParam(':email', $data['email'], PDO::PARAM_STR);
-      $stmt->bindParam(':birthday', $data['birthday'], PDO::PARAM_STR);
-      $stmt->bindParam(':password', $data['password'], PDO::PARAM_STR);
-      $stmt->bindParam(':id', $data['id'], PDO::PARAM_INT);
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindParam(':user_name', $data['user_name'], \PDO::PARAM_STR);
+      $stmt->bindParam(':email', $data['email'], \PDO::PARAM_STR);
+      $stmt->bindParam(':birthday', $data['birthday'], \PDO::PARAM_STR);
+      $stmt->bindParam(':password', $data['password'], \PDO::PARAM_STR);
+      $stmt->bindParam(':id', $data['id'], \PDO::PARAM_INT);
       $ret = $stmt->execute();
 
       return $ret;
@@ -233,8 +240,8 @@ class UserModel extends BaseModel
       $sql .= ' last_login_at = CURRENT_TIME';
       $sql .= ' where id = :id';
 
-      $stmt = $this->dbh->prepare($sql);
-      $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindParam(':id', $id, \PDO::PARAM_STR);
       $ret = $stmt->execute();
 
       return $ret;
@@ -253,10 +260,10 @@ class UserModel extends BaseModel
       $sql .= 'where email = :email ';
 
       // 情報をSQL文にセット
-      $stmt = $this->dbh->prepare($sql);
+      $stmt = $this->pdo->prepare($sql);
       // パラメータをバインド
-      $stmt->bindParam(':email', $data['email'], PDO::PARAM_STR);
-      $stmt->bindParam(':password', $data['password'], PDO::PARAM_STR);
+      $stmt->bindParam(':email', $data['email'], \PDO::PARAM_STR);
+      $stmt->bindParam(':password', $data['password'], \PDO::PARAM_STR);
       // SQL文の実行
       $ret = $stmt->execute();
 

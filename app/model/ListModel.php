@@ -1,18 +1,23 @@
 <?php
-require_once 'common_model.php';
+namespace app\model;
 
 /**
  * ListModel
  */
 class ListModel extends BaseModel
 {
+   /** @var \PDO $pdo \PDOクラスインスタンス */
+   private $pdo;
+
    /**
     * コンストラクタ
+    *
+    * @param \PDO $pdo \PDOクラスインスタンス
     */
-   public function __construct()
+   public function __construct($pdo)
    {
-      // 親クラスのコンストラクタを呼び出す
-      parent::__construct();
+      // 引数に指定した\\PDOクラスのインスタンスをプロパティに代入
+      $this->pdo = $pdo;
    }
 
    /**
@@ -48,11 +53,11 @@ class ListModel extends BaseModel
       $sql .= ' WHERE l.user_id = :user_id';
       $sql .= ' order by l.tag_name IS NULL ASC, l.tag_name';
 
-      $stmt = $this->dbh->prepare($sql);
-      $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindParam(':user_id', $user_id, \PDO::PARAM_INT);
 
       $stmt->execute();
-      $ret = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $ret = $stmt->fetchAll(\PDO::FETCH_ASSOC);
       return $ret;
    }
 
@@ -76,11 +81,11 @@ class ListModel extends BaseModel
       $sql .= ' ,:is_checked';
       $sql .= ')';
 
-      $stmt = $this->dbh->prepare($sql);
-      $stmt->bindParam(':user_id', $data['user_id'], PDO::PARAM_INT);
-      $stmt->bindParam(':tag_name', $data['tag_name'], PDO::PARAM_STR);
-      $stmt->bindParam(':list_name', $data['list_name'], PDO::PARAM_STR);
-      $stmt->bindParam(':is_checked', $data['is_checked'], PDO::PARAM_STR);
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindParam(':user_id', $data['user_id'], \PDO::PARAM_INT);
+      $stmt->bindParam(':tag_name', $data['tag_name'], \PDO::PARAM_STR);
+      $stmt->bindParam(':list_name', $data['list_name'], \PDO::PARAM_STR);
+      $stmt->bindParam(':is_checked', $data['is_checked'], \PDO::PARAM_STR);
       $ret = $stmt->execute();
 
       return $ret;
@@ -105,12 +110,12 @@ class ListModel extends BaseModel
       $sql .= ' ,updated_at = CURRENT_TIMESTAMP';
       $sql .= ' WHERE id = :id';
 
-      $stmt = $this->dbh->prepare($sql);
-      $stmt->bindParam(':user_id', $data['user_id'], PDO::PARAM_STR);
-      $stmt->bindParam(':tag_name', $data['tag_name'], PDO::PARAM_STR);
-      $stmt->bindParam(':list_name', $data['list_name'], PDO::PARAM_STR);
-      $stmt->bindParam(':is_checked', $data['is_checked'], PDO::PARAM_STR);
-      $stmt->bindParam(':id', $data['id'], PDO::PARAM_INT);
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindParam(':user_id', $data['user_id'], \PDO::PARAM_STR);
+      $stmt->bindParam(':tag_name', $data['tag_name'], \PDO::PARAM_STR);
+      $stmt->bindParam(':list_name', $data['list_name'], \PDO::PARAM_STR);
+      $stmt->bindParam(':is_checked', $data['is_checked'], \PDO::PARAM_STR);
+      $stmt->bindParam(':id', $data['id'], \PDO::PARAM_INT);
       $ret = $stmt->execute();
 
       return $ret;
@@ -131,8 +136,8 @@ class ListModel extends BaseModel
       $sql .= ' deleted_at = CURRENT_TIMESTAMP';
       $sql .= ' WHERE user_id = :user_id';
 
-      $stmt = $this->dbh->prepare($sql);
-      $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindParam(':user_id', $user_id, \PDO::PARAM_INT);
       $ret = $stmt->execute();
 
       return $ret;
@@ -152,8 +157,8 @@ class ListModel extends BaseModel
       $sql .= 'DELETE FROM lists';
       $sql .= ' WHERE user_id = :user_id';
 
-      $stmt = $this->dbh->prepare($sql);
-      $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindParam(':user_id', $user_id, \PDO::PARAM_INT);
       $ret = $stmt->execute();
 
       return $ret;

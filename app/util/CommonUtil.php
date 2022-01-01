@@ -1,7 +1,9 @@
 <?php
 
+namespace app\util;
+
 /**
- * 共通関数クラスです。
+ * 共通関数クラス
  */
 class CommonUtil
 {
@@ -48,19 +50,33 @@ class CommonUtil
    }
 
    /**
-    * 値の有無をチェック  
+    * セッションのクリア
+    * @param array $arr 
+    */
+   public static function unsession($arr)
+   {
+      foreach ($arr as $v) {
+         $_SESSION[$v] = '';
+         unset($_SESSION[$v]);
+      }
+   }
+
+   /**
+    * ログインのチェック  
     * 引数に値があればそのまま返す
     * @param array 保存されている値
     * @return array 保存されている値
     */
-   public static function checkVal($val)
+   public static function isUser($session, $redirect)
    {
-      if (empty($val)) {
+      $ret = '';
+      if (empty($session)) {
          // 未ログインのとき
-         header('Location: ../');
+         header("Location: $redirect");
       } else {
          // ログイン済みのとき
-         return $val;
+         $ret = $session;
       }
+      return $ret;
    }
 }

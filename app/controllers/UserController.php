@@ -1,7 +1,10 @@
 <?php
-$root = $_SERVER['DOCUMENT_ROOT'];
-$root .= "/data/DiversNote_local";
-require_once($root . "/app/model/UserModel.php");
+
+namespace app\controllers;
+
+use app\util\CommonUtil;
+use app\model\BaseModel;
+use app\model\UserModel;
 
 /**
  * ItemContorollerクラス
@@ -13,25 +16,15 @@ class UserController
 
    public function __construct()
    {
-      $this->dbUser = new UserModel();
-   }
-
-   public function isCurrentPass($id, $pass, &$msg)
-   {
-      $rec = $this->dbUser->getUserById($id);
-      if (!password_verify($pass, $rec['password'])) {
-         $msg = "パスワードが異なります";
-         return false;
-      }
-
-      return true;
+      $db = BaseModel::getInstance();
+      $this->dbUser = new UserModel($db);
    }
 
    /**
     * メールアドレスからユーザーを検索してパスワードをチェック
     * @param string $email メールアドレス
     * @param string $password パスワード
-    * @return array ユーザー情報の配列（該当のユーザーが見つからないときは空の配列）
+    * @return array パスワードを除いたユーザー情報の配列（ユーザーが見つからないときは空の配列）
     */
    public function checkPassEmail($email, $pass)
    {
@@ -40,7 +33,7 @@ class UserController
       if (!password_verify($pass, $rec['password'])) {
          return array();
       }
-
+      // パスワードを削除
       unset($rec['password']);
 
       return $rec;
@@ -63,5 +56,11 @@ class UserController
       unset($rec['password']);
 
       return $rec;
+   }
+
+
+   public function login(Type $var = null)
+   {
+      # code...
    }
 }

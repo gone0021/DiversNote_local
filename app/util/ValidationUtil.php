@@ -1,12 +1,9 @@
 <?php
-// namespace app\util;
 
-// rootの指定
-$root = $_SERVER['DOCUMENT_ROOT'];
-$root .= "/data/DiversNote_local";
+namespace app\util;
 
-// クラスの読み込み
-require_once($root . "/app/model/UserModel.php");
+use app\model\BaseModel;
+use app\model\UserModel;
 
 /**
  * バリデーションチェック
@@ -28,7 +25,7 @@ class ValidationUtil
          $msg = "ユーザー名を入力してください";
          return false;
       }
-      if (strlen($name) > 50) {
+      if (mb_strlen($name) > 50) {
          $msg = "名前は50文字以内で入力してください";
          return false;
       }
@@ -43,7 +40,8 @@ class ValidationUtil
    public static function isUsedName($name, &$msg): bool
    {
       $msg = '';
-      $dbUser = new UserModel();
+      $db = BaseModel::getInstance();
+      $dbUser = new UserModel($db);
       $checkName = $dbUser->getUserByName($name);
 
       if (!empty($checkName)) {
@@ -72,7 +70,7 @@ class ValidationUtil
          return false;
       }
       if (strlen($email) > 256) {
-         $msg = "メールアドレスは256文字以内で入力してください";
+         $msg = "メールアドレスは255文字以内で入力してください";
          return false;
       }
 
@@ -88,7 +86,8 @@ class ValidationUtil
    public static function isUsedEmail($email, &$msg): bool
    {
       $msg = '';
-      $dbUser = new UserModel();
+      $db = BaseModel::getInstance();
+      $dbUser = new UserModel($db);
       $checkEmail = $dbUser->getUserByEmail($email);
 
       if (!empty($checkEmail)) {
@@ -98,34 +97,29 @@ class ValidationUtil
       return true;
    }
 
-
    /**
-    * 日付形式のチェック
-    * @param string $date 日付形式の文字列
-    * @return boolean 正しいとき：true、正しくないとき：false
+    * パスワードのチェック
+    * @param int $id ユーザーid 
+    * @param string $pass パスワード
+    * @param string $msg エラーメッセージを代入
     */
-   public static function isBirthday($date, &$msg): bool
+   public static function isCurrentPass($id, $pass, &$msg)
    {
-      // strtotime()で正しい日付か確認
-      // https://www.php.net/manual/ja/function.strtotime.php
       $msg = '';
-      if (empty($date)) {
-         $msg = "誕生日を入力してください";
+      $db = BaseModel::getInstance();
+      $dbUser = new UserModel($db);
+
+      $rec = $dbUser->getUserById($id);
+      if (!password_verify($pass, $rec['password'])) {
+         $msg = "パスワードが異なります";
          return false;
       }
-      if (!strtotime($date)) {
-         $msg = "正しい日付を入力してください";
-         return false;
-      }
-      if (strlen($date) > 10) {
-         $msg = "正しい日付を入力してください";
-         return false;
-      }
+
       return true;
    }
 
    /**
-    * パスワードのチェック
+    * パスワードの入力チェック
     * @param string $pass パスワード
     * @param string $msg エラーメッセージを代入
     * @return boolean
@@ -174,9 +168,6 @@ class ValidationUtil
       return true;
    }
 
-   //+------------------------------------------------------------------+
-   //| item check                                                       |
-   //+------------------------------------------------------------------+
    /**
     * 正しい日付形式の文字列かどうかを判定
     * @param string $date 日付形式の文字列
@@ -191,6 +182,12 @@ class ValidationUtil
       }
 
       if (!strtotime($date)) {
+         $msg = "正しい日付を入力してください";
+         return false;
+      }
+      $ret = explode('-', $date);
+      // var_dump($ret);die;
+      if ((int)$ret['0'] > 3000) {
          $msg = "正しい日付を入力してください";
          return false;
       }

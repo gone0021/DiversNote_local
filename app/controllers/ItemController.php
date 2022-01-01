@@ -1,11 +1,10 @@
 <?php
-require_once 'common_con.php';
 
-// クラスの読み込み
-require_once($root . "/app/util/SessionUtil.php");
-require_once($root . "/app/util/CommonUtil.php");
-require_once($root . "/app/model/ItemModel.php");
-require_once($root . "/app/model/PhotoModel.php");
+namespace app\controllers;
+
+use app\model\BaseModel;
+use app\model\ItemModel;
+use app\model\PhotoModel;
 
 /**
  * ItemContorollerクラス
@@ -16,25 +15,21 @@ class ItemController
    protected $dbItem;
    protected $dbPhoto;
 
+   // クラスプロパティに関数は使えないためコンストラクタで作成する
+   protected $root;
+   protected $img_dir;
+   protected $singe_dir;
+
    public function __construct()
    {
-      $this->dbItem = new ItemModel();
-      $this->dbPhoto = new PhotoModel();
-   }
+      $this->root = $_SERVER['DOCUMENT_ROOT'];
+      $this->root .= "/data/DiversNote_local";
+      $this->img_dir = $this->root . '/divers/img/';
+      $this->singe_dir = $this->root . '/divers/signe/';
 
-   /**
-    * idに合致するアイテムの取得
-    */
-   public function getItemById($user_id, $item_id)
-   {
-      $ret = $this->dbItem->getItemById($user_id, $item_id);
-
-      // echo '<pre>';
-      // var_dump($ret);
-      // echo '</pre>';
-      // die;
-
-      return $ret;
+      $db = BaseModel::getInstance();
+      $this->dbItem = new ItemModel($db);
+      $this->dbPhoto = new PhotoModel($db);
    }
 
    /**
@@ -62,10 +57,6 @@ class ItemController
       // echo '</pre>';
       // die;
 
-      SessionUtil::sessionStart();
-      // CSRF対策）
-      CommonUtil::csrf($_SESSION['token'], $req['token']);
-
       // nullの文字列をNULLへ変換
       $req = $this->changeNull($req);
 
@@ -91,10 +82,6 @@ class ItemController
       // var_export($req);
       // echo '</pre>';
       // die;
-
-      SessionUtil::sessionStart();
-      // CSRF対策）
-      CommonUtil::csrf($_SESSION['token'], $req['token']);
 
       // nullの文字列をNULLへ変換
       $req = $this->changeNull($req);
@@ -126,12 +113,10 @@ class ItemController
     */
    public function soft_delete($req)
    {
-      global $img_dir;
-      global $singe_dir;
       // 削除のタイミングに悩む：物理削除の時に削除する方がいい
       // if (!empty($req['old_signe'])) {
       //    // 古いサインの削除
-      //    unlink($singe_dir . $req['old_signe']);
+      //    unlink($this->singe_dir . $req['old_signe']);
       // }
 
       $this->dbItem->soft_delete($req);
@@ -157,20 +142,24 @@ class ItemController
     */
    public function saveSigen($data)
    {
-      global $singe_dir;
-
       // 保存名の作成
       $now = date("Ymd_His");
       $signe_name = $data['user_id'] . 'signe_' . $now . '.png';
 
       if (!empty($data['signe']) && empty($data['old_signe'])) {
          // 新規の保存
-         // echo 'pt.1';
+         // echo 'new';
 
          // 保存するイメージの取得
          $img = file_get_contents($data['signe']);
+
+         // echo $this->singe_dir . '<br>';
+         // echo $signe_name . '<br>';
+         // echo $img . '<br>';
+         // die;
+
          // 保存
-         file_put_contents($singe_dir . $signe_name, $img);
+         file_put_contents($this->singe_dir . $signe_name, $img);
          // 保存名を$dataに代入して返す
          $data['signe'] = $signe_name;
          // old_signeをなくす
@@ -178,10 +167,10 @@ class ItemController
          return $data;
       } else if (!empty($data['signe']) && !empty($data['old_signe']) && $data['signe'] == 'delete') {
          // サインの削除
-         // echo 'pt.2';
+         // echo 'del';
 
          // 古いサインの削除
-         unlink($singe_dir . $data['old_signe']);
+         unlink($this->singe_dir . $data['old_signe']);
          // old_signeをsigneに代入
          $data['signe'] = NULL;
          // old_signeをなくす
@@ -189,14 +178,14 @@ class ItemController
          return $data;
       } else if (!empty($data['signe']) && !empty($data['old_signe'])) {
          // 新の保存＋旧の削除
-         // echo 'pt.3';
+         // echo 'update;
 
          // 保存するイメージの取得
          $img = file_get_contents($data['signe']);
          // 保存
-         file_put_contents($singe_dir . $signe_name, $img);
+         file_put_contents($this->singe_dir . $signe_name, $img);
          // 古いサインの削除
-         unlink($singe_dir . $data['old_signe']);
+         unlink($this->singe_dir . $data['old_signe']);
          // 保存名を$dataに代入
          $data['signe'] = $signe_name;
          // old_signeをなくす
@@ -222,8 +211,6 @@ class ItemController
     */
    public function insertImage($data)
    {
-      global $img_dir;
-
       // $json_img = json_decode($data['img'], true);
       $json_img = $data['new_img'];
 
@@ -236,7 +223,7 @@ class ItemController
          // 保存するイメージの取得
          $img = file_get_contents($val['url']);
          // 保存
-         file_put_contents($img_dir . $img_name, $img);
+         file_put_contents($this->img_dir . $img_name, $img);
 
          $arr = [];
          if (empty($data['id'])) {
@@ -266,11 +253,9 @@ class ItemController
     */
    public function deleteImage($data)
    {
-      global $img_dir;
-
       if (!empty($data)) {
          foreach ($data as $val) {
-            unlink($img_dir . $val['name']);
+            unlink($this->img_dir . $val['name']);
             $this->dbPhoto->hard_delete($val['id']);
          }
       }

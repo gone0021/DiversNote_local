@@ -1,18 +1,23 @@
 <?php
-require_once 'common_model.php';
+namespace app\model;
 
 /**
  * PhotoModel
  */
 class PhotoModel extends BaseModel
 {
+   /** @var \PDO $pdo \PDOクラスインスタンス */
+   private $pdo;
+
    /**
     * コンストラクタ
+    *
+    * @param \PDO $pdo \PDOクラスインスタンス
     */
-   public function __construct()
+   public function __construct($pdo)
    {
-      // 親クラスのコンストラクタを呼び出す
-      parent::__construct();
+      // 引数に指定した\\PDOクラスのインスタンスをプロパティに代入
+      $this->pdo = $pdo;
    }
 
    /**
@@ -53,11 +58,11 @@ class PhotoModel extends BaseModel
       $sql .= ' WHERE p.item_id = :item_id';
       $sql .= ' order by p.photo_name asc';
 
-      $stmt = $this->dbh->prepare($sql);
-      $stmt->bindParam(':item_id', $item_id, PDO::PARAM_INT);
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindParam(':item_id', $item_id, \PDO::PARAM_INT);
 
       $stmt->execute();
-      $ret = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $ret = $stmt->fetchAll(\PDO::FETCH_ASSOC);
       return $ret;
    }
 
@@ -76,11 +81,11 @@ class PhotoModel extends BaseModel
       $sql .= ' AND i.user_id = :user_id';
       $sql .= ' order by i.dive_num desc';
 
-      $stmt = $this->dbh->prepare($sql);
-      $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindParam(':user_id', $user_id, \PDO::PARAM_INT);
 
       $stmt->execute();
-      $ret = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $ret = $stmt->fetchAll(\PDO::FETCH_ASSOC);
       return $ret;
    }
 
@@ -106,13 +111,13 @@ class PhotoModel extends BaseModel
       }
       $sql .= ' order by i.dive_date desc';
 
-      $stmt = $this->dbh->prepare($sql);
+      $stmt = $this->pdo->prepare($sql);
 
       if (!empty($user_id)) {
-         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+         $stmt->bindParam(':user_id', $user_id, \PDO::PARAM_INT);
       }
       $stmt->execute();
-      $ret = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $ret = $stmt->fetchAll(\PDO::FETCH_ASSOC);
       return $ret;
    }
 
@@ -148,17 +153,17 @@ class PhotoModel extends BaseModel
 
       $likeWord = "%$val%";
 
-      $stmt = $this->dbh->prepare($sql);
+      $stmt = $this->pdo->prepare($sql);
       if (!empty($user_id)) {
-         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+         $stmt->bindParam(':user_id', $user_id, \PDO::PARAM_INT);
       }
-      $stmt->bindParam(':title', $likeWord, PDO::PARAM_STR);
-      $stmt->bindParam(':dive_date', $likeWord, PDO::PARAM_STR);
-      $stmt->bindParam(':erea_name', $likeWord, PDO::PARAM_STR);
-      $stmt->bindParam(':point_name', $likeWord, PDO::PARAM_STR);
+      $stmt->bindParam(':title', $likeWord, \PDO::PARAM_STR);
+      $stmt->bindParam(':dive_date', $likeWord, \PDO::PARAM_STR);
+      $stmt->bindParam(':erea_name', $likeWord, \PDO::PARAM_STR);
+      $stmt->bindParam(':point_name', $likeWord, \PDO::PARAM_STR);
 
       $stmt->execute();
-      $ret = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $ret = $stmt->fetchAll(\PDO::FETCH_ASSOC);
       return $ret;
    }
 
@@ -205,25 +210,25 @@ class PhotoModel extends BaseModel
 
       $likeWord = "%$val%";
 
-      $stmt = $this->dbh->prepare($sql);
+      $stmt = $this->pdo->prepare($sql);
       if (!empty($user_id)) {
-         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+         $stmt->bindParam(':user_id', $user_id, \PDO::PARAM_INT);
       }
       if ($select == 'title') {
-         $stmt->bindParam(':title', $likeWord, PDO::PARAM_STR);
+         $stmt->bindParam(':title', $likeWord, \PDO::PARAM_STR);
       }
       if ($select == 'dive_date') {
-         $stmt->bindParam(':dive_date', $likeWord, PDO::PARAM_STR);
+         $stmt->bindParam(':dive_date', $likeWord, \PDO::PARAM_STR);
       }
       if ($select == 'erea_name') {
-         $stmt->bindParam(':erea_name', $likeWord, PDO::PARAM_STR);
+         $stmt->bindParam(':erea_name', $likeWord, \PDO::PARAM_STR);
       }
       if ($select == 'point_name') {
-         $stmt->bindParam(':point_name', $likeWord, PDO::PARAM_STR);
+         $stmt->bindParam(':point_name', $likeWord, \PDO::PARAM_STR);
       }
 
       $stmt->execute();
-      $ret = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $ret = $stmt->fetchAll(\PDO::FETCH_ASSOC);
       return $ret;
    }
 
@@ -247,10 +252,10 @@ class PhotoModel extends BaseModel
       $sql .= ' ,:is_open';
       $sql .= ')';
 
-      $stmt = $this->dbh->prepare($sql);
-      $stmt->bindParam(':item_id', $data['item_id'], PDO::PARAM_INT);
-      $stmt->bindParam(':photo_name', $data['photo_name'], PDO::PARAM_STR);
-      $stmt->bindParam(':is_open', $data['is_open'], PDO::PARAM_STR);
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindParam(':item_id', $data['item_id'], \PDO::PARAM_INT);
+      $stmt->bindParam(':photo_name', $data['photo_name'], \PDO::PARAM_STR);
+      $stmt->bindParam(':is_open', $data['is_open'], \PDO::PARAM_STR);
       $ret = $stmt->execute();
 
       return $ret;
@@ -274,11 +279,11 @@ class PhotoModel extends BaseModel
       $sql .= ' ,updated_at = CURRENT_TIMESTAMP';
       $sql .= ' WHERE id = :id';
 
-      $stmt = $this->dbh->prepare($sql);
-      $stmt->bindParam(':item_id', $data['item_id'], PDO::PARAM_STR);
-      $stmt->bindParam(':photo_name', $data['photo_name'], PDO::PARAM_STR);
-      $stmt->bindParam(':is_open', $data['is_open'], PDO::PARAM_STR);
-      $stmt->bindParam(':id', $data['id'], PDO::PARAM_INT);
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindParam(':item_id', $data['item_id'], \PDO::PARAM_STR);
+      $stmt->bindParam(':photo_name', $data['photo_name'], \PDO::PARAM_STR);
+      $stmt->bindParam(':is_open', $data['is_open'], \PDO::PARAM_STR);
+      $stmt->bindParam(':id', $data['id'], \PDO::PARAM_INT);
       $ret = $stmt->execute();
 
       return $ret;
@@ -300,9 +305,9 @@ class PhotoModel extends BaseModel
       $sql .= ' ,updated_at = CURRENT_TIMESTAMP';
       $sql .= ' WHERE id = :id';
 
-      $stmt = $this->dbh->prepare($sql);
-      $stmt->bindParam(':is_open', $data['is_open'], PDO::PARAM_STR);
-      $stmt->bindParam(':id', $data['id'], PDO::PARAM_INT);
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindParam(':is_open', $data['is_open'], \PDO::PARAM_STR);
+      $stmt->bindParam(':id', $data['id'], \PDO::PARAM_INT);
       $ret = $stmt->execute();
 
       return $ret;
@@ -323,8 +328,8 @@ class PhotoModel extends BaseModel
       $sql .= ' deleted_at = CURRENT_TIMESTAMP';
       $sql .= ' WHERE id = :id';
 
-      $stmt = $this->dbh->prepare($sql);
-      $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
       $ret = $stmt->execute();
 
       return $ret;
@@ -344,8 +349,8 @@ class PhotoModel extends BaseModel
       $sql .= 'DELETE FROM photos';
       $sql .= ' WHERE id = :id';
 
-      $stmt = $this->dbh->prepare($sql);
-      $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
       $ret = $stmt->execute();
 
       return $ret;
