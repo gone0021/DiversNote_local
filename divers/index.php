@@ -1,15 +1,15 @@
 <?php
-require_once 'index_util.php';
+require_once ('./index_util.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php require_once($rootDivers . "/head_home.php"); ?>
+<?php require_once($divers . "/head_home.php"); ?>
 
 <body>
    <div id="app">
       <div id="container">
-         <?php require_once($rootDivers . "/navi_home.php"); ?>
+         <?php require_once($divers . "/navi_home.php"); ?>
 
          <div id="contents">
             <div class="inner">
@@ -49,7 +49,7 @@ require_once 'index_util.php';
 
          </div>
          <!--/#contents-->
-         <?php require_once($rootDivers . "/item-modal.php"); ?>
+         <?php require_once($divers . "/item-modal.php"); ?>
 
          <p id="toTop" class="nav-fix-pos-pagetop"><a href="javascript:void(0)">↑</a></p>
 
@@ -58,7 +58,7 @@ require_once 'index_util.php';
 
       </div>
       <!--/#container-->
-      <?php require_once("../unsession.php"); ?>
+      <?php require_once $unsession; ?>
 
    </div>
    <!-- /#app -->
