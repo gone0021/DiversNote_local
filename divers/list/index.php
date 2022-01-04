@@ -1,15 +1,15 @@
 <?php
-require_once 'list.php';
+require_once ('./list.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php include_once($rootDivers . "/head_list.php"); ?>
+<?php include_once($divers . "/head_list.php"); ?>
 
 <body>
    <div id="list">
       <div id="container">
-         <?php include_once($rootDivers . "/navi.php"); ?>
+         <?php include_once($divers . "/navi.php"); ?>
 
          <div id="contents">
             <div class="inner">
@@ -24,7 +24,8 @@ require_once 'list.php';
                         <tr>
                            <th class="pl10">タグ</th>
                            <th class="pl10">持ち物</th>
-                           <th class="px10">状態</th>
+                           <th class="px10" @click="onIsChecked" >状態</th>
+                           <th class="pl10 w50" >削除</th>
                         </tr>
 
                         <!-- 保存されてる値 -->
@@ -38,10 +39,10 @@ require_once 'list.php';
                            </td>
 
                            <td class="c">
-                              <input type="checkbox" name="id_checked[]" v-model="val.v_checked">
+                              <input type="checkbox" name="id_checked[]" v-model="val.v_checked" :checked="isChecked">
                            </td>
 
-                           <td class="w25 px10 c">
+                           <td class="c">
                               <span class="splice" @click="onDel(i)">
                                  x
                               </span>
@@ -50,6 +51,7 @@ require_once 'list.php';
 
                         <!-- 追加 -->
                         <tr>
+                           <input type="hidden" name="" v-model="addNum[0]">
                            <td>
                               <input type="search" class="" name="tag_name[]" placeholder="タグを追加" v-model="addTags[0]" />
                            </td>
@@ -59,13 +61,15 @@ require_once 'list.php';
                            <td class="c">
                               <input type="checkbox" class="" name="is_checked[]" v-model="addChecked[0]" />
                            </td>
-                           <td class="w25 px10 c">
+                           <td class="c">
                               <span class="splice" @click="onDeladd(0)">
                                  x
                               </span>
                            </td>
                         </tr>
+                        <!-- 追加があった場合 -->
                         <tr v-for="(add, i) in addLists">
+                        <input type="hidden" name="" v-model="addNum[i+1]">
                            <td>
                               <input type="search" class="" name="tag_name[]" placeholder="タグを追加" v-model="addTags[i+1]" />
                            </td>
@@ -75,7 +79,7 @@ require_once 'list.php';
                            <td class="c">
                               <input type="checkbox" class="" name="is_checked[]" v-model="addChecked[i+1]" />
                            </td>
-                           <td class="w25 px10 c">
+                           <td class="c">
                               <span class="splice" @click="onDeladd(i+1)">
                                  x
                               </span>
@@ -108,13 +112,13 @@ require_once 'list.php';
       <!--メニュー開閉ボタン-->
       <div id="menubar_hdr" class="close"></div>
 
-      <?php require_once("../../unsession.php"); ?>
    </div>
    <!-- /#app -->
 
    <script>
       let php = <?= json_encode($toJs); ?>
    </script>
+   <?php require_once $unsession; ?>
 </body>
 
 </html>

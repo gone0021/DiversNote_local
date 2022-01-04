@@ -1,15 +1,15 @@
 <?php
-require_once 'check_util.php';
+require_once ('./check_util.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="jp">
-<?php require_once($rootDivers . "/head.php"); ?>
+<?php require_once($divers . "/head.php"); ?>
 
 <body>
    <div id="app">
       <div id="container">
-         <?php require_once($rootDivers . "/navi.php"); ?>
+         <?php require_once($divers . "/navi.php"); ?>
 
          <div id="contents">
             <div class="inner">

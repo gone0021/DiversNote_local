@@ -1,15 +1,15 @@
 <?php
-require_once 'index_util.php';
+require_once ('./index_util.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php require_once($rootDivers . "/head.php"); ?>
+<?php require_once($divers . "/head.php"); ?>
 
 <body>
    <div id="app">
       <div id="container">
-         <?php require_once($rootDivers . "/navi.php"); ?>
+         <?php require_once($divers . "/navi.php"); ?>
 
          <div id="contents">
             <div class="inner">
@@ -124,10 +124,9 @@ require_once 'index_util.php';
       <!-- /#container -->
       <!--メニュー開閉ボタン-->
       <div id="menubar_hdr" class="close"></div>
-      
-      <?php require_once("../../unsession.php"); ?>
    </div>
    <!-- /#app -->
+   <?php require_once $unsession; ?>
 </body>
 
 </html>

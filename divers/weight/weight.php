@@ -1,5 +1,5 @@
 <?php
-require_once '../common_divers.php';
+require_once('../../app/config.php');
 
 // ※dbテーブルを作成してデータを保存するか検討中
 
