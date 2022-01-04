@@ -1,6 +1,7 @@
 <?php
-require_once('./common.php');
+require_once('./app/config.php');
 
+// session自体を削除
 session_destroy();
 header('refresh: 5; ./');
 ?>
@@ -27,7 +28,6 @@ header('refresh: 5; ./');
 
    </div>
    <!--/#container-->
-   <?php require_once("./unsession.php"); ?>
 
 </body>
 

@@ -1,8 +1,11 @@
 <?php
-// 共通ファイル
-require_once("../common.php");
+require_once('../../app/config.php');
 
-// クラスの読み込み
+use app\util\CommonUtil;
+use app\model\BaseModel;
+use app\model\UserModel;
+use app\controllers\UserController;
+
 require_once($root . "/app/util/CommonUtil.php");
 require_once($root . "/app/util/ValidationUtil.php");
 require_once($root . "/app/controllers/UserController.php");
@@ -10,8 +13,12 @@ require_once($root . "/app/model/UserModel.php");
 
 // CSRF対策）
 CommonUtil::csrf($_SESSION['token'], $_POST['token']);
+
 // サニタイズ
 $post = CommonUtil::sanitaize($_POST);
+
+// postされたtokenを削除
+unset($post['token']);
 
 // echo '<pre>';
 // var_dump($post);
@@ -29,16 +36,14 @@ $data = array(
    'password' => $hash,
 );
 
-// インスタンス
-$dbUser = new UserModel();
-
 // ユーザーの登録
 try {
+   $db = BaseModel::getInstance();
+   $dbUser = new UserModel($db);
    $dbUser->insertUser($data);
-   echo 'ok';
 } catch (Exception $e) {
    // var_dump($e);exit;
-   header('Location: ../../error.php');
+   header("Location: $urlError");
 }
 
 // ユーザー情報を取得してログイン
@@ -56,29 +61,22 @@ try {
       $_SESSION["post"]["email"] = $post["email"];
 
       // ログインページへリダイレクト
-      header("Location: ../login");
+      header('Location:' . $root . "auth/login");
    } else {
       // --- ユーザー情報が取得できたとき ---
-      // SESSIONのクリア：destroyするとsession自体がなくなるためNG
-      // SESSIONに保存されているエラーメッセージをクリア
-      $_SESSION["msg"] = "";
-      unset($_SESSION["msg"]);
-
-      // SESSIONに保存されているPOSTされてきたデータをクリア
-      $_SESSION["post"] = "";
-      unset($_SESSION["post"]);
-
-      $_SESSION["token"] = "";
-      unset($_SESSION["token"]);
-
-      
       // ユーザー情報をSESSIONに保存
       $_SESSION["user"] = $user;
       $dbUser->updateUserLastLogin($user['id']);
 
+      // sessionに保存されている値をクリア
+      $arr = ['post', 'msg', 'token'];
+      CommonUtil::unsession($arr);
+
       // itemsページへリダイレクト
-      header("Location: ../../divers/");
+      header("Location: $urlDivers");
+      // header("Location: ../../divers/");
    }
 } catch (Exception $e) {
-   header("Location: ../../error.php");
+   // var_dump($e);exit;
+   header("Location: $urlError");
 }

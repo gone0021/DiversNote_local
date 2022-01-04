@@ -1,12 +1,10 @@
 <?php
-// 共通ファイル
-require_once('../common.php');
+require_once('../../app/config.php');
 
-// クラスの読み込み
-require_once($root . '/app/util/CommonUtil.php');
-require_once($root . '/app/util/ValidationUtil.php');
-require_once($root . '/app/model/UserModel.php');
-
+use app\util\CommonUtil;
+use app\util\ValidationUtil;
+use app\model\BaseModel;
+use app\model\UserModel;
 
 // echo '<pre>';
 // var_dump($_POST);
@@ -18,6 +16,9 @@ CommonUtil::csrf($_SESSION['token'], $_POST['token']);
 
 // サニタイズ
 $post = CommonUtil::sanitaize($_POST);
+
+// postされたtokenを削除
+unset($post['token']);
 
 // バリデーションチェック
 $validityCheck = array();
@@ -57,19 +58,20 @@ $data = array(
 );
 
 // echo '<pre>';
-// var_dump($data);
+// var_dump($_SESSION);
 // echo '</pre>';
 // die;
 
 try {
-   $db = new UserModel();
-   $db->updatetUserPassword($data);
+   $db = BaseModel::getInstance();
+   $dbUser = new UserModel($db);
+   $dbUser->updatetUserPassword($data);
 
    // SESSIONに保存したデータを削除
    unset($_SESSION);
-   // header('Location: ../login');
+   
+   header('Location: ../login');
 } catch (Exception $e) {
-   var_dump($e);
-   exit;
-   header('Location: ../../error.php');
+   // var_dump($e);exit;
+   header("Location: $urlError");
 }

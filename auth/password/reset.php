@@ -1,26 +1,15 @@
 <?php
-// 共通ファイル
-require_once("../common.php");
-
-$token = bin2hex(openssl_random_pseudo_bytes(108));
-$_SESSION['token'] = $token;
-
-
-// echo '<pre>';
-// var_dump($_SESSION);
-// echo '</pre>';
-// die;
-
+require_once ('./reset_util.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php include_once($auth . "../head.php"); ?>
+<?php include_once($auth . '/head.php'); ?>
 
 <body>
    <div id="app">
       <div id="container">
-         <?php include_once($auth . "../navi.php"); ?>
+         <?php include_once($root . '/navi.php'); ?>
 
          <div id="contents">
             <div class="inner">
@@ -82,7 +71,7 @@ $_SESSION['token'] = $token;
          </div>
          <!-- /#contents -->
          <!-- <div class="push"></div> -->
-         <?php include_once($root . "/footer.php"); ?>
+         <?php include_once($root . '/footer.php'); ?>
 
       </div>
       <!-- /#container -->

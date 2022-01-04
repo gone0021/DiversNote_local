@@ -1,12 +1,16 @@
 <?php
-// 共通ファイル
-require_once("../common.php");
+require_once('../../app/config.php');
 
-// トークンの生成
-$token = bin2hex(openssl_random_pseudo_bytes(108));
+use app\util\CommonUtil;
+
+// 戻るボタンで戻ってきた時対策
+$arr = ['user'];
+CommonUtil::unsession($arr);
+
+// tokenをsessionに保存
 $_SESSION['token'] = $token;
 
-// SESSIONに保存したPOSTデータ（パスワードは保存しない）
+// SESSIONに保存したPOSTデータ
 // メールアドレス
 $email = "";
 if (!empty($_SESSION['post']['email'])) {
