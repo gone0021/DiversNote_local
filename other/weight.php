@@ -2,7 +2,7 @@
 // jsで計算するだけのため当ファイルのみで処理する
 
 // 共通ファイル
-require_once('../base_setting.php');
+require_once('../app/config.php');
 
 // スーツ
 $suit = ['ワンピース', 'シーガル', 'ロンジョン', 'フードベスト', '水着',];
@@ -11,12 +11,12 @@ $suit = ['ワンピース', 'シーガル', 'ロンジョン', 'フードベス�
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php include_once($root . "./other/head.php"); ?>
+<?php include_once($root . '/head.php'); ?>
 
 <body>
    <div id="app">
       <div id="container">
-         <?php include_once($root . "./other/navi.php"); ?>
+         <?php include_once($root . '/navi.php'); ?>
 
          <div id="contents">
             <div class="inner">
@@ -105,7 +105,7 @@ $suit = ['ワンピース', 'シーガル', 'ロンジョン', 'フードベス�
 
          </div>
          <!-- /#contents -->
-         <?php include_once($root . "/footer.php"); ?>
+         <?php include_once($root . '/footer.php'); ?>
 
       </div>
       <!-- /#container -->

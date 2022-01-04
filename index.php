@@ -1,30 +1,34 @@
 <?php
-require_once 'common_home.php';
+require_once('./app/config.php');
+
+// tokenをsessionに保存
+$_SESSION['token'] = $token;
+
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php include_once($root . "/head.php"); ?>
+<?php include_once($root . '/head_home.php'); ?>
 
 <body>
    <div id="app">
       <div id="container">
 
-         <?php include_once($root . "/header.php"); ?>
-         <?php include_once($root . "/navi.php"); ?>
+         <?php include_once($root . '/header.php'); ?>
+         <?php include_once($root . '/navi.php'); ?>
 
          <div id="contents">
 
             <div class="inner">
-               <?php include_once($root . "/about.php"); ?>
-               <?php include_once($root . "/news.php"); ?>
-               <?php include_once($root . "/entry.php"); ?>
+               <?php include_once($root . '/about.php'); ?>
+               <?php include_once($root . '/news.php'); ?>
+               <?php include_once($root . '/entry.php'); ?>
             </div>
             <!--/.inner-->
 
          </div>
          <!--/#contents-->
-         <?php include_once($root . "/footer.php"); ?>
+         <?php include_once($root . '/footer.php'); ?>
          
       </div>
       <!--/#container-->
@@ -34,7 +38,7 @@ require_once 'common_home.php';
       
       <!-- メニュー開閉ボタン -->
       <div id="menubar_hdr" class="close"></div>
-      <?php require_once("./unsession.php"); ?>
+      <?php require_once $unsession; ?>
 
    </div>
    <!-- /#app -->

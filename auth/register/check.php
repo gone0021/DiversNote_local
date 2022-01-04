@@ -1,5 +1,5 @@
 <?php
-require_once("./check_util.php");
+require_once './check_util.php';
 ?>
 
 <!DOCTYPE html>
@@ -9,8 +9,8 @@ require_once("./check_util.php");
 <body>
    <div id="app">
       <div id="container">
-         <?php require_once($root . "/header.php"); ?>
-         <?php require_once($auth . "/navi.php"); ?>
+         <?php include_once($root . '/header.php'); ?>
+         <?php include_once($root . '/navi.php'); ?>
 
          <div id="contents">
             <div class="inner">
@@ -71,13 +71,13 @@ require_once("./check_util.php");
          </div>
          <!-- /#contents -->
          <!-- <div class="push"></div> -->
-         <?php require_once($root . "/footer.php"); ?>
+         <?php include_once($root . '/footer.php'); ?>
 
       </div>
       <!-- /#container -->
       <!--メニュー開閉ボタン-->
       <div id="menubar_hdr" class="close"></div>
-      <?php require_once("../../unsession.php"); ?>
+      <?php require_once $unsession; ?>
 
    </div>
    <!-- /#app -->

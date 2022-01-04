@@ -1,15 +1,15 @@
 <?php
-require_once("./index_util.php");
+require_once ('./index_util.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php include_once($auth . "/head.php"); ?>
+<?php include_once($auth . '/head.php'); ?>
 
 <body>
    <div id="app">
       <div id="container">
-         <?php include_once($auth . "/navi.php"); ?>
+         <?php include_once($root . '/navi.php'); ?>
 
          <div id="contents">
             <div class="inner">
@@ -102,13 +102,13 @@ require_once("./index_util.php");
          </div>
          <!-- /#contents -->
          <!-- <div class="push"></div> -->
-         <?php include_once($root . "/footer.php"); ?>
+         <?php include_once($root . '/footer.php'); ?>
 
       </div>
       <!-- /#container -->
       <!--メニュー開閉ボタン-->
       <div id="menubar_hdr" class="close"></div>
-      <?php require_once("../../unsession.php"); ?>
+      <?php require_once $unsession; ?>
 
    </div>
    <!-- /#app -->

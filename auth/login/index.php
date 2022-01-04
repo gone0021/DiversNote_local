@@ -9,7 +9,7 @@ require_once('./index_util.php');
 <body>
    <div id="app">
       <div id="container">
-         <?php include_once($auth . "/navi.php"); ?>
+         <?php include_once($root . "/navi.php"); ?>
 
          <div id="contents">
             <div class="inner">
@@ -18,9 +18,9 @@ require_once('./index_util.php');
                   <h3>ログイン</h3>
 
                   <!-- エラーメッセージ -->
-                  <?php if (!empty($_SESSION["msg"]["login"])) : ?>
+                  <?php if (!empty($_SESSION["msg"]["error"])) : ?>
                      <p class="error">
-                        <?= $_SESSION["msg"]["login"] ?>
+                        <?= $_SESSION["msg"]["error"] ?>
                      </p>
                   <?php endif ?>
                   <?php if (!empty($_SESSION["msg"]["error"])) : ?>
@@ -65,7 +65,7 @@ require_once('./index_util.php');
       <!-- /#container -->
       <!--メニュー開閉ボタン-->
       <div id="menubar_hdr" class="close"></div>
-      <?php require_once("../../unsession.php"); ?>
+      <?php require_once $unsession; ?>
 
    </div>
    <!-- /#app -->

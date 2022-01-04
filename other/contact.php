@@ -1,16 +1,16 @@
 <?php
-require_once '../common_home.php';
+require_once('../app/config.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php include_once($root . "./head.php"); ?>
+<?php include_once($root . '/head.php'); ?>
 
 <body>
    <div id="app">
       <div id="container">
 
-         <?php include_once($root . "./other/navi.php"); ?>
+         <?php include_once($root . '/navi.php'); ?>
 
          <div id="contents">
 
@@ -49,7 +49,7 @@ require_once '../common_home.php';
 
          </div>
          <!--/#contents-->
-         <?php include_once($root . "./footer.php"); ?>
+         <?php include_once($root . '/footer.php'); ?>
 
       </div>
       <!--/#container-->

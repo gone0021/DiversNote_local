@@ -1,16 +1,16 @@
 <?php
 // 共通ファイル
-require_once('./comp_util.php');
+require_once ('./comp_util.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="jp">
-<?php include_once($auth . "/head.php"); ?>
+<?php include_once($auth . '/head.php'); ?>
 
 <body>
    <div id="app">
       <div id="container">
-         <?php include_once($auth . "../navi.php"); ?>
+         <?php include_once($root . '/navi.php'); ?>
 
          <div id="contents">
             <div class="inner">
@@ -25,13 +25,13 @@ require_once('./comp_util.php');
             </div>
          </div>
          <!-- /#contents -->
-         <?php include_once($root . "/footer.php"); ?>
+         <?php include_once($root . '/footer.php'); ?>
       </div>
    </div>
    <!-- /#container -->
    <!--メニュー開閉ボタン-->
    <div id="menubar_hdr" class="close"></div>
-   <?php require_once("../../unsession.php"); ?>
+   <?php require_once $unsession; ?>
 
 </body>
 

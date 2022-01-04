@@ -12,9 +12,6 @@
    <link rel="stylesheet" href="<?= $url ?>/css/jquery-ui.css">
    <script src="<?= $url ?>/js/jquery-ui.min.js"></script>
 
-   <!-- vue.js -->
-   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
-
    <!-- bootstrap -->
    <link rel="stylesheet" href="<?= $url ?>/css/bootstrap.css">
    <script src="<?= $url ?>/js/bootstrap.bundle.js"></script>
@@ -26,6 +23,7 @@
 
    <!-- js -->
    <script src="<?= $url ?>/js/fixmenu.js" defer></script>
+   <!-- <script src="<?= $url ?>/js/fixmenu_pagetop.js" defer></script> -->
    <script src="<?= $url ?>/js/ddmenu.js" defer></script>
    <script src="<?= $url ?>/js/openclose.js" defer></script>
 

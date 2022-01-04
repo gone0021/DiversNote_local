@@ -1,15 +1,17 @@
 <?php
-require_once('./index_util.php');
+require_once ('./index_util.php');
+
+// var_dump($_SESSION);
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-<?php include_once($auth . "../head.php"); ?>
+<?php include_once($auth . '/head.php'); ?>
 
 <body>
    <div id="app">
       <div id="container">
-         <?php include_once($auth . "../navi.php"); ?>
+         <?php include_once($root . '/navi.php'); ?>
 
          <div id="contents">
             <div class="inner">
@@ -18,11 +20,6 @@ require_once('./index_util.php');
                   <h3>パスワードを忘れた</h3>
 
                   <!-- エラーメッセージ -->
-                  <?php if (!empty($_SESSION["msg"]["reset"])) : ?>
-                     <p class="error">
-                        <?= $_SESSION["msg"]["reset"] ?>
-                     </p>
-                  <?php endif ?>
                   <?php if (!empty($_SESSION["msg"]["error"])) : ?>
                      <p class="error">
                         <?= $_SESSION["msg"]["error"] ?>
@@ -30,7 +27,7 @@ require_once('./index_util.php');
                   <?php endif ?>
 
                   <!-- 送信フォーム -->
-                  <form action="./index_action.php" method="post" class="">
+                  <form action="./reset.php" method="post" class="">
                      <input type="hidden" class="ws" name="token" value="<?= $token ?>">
 
                      <!-- メールアドレス -->
@@ -73,14 +70,13 @@ require_once('./index_util.php');
          </div>
          <!-- /#contents -->
          <!-- <div class="push"></div> -->
-         <?php include_once($root . "/footer.php"); ?>
+         <?php include_once($root . '/footer.php'); ?>
 
       </div>
       <!-- /#container -->
       <!--メニュー開閉ボタン-->
       <div id="menubar_hdr" class="close"></div>
-      <?php require_once("../../unsession.php"); ?>
-
+      <?php require_once $unsession; ?>
    </div>
    <!-- /#app -->
 </body>
