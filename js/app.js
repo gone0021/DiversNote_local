@@ -10,6 +10,7 @@
          token: php.token,
 
          next_num: "",
+         placeholder_num: "",
          url: location.pathname,
 
          // price_planから計算
@@ -144,15 +145,15 @@
       },
       computed: {
          mNewImg() {
-            console.log("--- computed app.js ---");
+            // console.log("--- computed app.js ---");
             return this.mNewImg;
          }
       },
 
       created: function () {
-         console.log('--- created app.js ---');
-         // console.log(this.user_id);
-         // console.log(this.price_plan);
+         // console.log('--- created app.js ---');
+         // console.log(php);
+         // console.log(php.price_plan);
 
          this.getItem();
          this.getNextNum();
@@ -160,12 +161,11 @@
          this.setImgNummax();
       },
       mouted: function () {
-         console.log('--- mounted app.js ---');
+         // console.log('--- mounted app.js ---');
          // console.log(token);
       },
       updated: function () {
-         console.log('--- updated app.js ---');
-         this.mNewImg = this.mNewImg;
+         // console.log('--- updated app.js ---');
       },
       methods: {
          // onEsc: function () {
@@ -173,7 +173,7 @@
          //    this.resetVal();
          // },
          onGlay: function () {
-            if (!this.isDetail && (this.mTitle || this.mDiveDate || this.mDiveNum || this.mErea)) {
+            if (!this.isDetail && (this.mTitle || this.mDiveDate || this.mErea)) {
                var msg1 = ['保存しますか？'].join('\n');
                var msg2 = ['編集を終了しますか？'].join('\n');
                if (window.confirm(msg1)) {
@@ -215,6 +215,7 @@
          },
          onNew: function () {
             this.resetVal();
+            this.mDiveNum = this.next_num;
 
             this.isNew = true;
             this.isEdit = false;
@@ -594,7 +595,7 @@
             this.photos = [];
             axios.get(`../app/api/get_item_search.php`, {
                params: {
-                  user_id: this.user_id,
+                  user_id: php.user_id,
                   select: this.isSchSelect,
                   val: this.isSearch,
                },
@@ -633,7 +634,7 @@
             axios.get(`../app/api/get_photo.php`, {
                params: {
                   user_type: this.isPhtUser,
-                  user_id: this.user_id,
+                  user_id: php.user_id,
                   select: this.isPhtSelect,
                   val: this.isPhoto,
                },
@@ -679,7 +680,7 @@
          getItem: function () {
             axios.get(`../app/api/get_item.php`, {
                params: {
-                  user_id: this.user_id,
+                  user_id: php.user_id,
                },
             }).then(
                function (res) {
@@ -698,7 +699,7 @@
          getItemRet: function () {
             return axios.get(`../app/api/get_item.php`, {
                params: {
-                  user_id: this.user_id,
+                  user_id: php.user_id,
                },
             }).then(
                function (res) {
@@ -716,7 +717,7 @@
          getItemById: function (item_id) {
             axios.get(`../app/api/get_item_by_id.php`, {
                params: {
-                  user_id: this.user_id,
+                  user_id: php.user_id,
                   id: item_id,
                },
             }).then(
@@ -745,7 +746,7 @@
          getItemByIdRet: function (item_id) {
             return axios.get(`../app/api/get_item_by_id.php`, {
                params: {
-                  user_id: this.user_id,
+                  user_id: php.user_id,
                   id: item_id,
                },
             }).then(
@@ -798,12 +799,13 @@
          getNextNum: function () {
             axios.get(`../app/api/get_nextnum.php`, {
                params: {
-                  user_id: this.user_id,
+                  user_id: php.user_id,
                },
             }).then(
                function (res) {
                   var val = res.data;
-                  this.next_num = "次は" + val;
+                  this.next_num = val;
+                  this.placeholder_num = "次は" + val;
                   // console.log(val);
                }.bind(this)
             ).catch(function (e) {
@@ -1084,7 +1086,7 @@
          setParam(params) {
             params.append("token", this.token);
             params.append("id", this.mId)
-            params.append("user_id", this.user_id)
+            params.append("user_id", php.user_id)
             params.append("title", this.mTitle)
             params.append("dive_date", this.mDiveDate)
             params.append("dive_num", this.mDiveNum)

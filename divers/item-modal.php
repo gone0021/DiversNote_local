@@ -53,7 +53,7 @@
             <div class="mdlGroup">
                <div id="number" class="my-1">
                   <label>No.
-                     <input type="number" name="dive_num" id="" class="" v-model="mDiveNum" :disabled="dis" :style="border" :placeholder="next_num" required>
+                     <input type="number" name="dive_num" id="" class="" v-model="mDiveNum" :disabled="dis" :style="border" :placeholder="placeholder_num" required>
                   </label>
                </div>
 
