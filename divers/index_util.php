@@ -1,19 +1,17 @@
 <?php
-require_once 'common_divers.php';
+require_once('../app/config.php');
 
-// クラスの読み込み
-require_once($root . "/app/model/ItemModel.php");
-require_once($root . "/app/model/PhotoModel.php");
+use app\util\CommonUtil;
+use app\model\BaseModel;
+use app\model\ItemModel;
+use app\model\PhotoModel;
 
 // --- ログインの確認 ---
-// $_SESSION['user']：ログイン時に取得したユーザー情報
-if (empty($_SESSION['user'])) {
-   // 未ログインのとき
-   header('Location: ../');
-} else {
-   // ログイン済みのとき
-   $user = $_SESSION['user'];
-}
+// $user = $_SESSION['user'];
+$user = CommonUtil::isUser($_SESSION['user'], $urlError);
+// $_SESSION['user'] = $user;
+
+// var_dump($user);
 
 // sessionに$tokenの値を保存する
 $_SESSION['token'] = $token;
@@ -25,8 +23,9 @@ $toJs = [
    'token' => $token,
 ];
 
-$dbItem = new ItemModel();
-$dbPhoto = new PhotoModel();
+$db = BaseModel::getInstance();
+$dbItem = new ItemModel($db);
+$dbPhoto = new PhotoModel($db);
 
 try {
    // itemの一覧を取得
@@ -35,7 +34,7 @@ try {
    $next_num = $dbItem->getMaxItemNum($user['id']);
 } catch (Exception $e) {
    // var_dump($e);exit;
-   header('Location: ../error.php');
+   header("Location: $urlError");
 }
 
 // echo '<pre>';

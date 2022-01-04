@@ -1,13 +1,8 @@
 <?php
-  $root = $_SERVER["DOCUMENT_ROOT"];
-  $root .= "/data/DiversNote_local";
-  require_once($root."/app/util/SessionUtil.php");
+require_once('../app/config.php');
 
-  // セッションスタート
-  SessionUtil::sessionStart();
+// ログインユーザー情報をクリアしてログアウト処理とする
+session_destroy();
 
-  // ログインユーザー情報をクリアしてログアウト処理とする
-  session_destroy();
-
-  // ログインページへリダイレクト
-  header("Location: ../");
+// ログインページへリダイレクト
+header("Location: ../");

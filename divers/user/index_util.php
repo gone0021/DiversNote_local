@@ -1,12 +1,11 @@
 <?php
-require_once '../common_divers.php';
+require_once('../../app/config.php');
 
-// クラスの読み込み
-require_once($root . "/app/controllers/UserController.php");
-require_once($root . "/app/model/UserModel.php");
+use app\util\CommonUtil;
 
-// sessionに保存されているユーザーの情報を変数に保存
-$user = $_SESSION['user'];
+// ログインのチェック
+$user = CommonUtil::isUser($_SESSION['user'], $urlError);
+$_SESSION['user'] = $user;
 
 // sessionに$tokenの値を保存する
 $_SESSION['token'] = $token;

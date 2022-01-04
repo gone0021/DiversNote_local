@@ -1,10 +1,8 @@
 <?php
-require_once '../common_divers.php';
+require_once('../../app/config.php');
 
-// クラスの読み込み
-require_once($root . "/app/util/ValidationUtil.php");
-require_once($root . "/app/controllers/UserController.php");
-require_once($root . "/app/model/UserModel.php");
+use app\util\CommonUtil;
+use app\util\ValidationUtil;
 
 // echo '<pre>';
 // var_export($_POST);
@@ -19,62 +17,65 @@ $post = CommonUtil::sanitaize($_POST);
 // POSTされてきた値をSESSIONに代入（入力画面で再表示）
 $_SESSION['post'] = $post;
 
-// sessionに保存されているユーザーの情報を変数に保存
-$user = $_SESSION['user'];
-
-// インスタンス
-$conUser = new UserController();
-$dbUser = new UserModel();
+// ログインのチェック
+$user = CommonUtil::isUser($_SESSION['user'], $urlError);
+$_SESSION['user'] = $user;
 
 // バリデーションチェック
 $validityCheck = array();
 
-// パスワードの整合性をチェック
-$validityCheck[] = $conUser->isCurrentPass($user['id'], $post['pass'], $_SESSION['msg']['check']);
-
 // ユーザー名
+// 重複
 if ($post['user_name'] !== $user['user_name']) {
-   $validityCheck[] = validationUtil::isValidName(
+   $validityCheck[] = validationUtil::isUsedName(
       $post['user_name'],
       $_SESSION['msg']['user_name']
    );
 }
-// ユーザー名の重複
-if ($user['user_name'] != $post['user_name']) {
-   $validityCheck[] = $dbUser->isUsedName(
+// 入力
+if (empty($_SESSION['msg']['user_name'])) {
+   $validityCheck[] = validationUtil::isValidName(
       $post['user_name'],
       $_SESSION['msg']['user_name']
    );
 }
 
 // メールアドレス
+// 重複
 if ($post['email'] !== $user['email']) {
+   $validityCheck[] = validationUtil::isUsedEmail(
+      $post['email'],
+      $_SESSION['msg']['email']
+   );
+}
+// 入力
+if (empty($_SESSION['msg']['email'])) {
    $validityCheck[] = validationUtil::isValidEmail(
       $post['email'],
       $_SESSION['msg']['email']
    );
 }
-// メールアドレスの重複
-if ($user['email'] != $post['email']) {
-   $validityCheck[] = $dbUser->isUsedEmail(
-      $post['email'],
-      $_SESSION['msg']['email']
-   );
-}
-
 // 誕生日
 if ($post['birthday'] !== $user['birthday']) {
-   $validityCheck[] = validationUtil::isBirthday(
+   $validityCheck[] = validationUtil::isDate(
       $post['birthday'],
       $_SESSION['msg']['birthday']
    );
 }
 
 // 現在のパスワード
-$validityCheck[] = validationUtil::isValidPass(
-   $post['pass'],
-   $_SESSION['msg']['pass']
-);
+// パスワードチェック
+$validityCheck[] = validationUtil::isCurrentPass($user['id'], $post['pass'], $_SESSION['msg']['pass']);
+// 入力
+if (empty($_SESSION['msg']['pass'])) {
+
+   $validityCheck[] = validationUtil::isValidPass(
+      $post['pass'],
+      $_SESSION['msg']['pass']
+   );
+}
+
+// postするパスワード：パスワードを変える場合があるため変数に保存する
 $post_pass = $post['pass'];
 
 // 新しいパスワード
