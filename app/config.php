@@ -35,6 +35,7 @@ define('DSN', 'mysql:dbname=' . DB_NAME . ';host=' . DB_HOST . ';charset=utf8mb4
 
 /** セッション自動スタート */
 session_start();
+// 本番ではonにする
 // session_regenerate_id(true);
 
 /** ワンタイムトークンの作成 */ 
