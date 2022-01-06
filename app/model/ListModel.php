@@ -127,7 +127,7 @@ class ListModel extends BaseModel
     * @param array $data 更新する作業項目の連想配列
     * @return bool 成功した場合:TRUE、失敗した場合:FALSE
     */
-   public function soft_delete($user_id)
+   public function softDelete($user_id)
    {
       $this->checkId($user_id);
 
@@ -149,7 +149,7 @@ class ListModel extends BaseModel
     * @param array $data 更新する作業項目の連想配列
     * @return bool 成功した場合:TRUE、失敗した場合:FALSE
     */
-   public function hard_delete($user_id)
+   public function hardDelete($user_id)
    {
       $this->checkId($user_id);
 

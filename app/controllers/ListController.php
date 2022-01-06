@@ -39,7 +39,7 @@ class ListController
    {
       // 物理削除してからinsertする
       if (!empty($req['list_name'])) {
-         $this->dbList->hard_delete($req['user_id']);
+         $this->dbList->hardDelete($req['user_id']);
       }
 
       // echo '<pre>';
@@ -66,7 +66,7 @@ class ListController
    /**
     * 論理削除
     */
-   public function soft_delete($req)
+   public function softDelete($req)
    {
       // code...
    }
@@ -74,7 +74,7 @@ class ListController
    /**
     * 物理削除
     */
-   public function hard_delete($req)
+   public function hardDelete($req)
    {
       // code...
    }

@@ -111,7 +111,7 @@ class ItemController
    /**
     * 論理削除
     */
-   public function soft_delete($req)
+   public function softDelete($req)
    {
       // 削除のタイミングに悩む：物理削除の時に削除する方がいい
       // if (!empty($req['old_signe'])) {
@@ -119,7 +119,7 @@ class ItemController
       //    unlink($this->singe_dir . $req['old_signe']);
       // }
 
-      $this->dbItem->soft_delete($req);
+      $this->dbItem->softDelete($req);
    }
 
    /**
@@ -256,7 +256,7 @@ class ItemController
       if (!empty($data)) {
          foreach ($data as $val) {
             unlink($this->img_dir . $val['name']);
-            $this->dbPhoto->hard_delete($val['id']);
+            $this->dbPhoto->hardDelete($val['id']);
          }
       }
    }

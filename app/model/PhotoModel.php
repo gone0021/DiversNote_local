@@ -319,7 +319,7 @@ class PhotoModel extends BaseModel
     * @param array $data 更新する作業項目の連想配列
     * @return bool 成功した場合:TRUE、失敗した場合:FALSE
     */
-   public function soft_delete($id)
+   public function softDelete($id)
    {
       $this->checkId($id);
 
@@ -341,7 +341,7 @@ class PhotoModel extends BaseModel
     * @param array $data 更新する作業項目の連想配列
     * @return bool 成功した場合:TRUE、失敗した場合:FALSE
     */
-   public function hard_delete($id)
+   public function hardDelete($id)
    {
       $this->checkId($id);
 

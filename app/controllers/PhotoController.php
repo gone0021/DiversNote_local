@@ -60,7 +60,7 @@ class PhotoController
    /**
     * 論理削除
     */
-   public function soft_delete($req)
+   public function softDelete($req)
    {
       // code...
    }
