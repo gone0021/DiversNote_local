@@ -185,6 +185,10 @@ select {
   margin: 10px 5px;
 }
 
+.pointer {
+   cursor: pointer;
+}
+
 /* ここからcssの上書き */
 /* style */
 

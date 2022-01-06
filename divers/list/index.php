@@ -24,7 +24,7 @@ require_once ('./list.php');
                         <tr>
                            <th class="pl10">タグ</th>
                            <th class="pl10">持ち物</th>
-                           <th class="px10" @click="onIsChecked" >状態</th>
+                           <th class="px10 pointer" @click="onIsChecked" >状態</th>
                            <th class="pl10 w50" >削除</th>
                         </tr>
 
