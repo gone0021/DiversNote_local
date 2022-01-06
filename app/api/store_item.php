@@ -4,7 +4,6 @@ require_once('../config.php');
 use app\util\CommonUtil;
 use app\controllers\ItemController;
 
-
 // // CSRF対策）
 CommonUtil::csrf($_SESSION['token'], $_POST['token']);
 
