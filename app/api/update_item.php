@@ -14,14 +14,14 @@ $post = CommonUtil::sanitaize($_POST);
 unset($post['token']);
 
 // echo '<pre>';
-// var_dump($post);
+// var_dump($_POST);
 // echo '</pre>';
 // die;
 
-// jsonをデコードして代入
-$_POST['new_img'] = json_decode($_POST['new_img'], true);
-$_POST['edit_img'] = json_decode($_POST['edit_img'], true);
-$_POST['del_img'] = json_decode($_POST['del_img'], true);
+// 画像はjsonをデコードしてから保存
+$post['new_img'] = json_decode($_POST['new_img'], true);
+$post['edit_img'] = json_decode($_POST['edit_img'], true);
+$post['del_img'] = json_decode($_POST['del_img'], true);
 
 // echo '<pre>';
 // var_dump($_POST['new_img']);
@@ -32,7 +32,7 @@ $_POST['del_img'] = json_decode($_POST['del_img'], true);
 
 try {
    $conItem = new ItemController();
-   $conItem->update($_POST);
+   $conItem->update($post);
 } catch (Exception $e) {
    // var_dump($e);exit;
    header('Location: ./');
