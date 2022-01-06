@@ -128,14 +128,18 @@ class ItemModel extends BaseModel
     * 最大数を設定してレコードを取得：ページング用
     * @return array レコードの配列
     */
-   public function getItemNum($page, $cnt)
+   public function getItemNum($user_id, $page, $cnt)
    {
+      $this->checkId($user_id);
+
       $sql = '';
       $sql = $this->selectItem();
-      $sql .= ' WHERE i.deleted_at IS NULL';
-      $sql .= " ORDER BY i.id LIMIT " . (($page - 1) * $cnt) . ", " . $cnt;
+      $sql .= ' WHERE i.user_id = :user_id';
+      $sql .= ' AND i.deleted_at IS NULL';
+      $sql .= " ORDER BY i.dive_num desc LIMIT " . (($page - 1) * $cnt) . ", " . $cnt;
 
       $stmt = $this->pdo->prepare($sql);
+      $stmt->bindParam(':user_id', $user_id, \PDO::PARAM_INT);
       $stmt->execute();
       $ret = $stmt->fetchAll(\PDO::FETCH_ASSOC);
       return $ret;
@@ -525,7 +529,7 @@ class ItemModel extends BaseModel
     * @param array $data 更新する作業項目の連想配列
     * @return bool 成功した場合:TRUE、失敗した場合:FALSE
     */
-   public function soft_delete($data)
+   public function softDelete($data)
    {
       $this->checkId($data['id']);
 
