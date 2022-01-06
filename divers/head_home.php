@@ -36,6 +36,7 @@
    <link rel="stylesheet" href="<?= $url ?>/css/divers.css">
    <link rel="stylesheet" href="<?= $url ?>/css/modal.css">
    <link rel="stylesheet" href="<?= $url ?>/css/anim.css">
+   <link rel="stylesheet" href="<?= $url ?>/css/paging.css">
 
    <!-- js -->
    <script src="<?= $url ?>/js/main.js" defer></script>
