@@ -4,14 +4,16 @@
    let app = new Vue({
       el: '#app',
       data: {
-         // phpからの受け取り：メモ代わり
-         user_id: php.user_id,
-         price_plan: php.price_plan,
-         token: php.token,
+         // ページングの判定
+         flg_page: false,
 
+         // 表示画面に値を送る用
          next_num: "",
          placeholder_num: "",
+
+         // 画像を取得する際に使用
          url: location.pathname,
+         // url: "",
 
          // price_planから計算
          imgCunt: [],
@@ -133,8 +135,6 @@
          itemById: [],
          photos: [],
 
-         root: "",
-
          // signe（canvas）用
          canvas: null,
          context: null,
@@ -153,9 +153,8 @@
       created: function () {
          // console.log('--- created app.js ---');
          // console.log(php);
-         // console.log(php.price_plan);
 
-         this.getItem();
+         this.getItemPage();
          this.getNextNum();
 
          this.setImgNummax();
@@ -173,7 +172,9 @@
          //    this.resetVal();
          // },
          onGlay: function () {
-            if (!this.isDetail && (this.mTitle || this.mDiveDate || this.mErea)) {
+            // if (!this.isDetail && (this.mTitle || this.mErea || this.mDiveNum || this.mDiveDate)) {
+            // dive_numとdive_dateを自動にしたため条件から削除
+            if (!this.isDetail && (this.mTitle || this.mErea)) {
                var msg1 = ['保存しますか？'].join('\n');
                var msg2 = ['編集を終了しますか？'].join('\n');
                if (window.confirm(msg1)) {
@@ -216,6 +217,7 @@
          onNew: function () {
             this.resetVal();
             this.mDiveNum = this.next_num;
+            this.mDiveDate = php.date;
 
             this.isNew = true;
             this.isEdit = false;
@@ -261,7 +263,7 @@
                e.preventDefault()
             } else {
                const params = new URLSearchParams();
-               params.append("token", this.token);
+               params.append("token", php.token);
                params.append("id", Number(this.mId));
                params.append("old_signe", this.mOldSigne);
 
@@ -348,7 +350,7 @@
             reader.readAsDataURL(file);
             // this.mNewImg = vm.mNewImg;
 
-            console.log(this.mNewImg);
+            // console.log(this.mNewImg);
          },
          /**
           * 新規で登録する画像のis_openを編集
@@ -419,10 +421,10 @@
             let max = this.imgNumMax;
             // 公開・非公開の値を追加
             this.mIsOpen.push(0);
-            console.log(this.mIsOpen);
-            console.log(this.imgNum);
+            // console.log(this.mIsOpen);
+            // console.log(this.imgNum);
             // console.log(max);
-            if (this.price_plan == 0 || this.price_plan == 1) {
+            if (php.price_plan == 0 || php.price_plan == 1) {
                if (this.imgNum >= max) {
                   alert(
                      "これ以上追加できません。 \n" +
@@ -432,7 +434,7 @@
                } else {
                   this.imgNum++;
                }
-            } else if (this.price_plan == 2) {
+            } else if (php.price_plan == 2) {
                if (this.imgNum >= max) {
                   alert(
                      "これ以上追加できません。 \n" +
@@ -529,6 +531,8 @@
 
             if (valid) {
                const params = new URLSearchParams();
+               this.setParam(params);
+
                // this.mNewImg = JSON.stringify(this.mNewImg);
                // this.mEditImg = JSON.stringify(this.mEditImg);
                // this.mDelImg = JSON.stringify(this.mDelImg);
@@ -547,7 +551,7 @@
                // console.log(this.mEditImgJson);
                // console.log(this.mDelImgJson);
 
-               this.setParam(params);
+               // params.append("token", php.token);
 
                if (this.mSub === "new") {
                   // insert
@@ -608,7 +612,10 @@
                // console.log("error");
                console.error(e);
             });
+
             this.resetVal();
+            this.flg_page = false;
+
          },
 
          // --- 写真検索 ---
@@ -648,6 +655,7 @@
                console.error(e);
             });
             this.resetVal();
+            this.flg_page = false;
          },
 
 
@@ -665,12 +673,34 @@
                   this.resetDisplay();
                   // // アイテムの一覧を読み込んでから整列させる
                   this.getNextNum();
-                  this.getItem();
+                  this.getItemPage();
                }.bind(this)
             ).catch(function (e) {
                console.error(e);
                alert("申し訳ございませんがエラーが発生しました。\n処理を中断してログインし直してください。");
                this.resetDisplay();
+            });
+         },
+
+         /**
+          * ユーザーに属するアイテムを取得
+          * ページング用
+          */
+         getItemPage: function () {
+            axios.get(`../app/api/get_item_page.php`, {
+               params: {
+                  user_id: php.user_id,
+                  page: php.page,
+                  row: php.row,
+               },
+            }).then(
+               function (res) {
+                  this.items = res.data;
+                  // console.log(this.items);
+                  this.flg_page = true;
+               }.bind(this)
+            ).catch(function (e) {
+               console.error(e);
             });
          },
 
@@ -686,6 +716,7 @@
                function (res) {
                   this.items = res.data;
                   // console.log(this.items);
+                  this.flg_page = false;
                }.bind(this)
             ).catch(function (e) {
                console.error(e);
@@ -841,10 +872,21 @@
             }
 
             // その他のバリデーション
-            if (!this.mDiveNum.match(/^[0-9]*$/)) {
-               msg["num"] = "・ナンバー（No.）は半角数字でで入力してください。 \n";
-               ret++;
+            // 日付
+            if (this.mDiveDate) {
+               var date = this.mDiveDate.split("-");
+               if (date[0] > 3000) {
+                  msg["date"] = "正しい日付を入力してください。 \n";
+                  ret++;
+               }
             }
+
+
+            // dive_num
+            // if (!this.mDiveNum.match(/^[0-9]*$/)) {
+            //    msg["num"] = "・ナンバー（No.）は半角数字でで入力してください。 \n";
+            //    ret++;
+            // }
 
             // msg配列を表示する文字列にまとめる
             for (var key in msg) {
@@ -866,7 +908,7 @@
           * @returns {void}
           */
          setImgNummax: function () {
-            let plan = this.price_plan;
+            let plan = php.price_plan;
             if (plan == 0) {
                this.imgNumMax = 2;
             } else if (plan == 2) {
@@ -1084,9 +1126,9 @@
           * パラメータをセット
           */
          setParam(params) {
-            params.append("token", this.token);
-            params.append("id", this.mId)
+            params.append("token", php.token);
             params.append("user_id", php.user_id)
+            params.append("id", this.mId)
             params.append("title", this.mTitle)
             params.append("dive_date", this.mDiveDate)
             params.append("dive_num", this.mDiveNum)
