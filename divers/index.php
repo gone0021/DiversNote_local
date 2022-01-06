@@ -1,5 +1,5 @@
 <?php
-require_once ('./index_util.php');
+require_once('./index_util.php');
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +12,7 @@ require_once ('./index_util.php');
          <?php require_once($divers . "/navi_home.php"); ?>
 
          <div id="contents">
-            <div class="inner">
+            <div class="inner mb-4">
                <template v-if="!dispPhoto" id="imtes">
                   <h3>Diving・Log</h3>
                   <div id="cardBox">
@@ -24,6 +24,7 @@ require_once ('./index_util.php');
                         <div v-if="item.point_name" key="point_name">{{ item.point_name }}</div>
                         <div v-else key="point_name">未入力</div>
                      </div>
+                  </div>
                </template>
 
                <template v-if="dispPhoto" id="photos">
@@ -39,6 +40,7 @@ require_once ('./index_util.php');
                         <span v-else key="point_name">未入力</span>
                         <span>{{ photo.dive_date }}</span>
                      </div>
+                  </div>
                </template>
 
                <div v-if="items.length == 0 && !dispPhoto">ログはありません。</div>
@@ -47,6 +49,9 @@ require_once ('./index_util.php');
             </div>
             <!--/.inner-->
 
+            <template v-if="flg_page">
+               <?php echo $pageing->html ?>
+            </template>
          </div>
          <!--/#contents-->
          <?php require_once($divers . "/item-modal.php"); ?>
@@ -56,14 +61,13 @@ require_once ('./index_util.php');
          <!-- メニュー開閉ボタン -->
          <div id="menubar_hdr" class="close"></div>
 
+
       </div>
       <!--/#container-->
       <?php require_once $unsession; ?>
 
    </div>
    <!-- /#app -->
-   </div>
-   </div>
 
    <script>
       let php = <?= json_encode($toJs); ?>
