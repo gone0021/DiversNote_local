@@ -15,7 +15,8 @@ $post = CommonUtil::sanitaize($_POST);
 // echo '</pre>';
 // die;
 
-$post['new_img'] = json_decode($post['new_img'], true);
+// 画像はjsonをデコードしてから保存
+$post['new_img'] = json_decode($_POST['new_img'], true);
 
 try {
    $conItem = new ItemController();
