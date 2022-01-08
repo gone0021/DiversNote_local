@@ -531,11 +531,6 @@
 
             if (valid) {
                const params = new URLSearchParams();
-               this.setParam(params);
-
-               // this.mNewImg = JSON.stringify(this.mNewImg);
-               // this.mEditImg = JSON.stringify(this.mEditImg);
-               // this.mDelImg = JSON.stringify(this.mDelImg);
 
                // mEditImgの配列を逆順にしてから重複を削除
                // filterで重複を検索してfilterIndexの値を返している
@@ -543,6 +538,8 @@
                   return arr.findIndex(v => val.id === v.id) === index
                });
 
+               // imgファイルをjson形式に整形して変数に保存
+               // ：setParamでxxxJsonをセットしている
                this.mNewImgJson = JSON.stringify(this.mNewImg);
                this.mEditImgJson = JSON.stringify(this.mEditImg);
                this.mDelImgJson = JSON.stringify(this.mDelImg);
@@ -551,7 +548,8 @@
                // console.log(this.mEditImgJson);
                // console.log(this.mDelImgJson);
 
-               // params.append("token", php.token);
+               // パラメータをセット
+               this.setParam(params);
 
                if (this.mSub === "new") {
                   // insert
@@ -568,6 +566,7 @@
                   // set params
                   this.postAxios(url, params);
                }
+               // 値をリセット
                this.resetVal();
             }
          },
@@ -1091,14 +1090,14 @@
           * @param {obj} args 
           */
          changeBlankVal: function (args) {
-            // nullの設定
-            // placeholderで対応
+            // nullの設定：個別に対応
             // for (var v in args) {
             //    // console.log(args[v]);
             //    if (args[v] == null) {
             //       args[v] = "---";
             //    }
             // }
+
             if (args.entry_type == null) {
                args.entry_type = "";
             }
@@ -1170,6 +1169,8 @@
             params.append('new_img', this.mNewImgJson);
             params.append('edit_img', this.mEditImgJson);
             params.append('del_img', this.mDelImgJson);
+
+            // 変数を上書きせずにxxxJsonで送信する
             // params.append('new_img', this.mNewImg);
             // params.append('del_img', this.mEditImg);
             // params.append('edit_img', this.mDelImg);
