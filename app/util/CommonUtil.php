@@ -23,8 +23,8 @@ class CommonUtil
       }
 
       // GoogleMapのiframeのみデコード
-      if (!empty($after['map_item']) && preg_match("/&lt;iframe src=\&quot;https:\/\/www.google\.com\/maps(.*?)&lt;\/iframe&gt;/s", $after['map_item'])) {
-         $after['map_item'] = htmlspecialchars_decode($after['map_item'], ENT_QUOTES);
+      if (!empty($after['map_link']) && preg_match("/&lt;iframe src=\&quot;https:\/\/www.google\.com\/maps(.*?)&lt;\/iframe&gt;/s", $after['map_link'])) {
+         $after['map_link'] = htmlspecialchars_decode($after['map_link'], ENT_QUOTES);
       }
       return $after;
    }
