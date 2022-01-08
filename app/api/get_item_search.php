@@ -1,11 +1,15 @@
 <?php
 require_once('../config.php');
 
+use app\util\CommonUtil;
 use app\controllers\ItemController;
+
+// サニタイズ
+$get = CommonUtil::sanitaize($_GET);
 
 try {
    $conItem = new ItemController();
-   $ret = $conItem->getSchItems($_GET['user_id'], $_GET['select'], $_GET['val']);
+   $ret = $conItem->getSchItems($get['user_id'], $get['select'], $get['val']);
 
    $json = json_encode($ret);
    echo $json;
