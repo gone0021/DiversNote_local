@@ -1,14 +1,14 @@
 <?php
 // パスの設定
 $root = $_SERVER['DOCUMENT_ROOT'];
-$root .= "/data/DiversNote_local";
+$root .= "/php/DiversNote_local";
 $auth = $root . '/auth';
 $divers = $root . '/divers';
 $unsession = $root . '/unsession.php';
 
 // urlの指定
 $server = $_SERVER['SERVER_NAME'];
-$server .= "/data/DiversNote_local";
+$server .= "/php/DiversNote_local";
 $url = 'http://' . $server;
 $urlHome = $url . '/';
 $urlError = $url . '/error.php';
@@ -48,7 +48,7 @@ spl_autoload_register(function ($class) {
    // sprintf()を使って、「/絶対パス/クラスファイル.php」という文字列を作成する。
    // 「クラス名 = ファイル名」にする必要があることに注意。
    $file = sprintf(__DIR__ . '/%s.php', $class);
-   // $file = sprintf($_SERVER['DOCUMENT_ROOT'] . '/data/oneday_kanji' . '/%s.php', $class);
+   // $file = sprintf($_SERVER['DOCUMENT_ROOT'] . '/php/oneday_kanji' . '/%s.php', $class);
 
    // 各クラスはappから始まる名前空間をつけているため、「/app/app」とパスが重なってしまうので、クラス名の区切り文字である\を/に変換する。
    $file = str_replace('\\', '/', $file);
