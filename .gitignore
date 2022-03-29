@@ -1,1 +1,17 @@
+# フォルダ
 00.doc/
+
+# テスト用
+test.php
+info.php
+
+# リネーム用
+_*.php
+*_.php
+*コピー.php
+
+# その他
+*.png
+*.gitignore
+*.json
+*.txt
