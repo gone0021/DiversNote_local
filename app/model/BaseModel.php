@@ -11,14 +11,14 @@ class BaseModel
    private static $pdo;
 
    /**
-    * PDOクラスのインスタンスを生成して返却します。
+    * PDOクラスのインスタンスを生成して返す
     *
     * @return \PDO PDOクラスのインスタンス
     */
    public static function getInstance()
    {
-      // インスタンスが生成されていなかったら、新しく生成します。
-      // すでに生成済みであれば、生成済みのインスタンスを返却します。
+      // インスタンスが生成されていなかったら新しく生成
+      // すでに生成済みであれば、生成済みのインスタンスを返す
       if (!isset(self::$pdo)) {
          // echo 'true <br>';
          // namespaceを設定しているので、PHPの組み込みクラスは「\」をつけて呼び出す
@@ -33,7 +33,7 @@ class BaseModel
    }
 
    /**
-    * トランザクションを開始します。
+    * トランザクションの開始
     */
    public static function begin()
    {
@@ -41,7 +41,7 @@ class BaseModel
    }
 
    /**
-    * トランザクションをコミットします。
+    * トランザクションのコミット
     */
    public static function commit()
    {
@@ -49,7 +49,7 @@ class BaseModel
    }
 
    /**
-    * トランザクションをロールバックします。
+    * トランザクションのロールバック
     */
    public static function rollback()
    {
