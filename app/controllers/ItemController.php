@@ -23,7 +23,7 @@ class ItemController
    public function __construct()
    {
       $this->root = $_SERVER['DOCUMENT_ROOT'];
-      $this->root .= "/data/DiversNote_local";
+      $this->root .= "/php/DiversNote_local";
       $this->img_dir = $this->root . '/divers/img/';
       $this->singe_dir = $this->root . '/divers/signe/';
 
