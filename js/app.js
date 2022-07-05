@@ -258,8 +258,8 @@
             this.closeAccordion("#signeTitle");
          },
          onDel: function (e) {
-            var message = ["削除してよろしいですか？"].join("\n")
-            if (!window.confirm(message)) {
+            var msg = "削除してよろしいですか？";
+            if (!window.confirm(msg)) {
                e.preventDefault()
             } else {
                const params = new URLSearchParams();
