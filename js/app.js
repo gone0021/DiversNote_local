@@ -175,16 +175,11 @@
             // if (!this.isDetail && (this.mTitle || this.mErea || this.mDiveNum || this.mDiveDate)) {
             // dive_numとdive_dateを自動にしたため条件から削除
             if (!this.isDetail && (this.mTitle || this.mErea)) {
-               var msg1 = ['保存しますか？'].join('\n');
-               var msg2 = ['編集を終了しますか？'].join('\n');
-               if (window.confirm(msg1)) {
-                  this.onSubmit();
+               var msg = ['保存していませんが編集を終了しますか？'].join('\n');
+               if (window.confirm(msg)) {
+                  this.resetDisplay();
                } else {
-                  if (window.confirm(msg2)) {
-                     this.resetDisplay();
-                  } else {
-                     return false;
-                  }
+                  return false;
                }
             } else {
                // 表示のリセット
