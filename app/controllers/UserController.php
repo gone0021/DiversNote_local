@@ -59,7 +59,7 @@ class UserController
    }
 
 
-   public function login(Type $var = null)
+   public function login($var = null)
    {
       # code...
    }
