@@ -159,7 +159,7 @@ class Paging
    public function usePafing($get)
    {
       $min = 1;
-      if (isset($get) && is_mineric($get)) {
+      if (isset($get) && is_numeric($get)) {
          $min = (int)$get;
       }
       if (!$min) {
