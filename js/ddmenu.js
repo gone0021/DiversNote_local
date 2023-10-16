@@ -21,32 +21,24 @@ $(function () {
 
    /**
     * ナビバーのform表示：複数のメソッドを入れてる
-    * 
-    * @param {*} id1 
-    * @param {*} btn 
-    * @param {*} flg 
-    * @param {*} hide1 
     */
-   function naviForm(id1, btn, flg, hide1) {
+   function naviForm(id, btn, flg, hide) {
       // click時
-      onClickNaviForm(id1, flg);
+      onClickNaviForm(id, flg);
       // submit時
       onSubmitkNaviForm(btn);
       // hover時
-      onHoverNaviForm(id1, flg);
+      onHoverNaviForm(id, flg);
       // 異なるナビバーのFormにhoverした時
-      onHoverOthereNaviForm(id1, hide1);
+      onHoverOthereNaviForm(id, hide);
    }
 
    /**
     * ナビバーのForm箇所をクリックした時
-    * 
-    * @param {*} id1 
-    * @param {*} flg 
     */
-   function onClickNaviForm(id1, flg) {
+   function onClickNaviForm(id, flg) {
       // click時
-      $(id1).on('click', function (e) {
+      $(id).on('click', function (e) {
          if (show_flg == 0) {
             $(this).children().show();
             // $(id2).css({ background: "#dd6b3d" });
@@ -83,12 +75,9 @@ $(function () {
 
    /**
     * ナビバーのFormをhoverした時
-    * 
-    * @param {*} id1 
-    * @param {*} flg 
     */
-   function onHoverNaviForm(id1, flg) {
-      $(id1).on({
+   function onHoverNaviForm(id, flg) {
+      $(id).on({
          'mouseenter': function () {
             // console.log("enter");
             $(this).children().show();
@@ -113,12 +102,10 @@ $(function () {
    /**
     * 異なるナビバーのFormにhoverした際のリセット
     * 
-    * @param {*} id1 
-    * @param {*} hdie1 
     */
-   function onHoverOthereNaviForm(id1, hide1) {
-      $(id1).on('mouseenter', function () {
-         $(hide1).hide();
+   function onHoverOthereNaviForm(id, hide) {
+      $(id).on('mouseenter', function () {
+         $(hide).hide();
          if (show_flg == 0) {
             // show_flgが0（異なるナビメニュー）に移動した時は色を戻す
             $(".ddmenu").css({ background: "rgba(63,148,227,0.8)" });
