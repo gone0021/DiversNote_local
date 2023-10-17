@@ -5,9 +5,9 @@
          <!-- <a href="./" class="" >HOME</a> -->
          <a href="<?= $url . "/divers" ?>/">HOME</a>
       </li>
-      <li class="ddnav">
+      <!-- <li class="ddnav">
          <a href="javascript:void(0)" id="navNew" class="" @click="onNew">NEW</a>
-      </li>
+      </li> -->
 
       <li id="navSch" class="">
          <a href="javascript:void(0)" id="" class="">SEARCH</a>
@@ -75,7 +75,7 @@
       </li>
       <li class="ddnav">
          <a href="javascript:void(0)" class="">USER</a>
-         <ul class="ddmenu">
+         <ul  id="ddUser" class="ddmenu">
             <li><a href="<?= $url . "/divers" ?>/user">会員情報</a></li>
             <li><a href="<?= $url . "/divers" ?>/logout.php">ログアウト</a></li>
          </ul>
@@ -83,7 +83,7 @@
       
       <li class="ddnav">
          <a href="javascript:void(0)" class="">OTHER</a>
-         <ul class="ddmenu">
+         <ul  id="ddOther" class="ddmenu">
             <li><a href="<?= $url . "/divers" ?>/weight">適正ウエイト</a></li>
             <li><a href="<?= $url . "/divers" ?>/list">持ち物リスト</a></li>
             <li><a href="<?= $url . "/divers" ?>/contact">お問い合わせ</a></li>

@@ -15,6 +15,8 @@ require_once('./index_util.php');
             <div class="inner mb-4">
                <template v-if="!dispPhoto" id="imtes">
                   <h3>Diving・Log</h3>
+                  <button type="button" id="newItem" class="btn mb-3" @click="onNew">NEW</button>
+
                   <div id="cardBox">
                      <div class="cardItem" v-for="(item, i) in items" @click="onItem(item.id)">
                         <span>No.{{ item.dive_num }}</span>
