@@ -162,7 +162,7 @@ header #h1, header #logo {
 }
 #menubar .ddmenu li a {
 	height: auto;
-	padding: 20px;
+	padding: 0 20px;
 	color: #fff;
 	opacity: 0.7;
 }
@@ -239,7 +239,7 @@ body.is-fixed-menu #menubar .ddmenu li a {
 /* h3タグ */
 #contents h3 {
 	clear: both;
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 	font-size: 150%;
 	border-bottom: 1px dashed #000;
 	padding-left: 3%;
@@ -465,17 +465,17 @@ ul.icon img:hover {
 
 /* --- トップページ内「更新情報・お知らせ」ブロック --- */
 /* 見出しを含まないお知らせブロック */
-#new dl {
+#news dl {
 	padding: 0px 20px;	
 }
 /* 日付設定 */
-#new dt {
+#news dt {
 	float: left;
 	width: 9em;
 	letter-spacing: 0.1em;
 }
 /* 記事設定 */
-#new dd {
+#news dd {
 	padding-left: 9em;
 }
 
