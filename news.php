@@ -1,4 +1,4 @@
-<section id="new">
+<section id="news">
 
    <h2>NEWS<span>更新情報</span></h2>
    <h3>お知らせ</h3>
