@@ -92,7 +92,7 @@ require_once ('./index_util.php');
                   </form>
 
                   <div class="c">
-                     <a class="btn login" href="../login/">ログインはこちら</a>
+                     <a class="btn login" href="../login/">ログイン</a>
                   </div>
                </section>
 

@@ -59,7 +59,7 @@ require_once ('./index_util.php');
                   </form>
 
                   <div class="c">
-                     <a class="btn login mr-3" href="../register/">登録はこちら</a>
+                     <a class="btn login mr-3" href="../register/">新規登録</a>
                   </div>
                   <!-- <home-home></home-home> -->
                </section>

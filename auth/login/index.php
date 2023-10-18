@@ -49,7 +49,7 @@ require_once('./index_util.php');
 
                   <div class="c mb-4">※ パスワードを忘れた方は<a href="../password/" class="url">こちら</a>から再設定してください。</div>
                   <div class="c">
-                     <a class="btn login" href="../register/">登録はこちら</a>
+                     <a class="btn login" href="../register/">新規登録</a>
                   </div>
                   <!-- <home-home></home-home> -->
                </section>

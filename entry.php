@@ -22,7 +22,7 @@
 
    <p class="c">※ パスワードを忘れた方は<a href="./auth/password" class="url">こちら</a>から再設定してください。</p>
    <div class="c">
-      <a class="btn btn-big" href="./auth/register/">登録はこちら</a>
+      <a class="btn btn-big" href="./auth/register/">新規登録</a>
    </div>
 
 </section>
