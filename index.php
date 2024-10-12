@@ -29,13 +29,13 @@ $_SESSION['token'] = $token;
          </div>
          <!--/#contents-->
          <?php include_once($root . '/footer.php'); ?>
-         
+
       </div>
       <!--/#container-->
-      
+
       <!-- <p class="nav-fix-pos-pagetop"><a href="#">↑</a></p> -->
       <p id="toTop" class="nav-fix-pos-pagetop"><a href="javascript:void(0)">↑</a></p>
-      
+
       <!-- メニュー開閉ボタン -->
       <div id="menubar_hdr" class="close"></div>
       <?php require_once $unsession; ?>

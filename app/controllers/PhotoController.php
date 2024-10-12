@@ -20,22 +20,24 @@ class PhotoController
 
    public function index($req = null)
    {
-      global $url;
-      global $divers_dir;
+      // global $url;
+      // global $divers_dir;
 
-      $user = CommonUtil::checkVal($_SESSION['user']);
+      // $user = CommonUtil::checkVal($_SESSION['user']);
 
-      $ret = $this->getSchPhoto($req['user_id'], $req['user_type'], $req['select'], $req['val']);
+      // $ret = $this->getSchPhoto($req['user_id'], $req['user_type'], $req['select'], $req['val']);
 
-      $param = [
-         'url' => $url,
-         'user' => $user,
-         'ret' => $ret,
-      ];
+      // $param = [
+      //    'url' => $url,
+      //    'user' => $user,
+      //    'ret' => $ret,
+      // ];
 
-      // var_dump($ret);
+      // // var_dump($ret);
 
-      return view('divetrs/photo/index.php', $param);
+    // return view('divetrs/photo/index.php', $param);
+ 
+ 
       // return view($divers_dir . '/phto/index.php', $param);
       // header('Location:' . $divers_dir . '/phto/index.php');
       // return $param;

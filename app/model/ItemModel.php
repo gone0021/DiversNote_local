@@ -367,8 +367,8 @@ class ItemModel extends BaseModel
       $sql .= ' ,:max_depth';
       $sql .= ' ,:tank_material';
       $sql .= ' ,:tank_size';
-      $sql .= ' ,:end_air';
       $sql .= ' ,:start_air';
+      $sql .= ' ,:end_air';
       $sql .= ' ,:air_rate';
       $sql .= ' ,:is_enriche';
       $sql .= ' ,:temp';
